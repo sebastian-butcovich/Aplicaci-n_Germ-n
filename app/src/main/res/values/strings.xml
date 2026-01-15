@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Proyecto_German</string>
+    <string name="titulo_formulario">Formulario Perforación</string>
+    <string name="texto_input_cliente">Cliente</string>
+    <string name="texto_input_atencion">Atención</string>
+    <string name="text_input_proyecto">Proyecto</string>
+    <string name="input_coordenada_x">Coordenada_x</string>
+    <string name="text_input_coordenada_y">Coordenada_y</string>
+</resources>
