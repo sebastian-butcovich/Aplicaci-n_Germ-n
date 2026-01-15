@@ -6,4 +6,6 @@
     <string name="text_input_proyecto">Proyecto</string>
     <string name="input_coordenada_x">Coordenada_x</string>
     <string name="text_input_coordenada_y">Coordenada_y</string>
+    <string name="registro">Ingresar perforación</string>
+    <string name="home">Registro de perforaciones</string>
 </resources>
