@@ -244,13 +244,9 @@
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
     <Button
-        android:id="@+id/boton_agregar_profundiad"
+        android:id="@+id/boton_continuar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Agregar Descripción de profundidad"/>
-<FrameLayout
-    android:id="@+id/contenedor_frame_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+        android:text="CONTINUAR"/>
 </LinearLayout>
 </ScrollView>

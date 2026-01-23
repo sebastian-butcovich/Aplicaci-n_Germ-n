@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.proyecto_german.databinding.FragmentFormularioPerforacionBinding
 import com.example.proyecto_german.databinding.FragmentFormularioPerforacionProfundidadBinding
 
@@ -25,19 +26,10 @@ class FormFragment: Fragment() {
     fun accionBoton(){
         print("LLegue aca 1")
         val formFragment = FormFragmentProfundidad()
-        val miBoton = binding.root.findViewById<Button>(R.id.boton_agregar_profundiad)
+        val miBoton = binding.root.findViewById<Button>(R.id.boton_continuar)
         miBoton.setOnClickListener {
-            // Código al hacer clic
-//            Toast.makeText(requireContext(), "¡Botón clickeado!", Toast.LENGTH_SHORT).show()
-            if(formFragment.isVisible){
-                print("Llegue aca")
-                childFragmentManager.beginTransaction()
-                    .remove( formFragment).commit()
-            }else{
-                print(" O llegue aca")
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.contenedor_frame_layout,formFragment).commit()
-            }
+//
+            findNavController().navigate(R.id.action_formFragment_to_formFragmentProfundidad)
         }
     }
 }
