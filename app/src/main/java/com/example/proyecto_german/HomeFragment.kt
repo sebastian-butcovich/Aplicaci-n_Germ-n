@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.proyecto_german.databinding.FragmentFormularioPerforacionBinding
 import com.example.proyecto_german.databinding.FragmentHomeBinding
+
 
 class HomeFragment: Fragment() {
     private var _biding : FragmentHomeBinding? =null

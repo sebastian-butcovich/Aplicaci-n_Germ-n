@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.proyecto_german.databinding.FragmentFormularioPerforacionBinding
+
 import com.example.proyecto_german.databinding.FragmentFormularioPerforacionProfundidadBinding
-import com.example.proyecto_german.databinding.FragmentHomeBinding
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class FormFragmentProfundidad: Fragment() {

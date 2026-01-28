@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.proyecto_german.R
 import com.example.proyecto_german.databinding.FragmentFormularioPerforacionBinding
-import com.example.proyecto_german.databinding.FragmentFormularioPerforacionProfundidadBinding
 
 class FormFragment: Fragment() {
-    private var _biding :FragmentFormularioPerforacionBinding? =null
+    private var _biding : FragmentFormularioPerforacionBinding? =null
     private val binding get() = _biding!!
+    //private val perforacion_actual: Perforacion()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -23,6 +23,16 @@ class FormFragment: Fragment() {
         accionBoton()
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupButton()
+    }
+
+    private fun setupButton() {
+        binding
+    }
+
     fun accionBoton(){
         print("LLegue aca 1")
         val formFragment = FormFragmentProfundidad()

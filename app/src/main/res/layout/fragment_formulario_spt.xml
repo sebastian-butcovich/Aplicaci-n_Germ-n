@@ -21,6 +21,7 @@
         app:endIconMode="clear_text">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/profundidad"
+            android:transitionName="profundidad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -128,5 +129,12 @@
             android:hint="Descripción del subsuelo"
             android:inputType="numberDecimal"/>
     </com.google.android.material.textfield.TextInputLayout>
-
+    <Button
+        android:id="@+id/boton_guardar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/boton_continuar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="GUARDAR ENTRADA"/>
 </LinearLayout>

@@ -84,7 +84,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contendor_numero_perforacion"
+            android:id="@+id/contenedor_numero_perforacion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:endIconMode="clear_text"
@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Número de Perforación"
-                android:inputType="numberDecimal" />
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/contendor_numero_perforacion"
+            app:layout_constraintStart_toEndOf="@id/contenedor_numero_perforacion"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -125,7 +125,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contendor_coordenada_x"
+            android:id="@+id/contenedor_coordenada_x"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:endIconMode="clear_text"
@@ -148,7 +148,7 @@
             android:layout_height="wrap_content"
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/contendor_coordenada_x"
+            app:layout_constraintStart_toEndOf="@id/contenedor_coordenada_x"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -166,6 +166,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        app:selectionRequired="true"
         android:text="Nivel Refactico"
         android:textSize="20dp" />
     <!--    <Spinner-->
