@@ -14,4 +14,7 @@
         <item>SM</item>
         <item>GP</item>
     </string-array>
+    <string-array name="valores_tipo">
+        <item>C</item>
+    </string-array>
 </resources>

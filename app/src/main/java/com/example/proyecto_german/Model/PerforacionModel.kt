@@ -1,12 +1,12 @@
 package com.example.proyecto_german.Model
 
-/*import androidx.room.Entity
-import androidx.room.PrimaryKey*/
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.Date
 
-//@Entity(tableName ="Perforacion")
-data class PerforacionModel (
-//    @PrimaryKey(autoGenerate = true)
+@Entity(tableName ="Perforacion")
+data class PerforacionModel(
+    @PrimaryKey(autoGenerate = true)
     val id: Long=0,
     val codigo:String,
     val fecha_revision: Date,

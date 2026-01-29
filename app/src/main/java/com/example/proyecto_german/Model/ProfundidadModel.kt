@@ -1,17 +1,11 @@
 package com.example.proyecto_german.Model
 
-/*import androidx.room.Entity
-import androidx.room.PrimaryKey*/
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-enum class Sucs{
-    CH,
-    MH,
-    SM,
-    GP,
-}
-//@Entity(tableName = "Profundidades")
+@Entity(tableName = "Profundidades")
 data class Profundidad (
-//    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = true)
     val id: Long=0,
     val perforacionId:Long,
     val profundidad: Double,
@@ -24,3 +18,9 @@ data class Profundidad (
     val descripcion: String,
     val nf: Double,
 )
+enum class Sucs{
+    CH,
+    MH,
+    SM,
+    GP,
+}

@@ -6,7 +6,7 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/formFragment"
-        android:name="com.example.proyecto_german.FormFragment"
+        android:name="com.example.proyecto_german.Fragments.FormFragment"
         android:label="fragment_formulario_perforacion"
         tools:layout="@layout/fragment_formulario_perforacion" >
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/formFragmentProfundidad"
-        android:name="com.example.proyecto_german.FormFragmentProfundidad"
+        android:name="com.example.proyecto_german.Fragments.FormFragmentProfundidad"
         android:label="fragment_formulario_perforacion_profundidad"
         tools:layout="@layout/fragment_formulario_perforacion_profundidad" >
         <action
@@ -24,12 +24,12 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.proyecto_german.HomeFragment"
+        android:name="com.example.proyecto_german.Fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/formFragmentSTP"
-        android:name="com.example.proyecto_german.FormFragmentSTP"
+        android:name="com.example.proyecto_german.Fragments.FormFragmentSTP"
         android:label="formulario_spt"
         tools:layout="@layout/fragment_formulario_spt" />
 </navigation>
