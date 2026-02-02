@@ -8,7 +8,7 @@ data class PerforacionConProfundidadesModel(
     val perforacion: PerforacionModel,
     @Relation(
        parentColumn = "id",
-       entityColumn = "id"
+       entityColumn = "perforacionId"
    )
     val profundidad:List<Profundidad>
 )

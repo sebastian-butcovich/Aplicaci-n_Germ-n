@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
@@ -40,7 +41,15 @@ class FormFragmentProfundidad: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         observerAdapter()
+        guardarDatos()
     }
+
+    private fun guardarDatos() {
+        binding.root.findViewById<Button>(R.id.boton_guardar).setOnClickListener {
+
+        }
+    }
+
     private fun initRecyclerView(){
         adapter = ProfundiadAdapter(emptyList()){
             profundidad -> onItemSelected(profundidad)

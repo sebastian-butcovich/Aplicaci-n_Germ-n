@@ -9,11 +9,13 @@ import com.example.proyecto_german.Model.PerforacionModel
 
 @Dao
 interface PerforacionDAO {
-    @Query("SELECT * FROM Perforacion")
-    suspend fun getAllPerforaciones(): MutableList<PerforacionModel>
+    @Query("SELECT * FROM perforaciones")
+    suspend fun getAllPerforaciones(): List<PerforacionModel>
+
     @Insert
-    fun agregarPerforacion(perforacionModel: PerforacionModel): Long
-  @Transaction
-  @Query("SELECT * FROM Perforacion")
-  fun getUsersWithPlaylists(): List<PerforacionConProfundidadesModel>
+    suspend fun agregarPerforacion(perforacionModel: PerforacionModel): Long
+
+    @Transaction
+    @Query("SELECT * FROM perforaciones")
+    suspend fun getPerforacionConProfundiades(): List<PerforacionConProfundidadesModel>
 }

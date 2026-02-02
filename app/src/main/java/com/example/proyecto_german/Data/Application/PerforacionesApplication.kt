@@ -1,7 +1,7 @@
 package com.example.proyecto_german.Data.Application
 
 import android.app.Application
-//import androidx.room.Room
+import androidx.room.Room
 import com.example.proyecto_german.Data.Database.PerforacionesDatabase
 
 class PerforacionesApplication: Application() {
@@ -11,7 +11,7 @@ class PerforacionesApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
-  //      database = Room.databaseBuilder(this,PerforacionesDatabase::class.java,"PerforacionesDatabase")
-    //        .build()
+        database = Room.databaseBuilder(this,PerforacionesDatabase::class.java,"PerforacionesDatabase")
+            .build()
     }
 }
