@@ -1,21 +1,14 @@
 package com.example.proyecto_german
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.Toast
+
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.proyecto_german.Fragments.FormFragmentProfundidad
-import com.example.proyecto_german.ViewModel.PerforacionViewModel
+
 import com.example.proyecto_german.databinding.ActivityMainBinding
-import com.example.proyecto_german.databinding.FragmentFormularioPerforacionBinding
 
 
 class MainActivity : AppCompatActivity() {
