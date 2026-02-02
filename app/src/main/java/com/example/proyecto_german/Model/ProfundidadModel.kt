@@ -16,7 +16,7 @@ data class Profundidad (
     val golpes3: Int,
     val sucs: Sucs,
     val descripcion: String,
-    val nf: Double,
+   // val nf: Double,
 )
 enum class Sucs{
     CH,

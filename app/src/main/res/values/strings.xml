@@ -8,6 +8,7 @@
     <string name="text_input_coordenada_y">Coordenada_y</string>
     <string name="registro">Ingresar perforación</string>
     <string name="home">Registro de perforaciones</string>
+    <string name="entradas">Entradas</string>
     <string-array name="valores_sucs">
         <item>CH</item>
         <item>MH</item>

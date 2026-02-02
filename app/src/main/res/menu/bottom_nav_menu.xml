@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/homeFragment"
+        android:id="@+id/menu_home"
         android:icon="@drawable/home"
         android:title="@string/home"/>
     <item
-        android:id="@+id/formFragment"
+        android:id="@+id/menu_registro"
         android:icon="@drawable/registrar"
-        android:title="@string/registro"/>
+        android:title="Registro de perforación"/>
 </menu>

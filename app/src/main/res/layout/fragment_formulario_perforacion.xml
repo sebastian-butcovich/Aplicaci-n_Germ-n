@@ -167,7 +167,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         app:selectionRequired="true"
-        android:text="Nivel Refactico"
+        android:text="Nivel FRÉATCO"
         android:textSize="20dp" />
     <!--    <Spinner-->
     <!--            android:id="@+id/spinner_mi_selector"-->
