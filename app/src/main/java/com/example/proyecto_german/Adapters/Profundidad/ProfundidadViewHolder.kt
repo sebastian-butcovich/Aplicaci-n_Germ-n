@@ -1,4 +1,4 @@
-package com.example.proyecto_german.Adapters
+package com.example.proyecto_german.Adapters.Profundidad
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -7,7 +7,7 @@ import com.example.proyecto_german.databinding.ItemProfundidadBinding
 
 class ProfundidadViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val binding = ItemProfundidadBinding.bind(view)
-    fun render(profundidad: Profundidad,onClickListener:(Profundidad)-> Unit){
+    fun render(profundidad: Profundidad, onClickListener:(Profundidad)-> Unit){
         binding.profundiadMts.text = "Profundidad en mts: "+profundidad.profundidad.toString()
         binding.numeroMuestra.text = "Número de muestra: "+profundidad.numero_muestra.toString()
         binding.tipo.text = "Tipo: "+profundidad.tipo
