@@ -1,21 +1,31 @@
-package com.example.proyecto_german.Adapters
+package com.example.proyecto_german.Adapters.Profundidad
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.proyecto_german.Adapters.Profundidad.ProfundidadViewHolder
 import com.example.proyecto_german.Model.Profundidad
-import com.example.proyecto_german.OnClickListener
 import com.example.proyecto_german.R
 
-class ProfundiadAdapter(val profundidades: List<Profundidad>,private val onClickListener: (Profundidad)-> Unit): RecyclerView.Adapter<ProfundidadViewHolder>() {
+class ProfundiadAdapter(var profundidades: List<Profundidad>, private val onClickListener: (Profundidad)-> Unit): RecyclerView.Adapter<ProfundidadViewHolder>() {
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ProfundidadViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return ProfundidadViewHolder(layoutInflater.inflate(R.layout.item_profundidad,parent,false))
+        return ProfundidadViewHolder(
+            layoutInflater.inflate(
+                R.layout.item_profundidad,
+                parent,
+                false
+            )
+        )
     }
-
+    fun updateList(nuevaLista:List<Profundidad>){
+        profundidades = nuevaLista
+        notifyDataSetChanged()
+    }
     override fun onBindViewHolder(
         holder: ProfundidadViewHolder,
         position: Int

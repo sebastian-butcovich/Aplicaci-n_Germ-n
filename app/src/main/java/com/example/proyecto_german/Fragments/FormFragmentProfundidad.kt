@@ -10,20 +10,31 @@ import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.proyecto_german.Adapters.ProfundiadAdapter
+import com.example.proyecto_german.Adapters.Profundidad.ProfundiadAdapter
+import com.example.proyecto_german.Data.Application.PerforacionesApplication
 import com.example.proyecto_german.Model.Profundidad
 import com.example.proyecto_german.R
+import com.example.proyecto_german.Repository.PerforacionRepository
+import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
 import com.example.proyecto_german.ViewModel.PerforacionViewModel
 import com.example.proyecto_german.databinding.FragmentFormularioPerforacionProfundidadBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlin.getValue
 
 class FormFragmentProfundidad: Fragment() {
     private var _biding : FragmentFormularioPerforacionProfundidadBinding? =null
     private val binding get() = _biding!!
-    private val viewModel: PerforacionViewModel by activityViewModels()
+    private val viewModel: PerforacionViewModel by activityViewModels {
+        PeforacionViewModelFactory(
+            PerforacionRepository(
+                PerforacionesApplication.database.perforacionDao()
+            )
+        )
+    }
     private lateinit var adapter: ProfundiadAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +57,8 @@ class FormFragmentProfundidad: Fragment() {
 
     private fun guardarDatos() {
         binding.root.findViewById<Button>(R.id.boton_guardar).setOnClickListener {
-
+            viewModel.agregarPerforacion()
+            Toast.makeText(requireContext(),"Base de datos guardada",Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -63,10 +75,7 @@ class FormFragmentProfundidad: Fragment() {
     private fun observerAdapter(){
         viewModel.profundidades.observe(viewLifecycleOwner){
             lista->
-            adapter = ProfundiadAdapter(lista){
-                profundidad -> onItemSelected(profundidad)
-            }
-            binding.listaSpt.adapter =adapter
+            adapter.updateList(lista)
         }
     }
 
