@@ -17,7 +17,8 @@
            android:text="Esta es la vista home"/>
        <androidx.recyclerview.widget.RecyclerView
            android:id="@+id/lista_perforaciones"
-           android:layout_width="wrap_content"
+           android:layout_width="match_parent"
+           android:layout_marginHorizontal="15dp"
            android:layout_height="wrap_content"
            />
    </LinearLayout>

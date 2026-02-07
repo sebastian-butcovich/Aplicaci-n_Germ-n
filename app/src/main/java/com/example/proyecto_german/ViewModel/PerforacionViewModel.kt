@@ -19,13 +19,17 @@ class PerforacionViewModel(
     private val repository: PerforacionRepository
 ): ViewModel() {
     private val listProfundidades = MutableLiveData<List<Profundidad>>(emptyList())
-    private val _perforacion = MutableLiveData<PerforacionModel?>(null)
-    //Esta estructura va a guardar la lista de perforaciones.
-    private val listPerforaciones = MutableLiveData<List<PerforacionModel>>(emptyList())
     var profundidades: LiveData<List<Profundidad>> = listProfundidades
+    // Está variable sirve para guardar la perforación nueva agregada y guardarla cuando sea necesario
+    private val _perforacion = MutableLiveData<PerforacionModel?>()
+    //Esta estructura va a guardar la lista de perforaciones.
+    private val _perforaciones = MutableLiveData<List<PerforacionModel>>()
+    // Esta lista sirve para mostrar y dar seguimiento a los datos
+    val perforaciones: LiveData<List<PerforacionModel>> = _perforaciones
+
     fun obtenerPerforaciones(){
         viewModelScope.launch {
-            listPerforaciones.value = repository.obtenerPerforaciones()
+            _perforaciones.value = repository.obtenerPerforaciones()
         }
     }
     fun updateListProfundidades(profundidad: Profundidad){

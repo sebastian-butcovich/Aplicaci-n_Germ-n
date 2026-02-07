@@ -8,6 +8,7 @@ import com.example.proyecto_german.R
 
 class PerforacionAdapter(var perforaciones:List<PerforacionModel>,private val onClickListener: (PerforacionModel)-> Unit):
     RecyclerView.Adapter<PerforacionViewHolder>() {
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -31,4 +32,8 @@ class PerforacionAdapter(var perforaciones:List<PerforacionModel>,private val on
     }
 
     override fun getItemCount(): Int = perforaciones.size
+    fun actualizarListaPerforacion(nuevaLista:List<PerforacionModel>){
+        perforaciones =nuevaLista
+        notifyDataSetChanged()
+    }
 }

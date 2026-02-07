@@ -19,7 +19,16 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/profundiad_mts"
+            android:id="@+id/proyecto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="2dp"
+            android:hint="Proyecto"
+            android:textSize="17dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/numero_muestra" />
+        <TextView
+            android:id="@+id/cliente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="2dp"
@@ -29,28 +38,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/numero_muestra"
+            android:id="@+id/atencion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="2dp"
             android:text="Atención"
             android:textSize="17dp"
             app:layout_constraintStart_toStartOf="parent" />
-
         <TextView
-            android:id="@+id/tipo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="2dp"
-            android:hint="Proyecto"
-            android:textSize="17dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/numero_muestra" />
-
-
-
-        <TextView
-            android:id="@+id/sucs"
+            android:id="@+id/numero_perforacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="2dp"
@@ -60,7 +56,7 @@
             app:layout_constraintTop_toTopOf="@id/tipo" />
 
         <TextView
-            android:id="@+id/descripcion"
+            android:id="@+id/profundiad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="2dp"
@@ -68,5 +64,26 @@
             android:textSize="17dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/sucs" />
+        <LinearLayout
+            android:id="@+id/contendor_botones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="12dp"
+                android:text="Exportar como excel"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="2dp"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Ver Profundidades"
+                android:textSize="12dp"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="2dp"/>
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
