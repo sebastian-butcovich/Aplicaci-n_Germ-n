@@ -54,6 +54,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
 
     // Jetpack Compose integration
     implementation("androidx.navigation:navigation-compose:$nav_version")
@@ -61,5 +62,6 @@ dependencies {
     // Views/Fragments integration
     implementation("androidx.navigation:navigation-fragment:$nav_version")
     implementation("androidx.navigation:navigation-ui:$nav_version")
+
 
 }

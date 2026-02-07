@@ -5,12 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.proyecto_german.Data.Application.PerforacionesApplication
 import com.example.proyecto_german.Model.Profundidad
 import com.example.proyecto_german.Model.Sucs
 import com.example.proyecto_german.R
+import com.example.proyecto_german.Repository.PerforacionRepository
+import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
 import com.example.proyecto_german.ViewModel.PerforacionViewModel
 import com.example.proyecto_german.databinding.FragmentFormularioSptBinding
 import kotlin.getValue
@@ -19,8 +24,14 @@ class FormFragmentSTP : Fragment() {
     private var _biding: FragmentFormularioSptBinding? = null
     private val binding get() = _biding!!
 
-    //View model sirve para pasar el dato agregado a la vista anterior donde se muestran los golpes agregados
-    private val viewModel: PerforacionViewModel by activityViewModels()
+    private val viewModel: PerforacionViewModel by activityViewModels {
+        PeforacionViewModelFactory(
+            PerforacionRepository(
+                PerforacionesApplication.database.perforacionDao()
+            )
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,8 +69,8 @@ class FormFragmentSTP : Fragment() {
             //val dataNivelFreatico = binding.valorNf.text.toString().toDouble()
             val dataDescripcion = binding.descripcion.text.toString()
             val pf = Profundidad(
-                -1,
-                -1,
+                0,
+                0,
                 dataProfundidad,
                 dataMuestrasNumero,
                 dataTipo,
@@ -72,8 +83,10 @@ class FormFragmentSTP : Fragment() {
             )
             //Con esto ya estoy guardando una entrada.
             viewModel.updateListProfundidades(pf)
-            findNavController().navigate(R.id.formFragmentProfundidad)
+            findNavController().popBackStack()
 
+        }else{
+            Toast.makeText(context,"Faltan los datos mínimos para cargar un profundidad", Toast.LENGTH_SHORT).show()
         }
     }
 

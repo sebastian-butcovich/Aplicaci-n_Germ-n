@@ -3,7 +3,7 @@ package com.example.proyecto_german.Adapters.Profundidad
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.proyecto_german.Adapters.ProfundidadViewHolder
+import com.example.proyecto_german.Adapters.Profundidad.ProfundidadViewHolder
 import com.example.proyecto_german.Model.Profundidad
 import com.example.proyecto_german.R
 

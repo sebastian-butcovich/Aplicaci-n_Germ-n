@@ -10,7 +10,7 @@ import com.example.proyecto_german.Model.PerforacionModel
 import com.example.proyecto_german.Model.Profundidad
 
 @Database(
-    entities = [PerforacionModel::class, Profundidad::class, PerforacionConProfundidadesModel::class]
+    entities = [PerforacionModel::class, Profundidad::class]
     , version = 1,
     exportSchema = false
 )

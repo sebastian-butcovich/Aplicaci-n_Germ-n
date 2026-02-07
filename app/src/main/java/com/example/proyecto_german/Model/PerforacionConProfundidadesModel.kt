@@ -7,6 +7,7 @@ data class PerforacionConProfundidadesModel(
     @Embedded
     val perforacion: PerforacionModel,
     @Relation(
+        Profundidad::class,
        parentColumn = "id",
        entityColumn = "perforacionId"
    )
