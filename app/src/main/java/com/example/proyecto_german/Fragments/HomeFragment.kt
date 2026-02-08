@@ -12,7 +12,9 @@ import com.example.proyecto_german.Adapters.Perforacion.PerforacionAdapter
 import com.example.proyecto_german.Adapters.Profundidad.ProfundiadAdapter
 import com.example.proyecto_german.Data.Application.PerforacionesApplication
 import com.example.proyecto_german.Model.PerforacionModel
+import com.example.proyecto_german.Model.Profundidad
 import com.example.proyecto_german.Repository.PerforacionRepository
+import com.example.proyecto_german.Util.ManipularExcel
 import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
 import com.example.proyecto_german.ViewModel.PerforacionViewModel
 import com.example.proyecto_german.databinding.FragmentHomeBinding
@@ -30,6 +32,7 @@ class HomeFragment: Fragment() {
             )
         )
     }
+    private val manipularExcel = ManipularExcel()
      override fun onCreateView(
          inflater: LayoutInflater,
          container: ViewGroup?,
@@ -45,18 +48,22 @@ class HomeFragment: Fragment() {
        initRecyclerView()
         observarPerforaciones()
         viewModel.obtenerPerforaciones()
+        binding
+
     }
     private fun initRecyclerView(){
-        adapter = PerforacionAdapter(emptyList()){
-            perforacion -> onItemSelected(perforacion)
-        }
+        adapter = PerforacionAdapter(emptyList(),
+            onClickListener = {perforacion->
+                onItemSelected(perforacion)
+            },
+            onExportClick = {perforacion->
+                val manipularExcel= ManipularExcel()
+                val profundidades = emptyList<Profundidad>() //viewModel.obtenerProfundidades(perforacion.id)
+                manipularExcel.exportarSTP(requireContext()
+                ,perforacion, profundidades )
+            })
         binding.listaPerforaciones.layoutManager = LinearLayoutManager(requireContext())
         binding.listaPerforaciones.adapter = adapter
-    }
-    private fun observer(){
-        viewModel.perforaciones.observe(viewLifecycleOwner){
-            adapter
-        }
     }
     private fun onItemSelected(perforacion: PerforacionModel){
         Toast.makeText(requireContext(),perforacion.proyecto,Toast.LENGTH_SHORT).show()

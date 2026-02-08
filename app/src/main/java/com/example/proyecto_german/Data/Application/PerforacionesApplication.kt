@@ -13,6 +13,7 @@ class PerforacionesApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         database = Room.databaseBuilder(applicationContext,PerforacionesDatabase::class.java,"PerforacionesDatabase")
+            .fallbackToDestructiveMigration()
             .build()
     }
 }

@@ -1,6 +1,8 @@
 package com.example.proyecto_german.Fragments
 
+import android.app.DatePickerDialog
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +21,9 @@ import com.example.proyecto_german.ViewModel.PerforacionViewModel
 import com.example.proyecto_german.databinding.FragmentFormularioPerforacionBinding
 import kotlin.getValue
 import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class FormFragment: Fragment() {
     private var _biding : FragmentFormularioPerforacionBinding? =null
@@ -45,6 +50,7 @@ class FormFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         accionBoton()
+        generarCalendario()
     }
 
     fun accionBoton(){
@@ -101,7 +107,34 @@ class FormFragment: Fragment() {
     }
 
     private fun obtenerValorLogicoFreatico(): Boolean {
-       val r= binding.eleccion.isSelected.toString()
-        return r == "Sí"
+        var resultado:Boolean=false
+       binding.opcionSi.setOnClickListener {
+           resultado = true
+       }
+        return resultado
+    }
+    private fun generarCalendario(){
+        val calendario = Calendar.getInstance()
+        var fecha = DatePickerDialog.OnDateSetListener{ datePicker, anio, mes, dia
+            -> calendario.set(Calendar.YEAR, anio)
+            calendario.set(Calendar.MONTH,mes)
+            calendario.set(Calendar.DAY_OF_MONTH,dia)
+            pasarDatosAlInputFecha(calendario)
+        }
+        binding.inputFecha.setOnClickListener {
+            DatePickerDialog(
+                requireContext(),
+                fecha,
+                calendario.get(Calendar.YEAR),
+                calendario.get(Calendar.MONTH),
+                calendario.get(Calendar.DAY_OF_MONTH)
+            ).show()
+
+        }
+    }
+    private fun pasarDatosAlInputFecha(calendario: Calendar){
+        val formatoFecha = "dd-MM-yyyy"
+        val formatoSimple = SimpleDateFormat(formatoFecha, Locale.ENGLISH)
+        binding.inputFecha.setText(formatoSimple.format(calendario.time))
     }
 }

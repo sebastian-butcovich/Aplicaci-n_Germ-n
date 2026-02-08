@@ -5,12 +5,13 @@ plugins {
 }
 
 android {
+
     namespace = "com.example.proyecto_german"
     compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.proyecto_german"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -62,6 +63,13 @@ dependencies {
     // Views/Fragments integration
     implementation("androidx.navigation:navigation-fragment:$nav_version")
     implementation("androidx.navigation:navigation-ui:$nav_version")
-
+    //Apache POI: Para manipular el excel
+    implementation("org.apache.poi:poi:5.2.3")
+// Para archivos .xlsx (Formato OOXML)
+    implementation("org.apache.poi:poi-ooxml:5.2.3")
+// Dependencias necesarias para POI-OOXML
+    implementation("org.apache.xmlbeans:xmlbeans:5.1.1")
+    implementation("org.apache.commons:commons-collections4:4.4")
+    implementation("org.apache.commons:commons-compress:1.21")
 
 }

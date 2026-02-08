@@ -11,7 +11,7 @@ data class PerforacionModel(
     val codigo:String,
     val fechaRevision: Date,
     val revision:String,
-    val clinte:String,
+    val cliente:String,
     val atencion:String,
     val proyecto:String,
     val localizacion:String,

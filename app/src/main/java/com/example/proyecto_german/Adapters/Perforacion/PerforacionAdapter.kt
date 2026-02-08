@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_german.Model.PerforacionModel
 import com.example.proyecto_german.R
 
-class PerforacionAdapter(var perforaciones:List<PerforacionModel>,private val onClickListener: (PerforacionModel)-> Unit):
+class PerforacionAdapter(var perforaciones:List<PerforacionModel>,
+                         private val onClickListener: (PerforacionModel)-> Unit,
+    private val onExportClick:(PerforacionModel)-> Unit):
     RecyclerView.Adapter<PerforacionViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -28,7 +30,7 @@ class PerforacionAdapter(var perforaciones:List<PerforacionModel>,private val on
         position: Int
     ) {
         val item = perforaciones.get(position)
-        holder.render(item,onClickListener)
+        holder.render(item,onClickListener,onExportClick)
     }
 
     override fun getItemCount(): Int = perforaciones.size

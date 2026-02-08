@@ -12,7 +12,8 @@ import com.example.proyecto_german.Model.Profundidad
 interface PerforacionDAO {
     @Query("SELECT * FROM perforaciones")
     suspend fun getAllPerforaciones(): List<PerforacionModel>
-
+    @Query("SELECT * FROM profundidades where perforacionId=:idPerforacion")
+    suspend fun obtenerProfundidadesDeUnaPerforacion( idPerforacion:Long):List<Profundidad>
     @Insert
     suspend fun agregarPerforacion(perforacionModel: PerforacionModel): Long
     @Insert

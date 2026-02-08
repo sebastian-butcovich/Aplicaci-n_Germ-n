@@ -71,6 +71,7 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal">
             <Button
+                android:id="@+id/btnExportar"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:textSize="12dp"
@@ -78,6 +79,7 @@
                 android:layout_weight="1"
                 android:layout_marginHorizontal="2dp"/>
             <Button
+                android:id="@+id/btnVerProfundidades"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:text="Ver Profundidades"
