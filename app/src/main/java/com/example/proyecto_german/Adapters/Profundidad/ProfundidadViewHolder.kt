@@ -8,7 +8,7 @@ import com.example.proyecto_german.databinding.ItemProfundidadBinding
 class ProfundidadViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val binding = ItemProfundidadBinding.bind(view)
     fun render(profundidad: Profundidad, onClickListener:(Profundidad)-> Unit){
-        binding.profundiadMts.text = "Profundidad en mts: "+profundidad.profundidad.toString()
+        binding.profundiadMts.text = "Profundidad en mts: "+profundidad.profundidad_final.toString()
         binding.numeroMuestra.text = "Número de muestra: "+profundidad.numero_muestra.toString()
         binding.tipo.text = "Tipo: "+profundidad.tipo
         binding.avanceStp1.text = "STP 1: " + profundidad.golpes1

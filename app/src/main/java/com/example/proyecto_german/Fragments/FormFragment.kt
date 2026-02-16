@@ -69,10 +69,11 @@ class FormFragment: Fragment() {
         if(!binding.inputCliente.text.toString().isEmpty()
             && !binding.inputAtencion.text.toString().isEmpty()
             && !binding.inputProyecto.text.toString().isEmpty()
+            && !binding.inputLocalizacion.text.toString().isEmpty()
             && binding.inputNumeroPerforacion.text.toString().toDouble() != 0.0
             && binding.inputProfundidad.text.toString().toDouble() != 0.0
-            && binding.inputCoordenadaX.text.toString().toDouble() != 0.0
-            && binding.inputCoordenadaY.text.toString().toDouble() != 0.0
+            && binding.inputCoordenadaE.text.toString().toDouble() != 0.0
+            && binding.inputCoordenadaN.text.toString().toDouble() != 0.0
             && !binding.inputLecturaInicial.text.toString().isEmpty()
             && !binding.inputLecturaFinal.text.toString().isEmpty()
             && !binding.inputEstadoTiempo.text.toString().isEmpty()){
@@ -89,30 +90,24 @@ class FormFragment: Fragment() {
         val proyecto = binding.inputProyecto.text.toString()
         Log.i("Proyecto",proyecto)
         val fecha = java.util.Date()
+        val localizacion = binding.inputLocalizacion.text.toString();
         Log.i("Fecha",fecha.toString())
         val numeroPerforacion = binding.inputNumeroPerforacion.text.toString().toInt()
         val profundidad = binding.inputProfundidad.text.toString().toDouble()
-        val coordenadaX = binding.inputCoordenadaX.text.toString().toDouble()
-        val coordenadaY = binding.inputCoordenadaY.text.toString().toDouble()
-        val nivelFreatico = obtenerValorLogicoFreatico()
+        val coordenadaX = binding.inputCoordenadaE.text.toString().toDouble()
+        val coordenadaY = binding.inputCoordenadaN.text.toString().toDouble()
+        val nivelFreatico = binding.spinnerNivelFreatico.selectedItem.toString() == "Si"
         val lecturaInicial = binding.inputLecturaInicial.text.toString().toDouble()
         val lecturaFinal = binding.inputLecturaFinal.text.toString().toDouble()
         val estadoTiempo = binding.inputEstadoTiempo.text.toString()
         var p= PerforacionModel(0,"",fecha,
-            "",cliente,atencion,proyecto,"",fecha,numeroPerforacion
+            "",cliente,atencion,proyecto,localizacion,fecha,numeroPerforacion
             ,profundidad,coordenadaX,coordenadaY,
             nivelFreatico,lecturaInicial,lecturaFinal,estadoTiempo)
         return p
 
     }
 
-    private fun obtenerValorLogicoFreatico(): Boolean {
-        var resultado:Boolean=false
-       binding.opcionSi.setOnClickListener {
-           resultado = true
-       }
-        return resultado
-    }
     private fun generarCalendario(){
         val calendario = Calendar.getInstance()
         var fecha = DatePickerDialog.OnDateSetListener{ datePicker, anio, mes, dia

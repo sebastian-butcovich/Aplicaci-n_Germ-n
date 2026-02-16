@@ -51,6 +51,7 @@
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/contenedor_input_proyecto"
         android:layout_width="match_parent"
@@ -66,7 +67,21 @@
             android:hint="@string/text_input_proyecto"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/contenedor_input_localizacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:endIconMode="clear_text">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_localizacion"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:transitionName="localizacion"
+            android:hint="Localización"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/contenedor_input_fecha"
         android:layout_width="match_parent"
@@ -130,40 +145,40 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contenedor_coordenada_x"
+            android:id="@+id/contenedor_coordenada_e"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:endIconMode="clear_text"
-            app:layout_constraintEnd_toStartOf="@id/contendor_coordenada_y"
+            app:layout_constraintEnd_toStartOf="@id/contendor_coordenada_n"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_coordenada_x"
+                android:id="@+id/input_coordenada_e"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:transitionName="coordenadaX"
-                android:hint="@string/input_coordenada_x"
+                android:transitionName="coordenadaE"
+                android:hint="E°"
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contendor_coordenada_y"
+            android:id="@+id/contendor_coordenada_n"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/contenedor_coordenada_x"
+            app:layout_constraintStart_toEndOf="@id/contenedor_coordenada_e"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_coordenada_y"
+                android:id="@+id/input_coordenada_n"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:transitionName="coordenadaY"
-                android:hint="@string/text_input_coordenada_y"
+                android:transitionName="coordenadaN"
+                android:hint="N°"
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -184,29 +199,20 @@
     <!--            android:textAlignment="center"-->
     <!--            android:entries="@array/opciones_seleccionables"-->
     <!--        />-->
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/eleccion"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/contenedor_tipo"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
-        android:layout_marginBottom="4dp"
-        app:selectionRequired="true"
-        android:gravity="center"
-        app:singleSelection="true">
-
-        <Button
-            android:id="@+id/opcion_si"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:text="Sí" />
-
-        <Button
-            android:id="@+id/opcion_no"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:text="No" />
-    </com.google.android.material.button.MaterialButtonToggleGroup>
+        android:layout_height="wrap_content"
+        >
+        <Spinner
+            android:id="@+id/spinner_nivel_freatico"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:minHeight="50dp"
+            android:hint="Tipo"
+            android:entries="@array/valores_freatico"
+            android:textAlignment="center"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

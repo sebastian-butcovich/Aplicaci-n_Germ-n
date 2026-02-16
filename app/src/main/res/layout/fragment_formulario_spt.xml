@@ -1,183 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.FormFragmentSTP">
+
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:id="@+id/fragment_extension_formulario"
-    >
-    <TextView
+        android:id="@+id/fragment_extension_formulario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Agregar una entrada de la perforación"
-        android:textSize="20sp"/>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/contenedor_profundidad"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:endIconMode="clear_text">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/profundidad"
-            android:transitionName="profundidad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Profundidad"
-            android:inputType="numberDecimal"/>
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/contenedor_muestra_nro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:endIconMode="clear_text">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/muestra_nro"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Muestra Número"
-            android:inputType="numberDecimal"/>
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/contenedor_tipo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="20dp"
         >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Agregar una entrada de la perforación"
+            android:textSize="20sp"
+            android:layout_marginBottom="5dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/contenedor_profundidad_inicial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:endIconMode="clear_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/profundidad_inicial"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Profundidad inicial"
+                android:inputType="numberDecimal"
+                android:transitionName="profundidad_inicial" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/contenedor_profundidad_final"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:endIconMode="clear_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/profundidad_final"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Profundidad final"
+                android:inputType="numberDecimal"
+                android:transitionName="profundidad_final" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/contenedor_muestra_nro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:endIconMode="clear_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/muestra_nro"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Muestra Número"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/contenedor_tipo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:id="@+id/spinner_tipo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:entries="@array/valores_tipo"
+                android:hint="Tipo"
+                android:minHeight="50dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contendor_stp1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toStartOf="@id/contendor_stp2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_stp1"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="STP 1"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contendor_stp2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="@id/contendor_stp3"
+                app:layout_constraintStart_toEndOf="@id/contendor_stp1"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_stp2"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="STP 2"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contendor_stp3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/contendor_stp2"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_stp3"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="STP 3"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/contenedor_susc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!--        <com.google.android.material.textfield.TextInputEditText-->
+            <!--            android:id="@+id/susc"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+            <!--            android:hint="SUCS"-->
+            <!--            android:inputType="numberDecimal"/>-->
+            <Spinner
+                android:id="@+id/spinner_sucs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:entries="@array/valores_sucs"
+                android:hint="Sucs"
+                android:minHeight="50dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--    <com.google.android.material.textfield.TextInputLayout-->
+        <!--        android:id="@+id/contenedor_valor_nf"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        app:endIconMode="clear_text"-->
+        <!--        app:layout_constraintEnd_toEndOf="parent"-->
+        <!--        app:layout_constraintStart_toEndOf="@id/contendor_stp2"-->
+        <!--        app:layout_constraintTop_toTopOf="parent">-->
         <!--        <com.google.android.material.textfield.TextInputEditText-->
-        <!--            android:id="@+id/susc"-->
+        <!--            android:id="@+id/valor_nf"-->
+        <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
         <!--            android:layout_width="match_parent"-->
         <!--            android:layout_height="wrap_content"-->
-        <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-        <!--            android:hint="SUCS"-->
+        <!--            android:hint="Valor Nivel Freatico"-->
         <!--            android:inputType="numberDecimal"/>-->
-        <Spinner
-            android:id="@+id/spinner_tipo"
+        <!--    </com.google.android.material.textfield.TextInputLayout>-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/contenedor_descripcion"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="50dp"
-            android:hint="Tipo"
-            android:entries="@array/valores_tipo"/>
-    </com.google.android.material.textfield.TextInputLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contendor_stp1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:endIconMode="clear_text"
-            app:layout_constraintEnd_toStartOf="@id/contendor_stp2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_stp1"
+                android:id="@+id/descripcion"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="STP 1"
-                android:inputType="numberDecimal" />
+                android:hint="Descripción del subsuelo"
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contendor_stp2"
-            android:layout_width="0dp"
+        <Button
+            android:id="@+id/boton_guardar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:endIconMode="clear_text"
-            app:layout_constraintEnd_toEndOf="@id/contendor_stp3"
-            app:layout_constraintStart_toEndOf="@id/contendor_stp1"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_stp2"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="STP 2"
-                android:inputType="numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contendor_stp3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:endIconMode="clear_text"
+            android:text="GUARDAR ENTRADA"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/contendor_stp2"
-            app:layout_constraintTop_toTopOf="parent">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_stp3"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="STP 3"
-                android:inputType="numberDecimal"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/contenedor_susc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-        <!--        <com.google.android.material.textfield.TextInputEditText-->
-        <!--            android:id="@+id/susc"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-        <!--            android:hint="SUCS"-->
-        <!--            android:inputType="numberDecimal"/>-->
-        <Spinner
-            android:id="@+id/spinner_sucs"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="50dp"
-            android:hint="Sucs"
-            android:entries="@array/valores_sucs"/>
-    </com.google.android.material.textfield.TextInputLayout>
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        android:id="@+id/contenedor_valor_nf"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:endIconMode="clear_text"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toEndOf="@id/contendor_stp2"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:id="@+id/valor_nf"-->
-<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Valor Nivel Freatico"-->
-<!--            android:inputType="numberDecimal"/>-->
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/contenedor_descripcion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/descripcion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Descripción del subsuelo"
-            android:inputType="text"/>
-    </com.google.android.material.textfield.TextInputLayout>
-    <Button
-        android:id="@+id/boton_guardar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/boton_continuar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="GUARDAR ENTRADA"/>
-</LinearLayout>
+            app:layout_constraintStart_toEndOf="@id/boton_continuar"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="5dp"/>
+    </LinearLayout>
 </ScrollView>

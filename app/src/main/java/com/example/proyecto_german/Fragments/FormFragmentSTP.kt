@@ -59,8 +59,9 @@ class FormFragmentSTP : Fragment() {
 
     private fun sendDataToServer() {
         if (chequedoDeDatos()) {
-            val dataProfundidad = binding.profundidad.text.toString().toDouble()
-            val dataMuestrasNumero = binding.muestraNro.text.toString().toInt()
+            val dataProfundidadInicial = binding.profundidadInicial.text.toString().toDouble()
+            val dataProfundidadFinal = binding.profundidadFinal.text.toString().toDouble()
+            val dataMuestrasNumero = binding.muestraNro.text.toString().toDouble()
             val dataTipo = binding.spinnerTipo.selectedItem.toString()
             val dataStp1 = binding.inputStp1.text.toString().toInt()
             val dataStp2 = binding.inputStp2.text.toString().toInt()
@@ -71,7 +72,8 @@ class FormFragmentSTP : Fragment() {
             val pf = Profundidad(
                 0,
                 0,
-                dataProfundidad,
+                dataProfundidadInicial,
+                dataProfundidadFinal,
                 dataMuestrasNumero,
                 dataTipo,
                 dataStp1,
@@ -92,7 +94,8 @@ class FormFragmentSTP : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.profundidad.text = null
+        binding.profundidadInicial.text = null
+        binding.profundidadFinal.text = null
         binding.muestraNro.text = null
         binding.inputStp1.text = null
         binding.inputStp2.text = null
@@ -101,8 +104,8 @@ class FormFragmentSTP : Fragment() {
         binding.descripcion.text = null
     }
     private fun chequedoDeDatos(): Boolean {
-        return binding.profundidad.text?.isEmpty() == false && binding.muestraNro.text?.isEmpty() == false
+        return binding.profundidadFinal.text?.isEmpty() == false &&/* binding.muestraNro.text?.isEmpty() == false
                 && binding.inputStp1.text?.isEmpty() == false && binding.inputStp2.text?.isEmpty() == false &&
-                binding.inputStp3.text?.isEmpty() == false && binding.descripcion.text?.isEmpty() == false
+                binding.inputStp3.text?.isEmpty() == false &&*/ binding.descripcion.text?.isEmpty() == false
     }
 }

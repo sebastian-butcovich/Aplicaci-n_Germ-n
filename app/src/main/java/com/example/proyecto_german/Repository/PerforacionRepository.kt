@@ -18,4 +18,7 @@ class PerforacionRepository(private val dao: PerforacionDAO) {
     suspend fun  obtenerPerforaciones():List<PerforacionModel>{
         return dao.getAllPerforaciones()
     }
+    suspend fun obtenerProfundiadesDeUnaPerforacion(idPerforacion:Long):List<Profundidad>{
+        return dao.obtenerProfundidadesDeUnaPerforacion(idPerforacion)
+    }
 }

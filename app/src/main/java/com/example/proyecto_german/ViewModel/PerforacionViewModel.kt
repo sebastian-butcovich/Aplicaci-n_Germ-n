@@ -47,4 +47,7 @@ class PerforacionViewModel(
             _perforacion.postValue(null)
         }
     }
+    suspend fun obtenerProfundidadesDeUnaPerforacion(idPerforacion:Long):List<Profundidad>{
+            return repository.obtenerProfundiadesDeUnaPerforacion(idPerforacion)
+    }
 }

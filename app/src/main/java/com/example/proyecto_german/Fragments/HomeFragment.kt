@@ -1,12 +1,14 @@
 package com.example.proyecto_german.Fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_german.Adapters.Perforacion.PerforacionAdapter
 import com.example.proyecto_german.Adapters.Profundidad.ProfundiadAdapter
@@ -18,6 +20,7 @@ import com.example.proyecto_german.Util.ManipularExcel
 import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
 import com.example.proyecto_german.ViewModel.PerforacionViewModel
 import com.example.proyecto_german.databinding.FragmentHomeBinding
+import kotlinx.coroutines.launch
 import kotlin.getValue
 
 class HomeFragment: Fragment() {
@@ -57,10 +60,13 @@ class HomeFragment: Fragment() {
                 onItemSelected(perforacion)
             },
             onExportClick = {perforacion->
-                val manipularExcel= ManipularExcel()
-                val profundidades = emptyList<Profundidad>() //viewModel.obtenerProfundidades(perforacion.id)
-                manipularExcel.exportarSTP(requireContext()
-                ,perforacion, profundidades )
+                lifecycleScope.launch {
+                   val profundidades = viewModel.obtenerProfundidadesDeUnaPerforacion(perforacion.id)
+                    val manipularExcel= ManipularExcel()
+                    manipularExcel.exportarSTP(requireContext()
+                        ,perforacion, profundidades )
+                }
+
             })
         binding.listaPerforaciones.layoutManager = LinearLayoutManager(requireContext())
         binding.listaPerforaciones.adapter = adapter
