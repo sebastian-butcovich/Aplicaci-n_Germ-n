@@ -1,29 +1,27 @@
 package com.example.proyecto_german.Fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_german.Data.Application.PerforacionesApplication
-import com.example.proyecto_german.Model.Profundidad
-import com.example.proyecto_german.Model.Sucs
+import com.example.proyecto_german.Model.GolpesStp
 import com.example.proyecto_german.R
 import com.example.proyecto_german.Repository.PerforacionRepository
 import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
 import com.example.proyecto_german.ViewModel.PerforacionViewModel
-import com.example.proyecto_german.databinding.FragmentFormularioSptBinding
+import com.example.proyecto_german.databinding.FragmentGolpesStpBinding
 import kotlin.getValue
 
-class FormFragmentSTP : Fragment() {
-    private var _biding: FragmentFormularioSptBinding? = null
-    private val binding get() = _biding!!
-
+class FormFragmentGolpes: Fragment() {
+    private var _binding: FragmentGolpesStpBinding? =null
+    private val binding get() = _binding!!
     private val viewModel: PerforacionViewModel by activityViewModels {
         PeforacionViewModelFactory(
             PerforacionRepository(
@@ -31,45 +29,35 @@ class FormFragmentSTP : Fragment() {
             )
         )
     }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _biding = FragmentFormularioSptBinding.inflate(inflater, container, false)
-        setupButton()
+        _binding = FragmentGolpesStpBinding.inflate(inflater,container,false)
         return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
-    private fun setupButton() {
-        binding.botonGuardar.setOnClickListener {
-            sendDataToServer()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.root.findViewById<Button>(R.id.boton_guardar_golpe).setOnClickListener {
+            guardarEnLaListaStp()
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _biding = null
-    }
-
-    private fun sendDataToServer() {
+        private fun guardarEnLaListaStp() {
         if (chequedoDeDatos()) {
             val dataProfundidadInicial = binding.profundidadInicial.text.toString().toDouble()
             val dataProfundidadFinal = binding.profundidadFinal.text.toString().toDouble()
-            val dataMuestrasNumero = binding.muestraNro.text.toString().toDouble()
+            val dataMuestrasNumero = binding.muestraNro.text.toString().toDoubleOrNull()
             val dataTipo = binding.spinnerTipo.selectedItem.toString()
-            val dataStp1 = binding.inputStp1.text.toString().toInt()
-            val dataStp2 = binding.inputStp2.text.toString().toInt()
-            val dataStp3 = binding.inputStp3.text.toString().toInt()
-            val dataSucs: Sucs = Sucs.CH
-            //val dataNivelFreatico = binding.valorNf.text.toString().toDouble()
-            val dataDescripcion = binding.descripcion.text.toString()
-            val pf = Profundidad(
+            val dataStp1 = binding.inputStp1.text.toString().toIntOrNull()
+            val dataStp2 = binding.inputStp2.text.toString().toIntOrNull()
+            val dataStp3 = binding.inputStp3.text.toString().toIntOrNull()
+            val pf = GolpesStp(
                 0,
                 0,
                 dataProfundidadInicial,
@@ -79,16 +67,14 @@ class FormFragmentSTP : Fragment() {
                 dataStp1,
                 dataStp2,
                 dataStp3,
-                dataSucs,
-                dataDescripcion,
-                //dataNivelFreatico
             )
             //Con esto ya estoy guardando una entrada.
-            viewModel.updateListProfundidades(pf)
+            viewModel.agregarGolpe( pf)
             findNavController().popBackStack()
 
         }else{
-            Toast.makeText(context,"Faltan los datos mínimos para cargar un profundidad", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,"Faltan los datos mínimos para cargar un profundidad, mínimamente es necesario" +
+                    "cargar la profundidad inicial y final", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -100,12 +86,11 @@ class FormFragmentSTP : Fragment() {
         binding.inputStp1.text = null
         binding.inputStp2.text = null
         binding.inputStp3.text =  null
-        //binding.valorNf.text = null
-        binding.descripcion.text = null
     }
     private fun chequedoDeDatos(): Boolean {
-        return binding.profundidadFinal.text?.isEmpty() == false &&/* binding.muestraNro.text?.isEmpty() == false
+        return binding.profundidadFinal.text?.isEmpty() == false
+                && binding.profundidadInicial.text?.isEmpty() == false/* binding.muestraNro.text?.isEmpty() == false
                 && binding.inputStp1.text?.isEmpty() == false && binding.inputStp2.text?.isEmpty() == false &&
-                binding.inputStp3.text?.isEmpty() == false &&*/ binding.descripcion.text?.isEmpty() == false
+                binding.inputStp3.text?.isEmpty() == false &&*/
     }
 }

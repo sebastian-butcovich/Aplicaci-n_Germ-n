@@ -160,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:transitionName="coordenadaE"
                 android:hint="E°"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal|numberSigned" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -179,7 +179,7 @@
                 android:layout_height="wrap_content"
                 android:transitionName="coordenadaN"
                 android:hint="N°"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal|numberSigned" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

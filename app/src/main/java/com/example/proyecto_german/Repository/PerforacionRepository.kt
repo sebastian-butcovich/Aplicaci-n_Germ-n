@@ -2,8 +2,10 @@ package com.example.proyecto_german.Repository
 
 import android.util.Log
 import com.example.proyecto_german.Data.Dao.PerforacionDAO
+import com.example.proyecto_german.Model.GolpesStp
 import com.example.proyecto_german.Model.PerforacionModel
 import com.example.proyecto_german.Model.Profundidad
+import com.example.proyecto_german.Model.Temporales.ProfundidadConGolpes
 
 class PerforacionRepository(private val dao: PerforacionDAO) {
     suspend fun guardarPerforacion(perforacion: PerforacionModel){
@@ -11,14 +13,17 @@ class PerforacionRepository(private val dao: PerforacionDAO) {
     }
     suspend fun guardarPerforacionConProfundiades(
         perforacion: PerforacionModel,
-        profundiades:List<Profundidad>
+        profundiadConGolpes:List<ProfundidadConGolpes>
     ){
-        dao.insetarPerforacionConProfundidades(perforacion,profundiades)
+        dao.insertarPerforacionCompleta(perforacion,profundiadConGolpes)
     }
     suspend fun  obtenerPerforaciones():List<PerforacionModel>{
         return dao.getAllPerforaciones()
     }
     suspend fun obtenerProfundiadesDeUnaPerforacion(idPerforacion:Long):List<Profundidad>{
         return dao.obtenerProfundidadesDeUnaPerforacion(idPerforacion)
+    }
+    suspend fun obtenerGolpesDeUnaProfundidad(idProfundidad:Long):List<GolpesStp>{
+        return dao.obtenerGolpesDeUnaProfundidad(idProfundidad)
     }
 }

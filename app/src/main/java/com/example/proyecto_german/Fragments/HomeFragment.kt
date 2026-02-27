@@ -61,10 +61,10 @@ class HomeFragment: Fragment() {
             },
             onExportClick = {perforacion->
                 lifecycleScope.launch {
-                   val profundidades = viewModel.obtenerProfundidadesDeUnaPerforacion(perforacion.id)
+                   val profundidadesConGolpes = viewModel.obtenerProfundidadesYGolpesDeUnaPerforacion(perforacion.id)
                     val manipularExcel= ManipularExcel()
                     manipularExcel.exportarSTP(requireContext()
-                        ,perforacion, profundidades )
+                        ,perforacion, profundidadesConGolpes )
                 }
 
             })

@@ -5,29 +5,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.Toast
-import androidx.annotation.NonNull
-import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.proyecto_german.Adapters.Profundidad.ProfundiadAdapter
+import com.example.proyecto_german.Adapters.STP.StpAdapter
 import com.example.proyecto_german.Data.Application.PerforacionesApplication
 import com.example.proyecto_german.Model.Profundidad
+import com.example.proyecto_german.Model.Sucs
 import com.example.proyecto_german.R
 import com.example.proyecto_german.Repository.PerforacionRepository
 import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
 import com.example.proyecto_german.ViewModel.PerforacionViewModel
-import com.example.proyecto_german.databinding.FragmentFormularioPerforacionProfundidadBinding
+import com.example.proyecto_german.databinding.FragmentProfundidadBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlin.getValue
 
-class FormFragmentProfundidad: Fragment() {
-    private var _biding : FragmentFormularioPerforacionProfundidadBinding? =null
-    private val binding get() = _biding!!
+class FormFragmentProfundidad : Fragment() {
+    private var _binding: FragmentProfundidadBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel: PerforacionViewModel by activityViewModels {
         PeforacionViewModelFactory(
             PerforacionRepository(
@@ -35,50 +38,102 @@ class FormFragmentProfundidad: Fragment() {
             )
         )
     }
-    private lateinit var adapter: ProfundiadAdapter
+    private lateinit var adapter: StpAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _biding = FragmentFormularioPerforacionProfundidadBinding.inflate(inflater,container,false)
-        binding.root.findViewById<FloatingActionButton>(R.id.button_floting_add).setOnClickListener {
-            findNavController().navigate(R.id.action_formFragmentProfundidad_to_formFragmentSTP2)
-        }
+        _binding = FragmentProfundidadBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecyclerView()
+        botonAgregar()
         observerAdapter()
-        guardarDatos()
+        accionarCheckBox()
+        agregarStpAccion()
+        mostrarLista()
     }
 
-    private fun guardarDatos() {
-        binding.root.findViewById<Button>(R.id.boton_guardar).setOnClickListener {
-            viewModel.agregarPerforacion()
-            Toast.makeText(requireContext(),"Base de datos guardada",Toast.LENGTH_SHORT).show()
+    private fun accionarCheckBox() {
+        val check = binding.root.findViewById<CheckBox>(R.id.checkGolpes)
+        val inputProfundidadIncial = binding.root.findViewById<TextInputEditText>(R.id.profundidadInicialProfundidad)
+        val inputProfundidadFinal = binding.root.findViewById<TextInputEditText>(R.id.profundidadFinalProfundidad)
+        val botonAgregarStp = binding.root.findViewById<FloatingActionButton>(R.id.button_floting_add_stp)
+        inputProfundidadIncial.visibility = View.GONE
+        inputProfundidadFinal.visibility = View.GONE
+       check.setOnClickListener {
+           if(check.isChecked){
+               inputProfundidadIncial.visibility = View.VISIBLE
+               inputProfundidadFinal.visibility = View.VISIBLE
+               botonAgregarStp.visibility = View.GONE
+           }else{
+               inputProfundidadIncial.visibility = View.GONE
+               inputProfundidadFinal.visibility = View.GONE
+               botonAgregarStp.visibility = View.VISIBLE
+           }
+       }
+    }
+
+    private fun agregarStpAccion(){
+        binding.buttonFlotingAddStp.setOnClickListener {
+            binding.root.findNavController().navigate(R.id.action_formFragmentProfundidad_to_formFragmentGolpes)
         }
     }
-
-    private fun initRecyclerView(){
-        adapter = ProfundiadAdapter(emptyList()){
-            profundidad -> onItemSelected(profundidad)
+    private fun mostrarLista(){
+        adapter = StpAdapter(emptyList()){
+            golpeStp->onItemSelected()
         }
         binding.listaSpt.layoutManager = LinearLayoutManager(requireContext())
         binding.listaSpt.adapter = adapter
     }
-    fun onItemSelected(profundidad: Profundidad){
-        Toast.makeText(requireContext(),profundidad.descripcion,Toast.LENGTH_SHORT).show()
+
+    private fun onItemSelected() {
+        Toast.makeText(requireContext(),"Seleccionaste un item",Toast.LENGTH_SHORT).show()
     }
-    private fun observerAdapter(){
-        viewModel.profundidades.observe(viewLifecycleOwner){
-            lista->
-            adapter.updateList(lista)
+
+    private fun botonAgregar() {
+        binding.root.findViewById<Button>(R.id.boton_guardar_profundidad).setOnClickListener {
+
+            cargarDatosProfundidad()
         }
     }
-
-
-
+    private fun cargarDatosProfundidad(){
+        val primerGolpe = viewModel.golpesActuales.firstOrNull()
+        val ultimoGolpe = viewModel.golpesActuales.lastOrNull()
+        var profundidadInicial:Double? ;
+        var profundidadFinal:Double?
+        if(primerGolpe == null || ultimoGolpe == null){
+            profundidadInicial = binding.profundidadInicialProfundidad.text.toString().toDoubleOrNull()
+            profundidadFinal = binding.profundidadFinalProfundidad.text.toString().toDoubleOrNull()
+        }else{
+            profundidadInicial = primerGolpe.profundidad_inicial
+            profundidadFinal = ultimoGolpe.profundidad_final
+        }
+        val profundidad = Profundidad(
+            id=0, perforacionId =0,
+            descripcion = binding.descripcion.text.toString(),
+            simbolo = binding.spinnerSimbolo.selectedItem.toString(),
+            sucs = Sucs.valueOf(
+                binding.spinnerSucs.selectedItem.toString()
+            ),
+            profundidadFinal =  profundidadFinal,
+            profundidadInicial = profundidadInicial
+        )
+        viewModel.profundidadActual = profundidad
+        viewModel.confirmarProfundidadConGolpes()
+        findNavController().popBackStack()
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+    private fun observerAdapter() {
+        viewModel.golpesLiveData.observe(viewLifecycleOwner) { lista ->
+            adapter.actualizarLista(lista)
+        }
+    }
 }

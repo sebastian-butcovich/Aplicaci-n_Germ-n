@@ -42,8 +42,8 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.menu_registro -> {
                     if (currentId != R.id.formFragment &&
-                        currentId != R.id.formFragmentProfundidad &&
-                        currentId != R.id.formFragmentSTP
+                        currentId != R.id.formFragmentProfundidades &&
+                        currentId != R.id.formFragmentProfundidad
                     ) {
                         navController.navigate(R.id.formFragment)
                     }
@@ -66,18 +66,18 @@ class MainActivity : AppCompatActivity() {
                     item.title = "Registro de perforación"
                 }
 
-                R.id.formFragmentProfundidad -> {
+                R.id.formFragmentProfundidades -> {
                     binding.navView.selectedItemId = R.id.menu_registro
                     val item = binding.navView.menu.findItem(R.id.menu_registro)
                     item.setIcon(R.drawable.lista_icon)
-                    item.title = "Lista STP"
+                    item.title = "Registro Profundidades"
                 }
 
-                R.id.formFragmentSTP -> {
+                R.id.formFragmentProfundidad -> {
                     binding.navView.selectedItemId = R.id.menu_registro
                     val item = binding.navView.menu.findItem(R.id.menu_registro)
                     item.setIcon(R.drawable.form_icon_stp)
-                    item.title = "Registro STP"
+                    item.title = "Registro Profundidad"
                 }
             }
         }

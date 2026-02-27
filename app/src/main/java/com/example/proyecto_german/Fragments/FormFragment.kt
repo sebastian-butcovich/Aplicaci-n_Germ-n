@@ -59,7 +59,7 @@ class FormFragment: Fragment() {
             if(chequeoDatosFormulario()){
                 val perforacion = obtenerDatosDeLosInputs()
                 viewModel.actulizarPerforacion(perforacion)
-                findNavController().navigate(R.id.action_formFragment_to_formFragmentProfundidad)
+                findNavController().navigate(R.id.action_formFragment_to_formFragmentProfundidades)
             }else{
                 Toast.makeText(context,"No ingresaste los dato mínimos del formulario",Toast.LENGTH_SHORT).show()
             }

@@ -10,6 +10,7 @@
     <string name="home">Registro de perforaciones</string>
     <string name="entradas">Entradas</string>
     <string-array name="valores_sucs">
+        <item>VACIO</item>
         <item>CH</item>
         <item>MH</item>
         <item>SM</item>
@@ -21,5 +22,17 @@
     <string-array name="valores_freatico">
         <item>No</item>
         <item>Si</item>
+    </string-array>
+    <string-array name="valores_simbolo">
+        <item>VACIO</item>
+        <item>ARENA</item>
+        <item>GRAVAS</item>
+        <item>CL</item>
+        <item>CH</item>
+        <item>ML</item>
+        <item>MH</item>
+        <item>OL</item>
+        <item>OH</item>
+        <item>PT</item>
     </string-array>
 </resources>

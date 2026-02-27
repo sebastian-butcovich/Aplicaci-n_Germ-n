@@ -22,9 +22,12 @@ data class Profundidad (
     val perforacionId:Long,
     val sucs: Sucs,
     val descripcion: String,
-   // val nf: Double,
+    val simbolo: String,
+    val profundidadInicial:Double?=0.0,
+    val profundidadFinal:Double?=0.0
 )
 enum class Sucs{
+    VACIO,
     CH,
     MH,
     SM,

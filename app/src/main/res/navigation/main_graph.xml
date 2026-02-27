@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
     app:startDestination="@id/homeFragment">
+
     <fragment
         android:id="@+id/formFragment"
         android:name="com.example.proyecto_german.Fragments.FormFragment"
         android:label="fragment_formulario_perforacion"
         tools:layout="@layout/fragment_formulario_perforacion" >
         <action
-            android:id="@+id/action_formFragment_to_formFragmentProfundidad"
-            app:destination="@id/formFragmentProfundidad" />
-    </fragment>
-    <fragment
-        android:id="@+id/formFragmentProfundidad"
-        android:name="com.example.proyecto_german.Fragments.FormFragmentProfundidad"
-        android:label="fragment_formulario_perforacion_profundidad"
-        tools:layout="@layout/fragment_formulario_perforacion_profundidad" >
-        <action
-            android:id="@+id/action_formFragmentProfundidad_to_formFragmentSTP2"
-            app:destination="@id/formFragmentSTP" />
+            android:id="@+id/action_formFragment_to_formFragmentProfundidades"
+            app:destination="@id/formFragmentProfundidades" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.proyecto_german.Fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_formFragment"
+            app:destination="@id/formFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/formFragmentSTP"
-        android:name="com.example.proyecto_german.Fragments.FormFragmentSTP"
-        android:label="formulario_spt"
-        tools:layout="@layout/fragment_formulario_spt" />
+        android:id="@+id/formFragmentGolpes"
+        android:name="com.example.proyecto_german.Fragments.FormFragmentGolpes"
+        android:label="fragment_golpes_stp"
+        tools:layout="@layout/fragment_golpes_stp" />
+    <fragment
+        android:id="@+id/formFragmentProfundidad"
+        android:name="com.example.proyecto_german.Fragments.FormFragmentProfundidad"
+        android:label="fragment_profundidad"
+        tools:layout="@layout/fragment_profundidad" >
+        <action
+            android:id="@+id/action_formFragmentProfundidad_to_formFragmentGolpes"
+            app:destination="@id/formFragmentGolpes" />
+    </fragment>
+    <fragment
+        android:id="@+id/formFragmentProfundidades"
+        android:name="com.example.proyecto_german.Fragments.FormFragmentProfundidades"
+        android:label="fragment_profundidades"
+        tools:layout="@layout/fragment_profundidades" >
+        <action
+            android:id="@+id/action_formFragmentProfundidades_to_formFragmentProfundidad"
+            app:destination="@id/formFragmentProfundidad" />
+    </fragment>
 </navigation>

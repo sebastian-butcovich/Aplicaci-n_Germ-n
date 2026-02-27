@@ -4,39 +4,57 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
+import com.example.proyecto_german.Model.GolpesStp
 import com.example.proyecto_german.Model.PerforacionConProfundidadesModel
 import com.example.proyecto_german.Model.PerforacionModel
 import com.example.proyecto_german.Model.Profundidad
+import com.example.proyecto_german.Model.Temporales.ProfundidadConGolpes
 
 @Dao
 interface PerforacionDAO {
     @Query("SELECT * FROM perforaciones")
     suspend fun getAllPerforaciones(): List<PerforacionModel>
-    @Query("SELECT * FROM profundidades where perforacionId=:idPerforacion order by  profundidad_inicial")
+    @Query("SELECT * FROM profundidades where perforacionId=:idPerforacion ")
     suspend fun obtenerProfundidadesDeUnaPerforacion( idPerforacion:Long):List<Profundidad>
     @Insert
     suspend fun agregarPerforacion(perforacionModel: PerforacionModel): Long
     @Insert
-    suspend fun agregarProfundidades(profundidades:List<Profundidad>)
+    suspend fun agregarProfundidad(profundidades:Profundidad) :Long
+    @Insert
+    suspend fun agregarGolpes(golpesStp: List<GolpesStp>)
     @Transaction
     @Query("SELECT * FROM perforaciones")
     suspend fun getPerforacionConProfundiades(): List<PerforacionConProfundidadesModel>
-
+    @Query("SELECT * FROM golpesStp where profundidadId=:idProfundidad")
+    suspend fun obtenerGolpesDeUnaProfundidad(idProfundidad:Long):List<GolpesStp>
     @Transaction
-   suspend fun insetarPerforacionConProfundidades(
+   suspend fun insertarPerforacionCompleta(
        perforacion: PerforacionModel,
-       profundidades:List<Profundidad>
+       profundidadConGolpes: List<ProfundidadConGolpes>
    )
    {
        //Agrego la perforacion
        val perforacionId = agregarPerforacion(perforacion)
        // Tomo cada profundidad
-       //Esto tiene que devolver otra lista
-       val profundiadesConId = profundidades.map {
-           // A cada profundidad le agrego el Id de la perforación en su campo foreignt key
-           it.copy(perforacionId = perforacionId)
+       for(item in profundidadConGolpes){
+           val profundidadId = agregarProfundidad(
+               item.profundidad.copy(perforacionId=perforacionId)
+           )
+           //3. Convertir golpes temporales a entidad real
+           val golpesReales = item.golpes.map {
+               GolpesStp(
+                   profundidadId=profundidadId,
+                   profundidad_inicial = it.profundidad_inicial,
+                   profundidad_final = it.profundidad_final,
+                   numero_muestra = it.numero_muestra,
+                   tipo=it.tipo,
+                   golpes1 = it.golpes1,
+                   golpes2 = it.golpes2,
+                   golpes3 = it.golpes3
+               )
+           }
+           agregarGolpes(golpesReales)
        }
-       //Agrego todas las profundiades
-       agregarProfundidades(profundiadesConId)
    }
+
 }

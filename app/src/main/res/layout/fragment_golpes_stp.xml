@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.FormFragmentSTP">
+    tools:context=".Fragments.FormFragmentGolpes">
 
     <LinearLayout
         android:id="@+id/fragment_extension_formulario"
@@ -17,8 +17,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Agregar una entrada de la perforación"
-            android:textSize="20sp"
+            android:text="Agregar Golpes"
+            android:textAlignment="center"
+            android:textSize="30sp"
             android:layout_marginBottom="5dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -142,57 +143,10 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contenedor_susc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <!--        <com.google.android.material.textfield.TextInputEditText-->
-            <!--            android:id="@+id/susc"-->
-            <!--            android:layout_width="match_parent"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-            <!--            android:hint="SUCS"-->
-            <!--            android:inputType="numberDecimal"/>-->
-            <Spinner
-                android:id="@+id/spinner_sucs"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:entries="@array/valores_sucs"
-                android:hint="Sucs"
-                android:minHeight="50dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <!--    <com.google.android.material.textfield.TextInputLayout-->
-        <!--        android:id="@+id/contenedor_valor_nf"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        app:endIconMode="clear_text"-->
-        <!--        app:layout_constraintEnd_toEndOf="parent"-->
-        <!--        app:layout_constraintStart_toEndOf="@id/contendor_stp2"-->
-        <!--        app:layout_constraintTop_toTopOf="parent">-->
-        <!--        <com.google.android.material.textfield.TextInputEditText-->
-        <!--            android:id="@+id/valor_nf"-->
-        <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:hint="Valor Nivel Freatico"-->
-        <!--            android:inputType="numberDecimal"/>-->
-        <!--    </com.google.android.material.textfield.TextInputLayout>-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contenedor_descripcion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/descripcion"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Descripción del subsuelo"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/boton_guardar"
+            android:id="@+id/boton_guardar_golpe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="GUARDAR ENTRADA"
