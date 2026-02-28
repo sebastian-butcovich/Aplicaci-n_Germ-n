@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_formFragment"
             app:destination="@id/formFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_formFragmentProfundidades"
+            app:destination="@id/formFragmentProfundidades" />
     </fragment>
     <fragment
         android:id="@+id/formFragmentGolpes"

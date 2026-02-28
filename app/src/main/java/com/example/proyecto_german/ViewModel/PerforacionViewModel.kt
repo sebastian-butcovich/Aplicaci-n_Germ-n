@@ -91,4 +91,11 @@ class PerforacionViewModel(
     suspend fun obtenerGolpesDeUnaProfundidad(idProfundidad: Long):List<GolpesStp>{
             return repository.obtenerGolpesDeUnaProfundidad(idProfundidad)
     }
+    fun abrirPerforacionParaVisualizar(perforacion: PerforacionModel){
+        viewModelScope.launch {
+            _perforacion.value = perforacion
+            val lista = obtenerProfundidadesYGolpesDeUnaPerforacion(perforacion.id)
+            _profundidadGolpes.value = lista.toMutableList()
+        }
+    }
 }

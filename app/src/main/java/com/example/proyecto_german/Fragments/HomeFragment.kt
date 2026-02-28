@@ -5,16 +5,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_german.Adapters.Perforacion.PerforacionAdapter
 import com.example.proyecto_german.Adapters.Profundidad.ProfundiadAdapter
 import com.example.proyecto_german.Data.Application.PerforacionesApplication
 import com.example.proyecto_german.Model.PerforacionModel
 import com.example.proyecto_german.Model.Profundidad
+import com.example.proyecto_german.R
 import com.example.proyecto_german.Repository.PerforacionRepository
 import com.example.proyecto_german.Util.ManipularExcel
 import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
@@ -51,8 +54,6 @@ class HomeFragment: Fragment() {
        initRecyclerView()
         observarPerforaciones()
         viewModel.obtenerPerforaciones()
-        binding
-
     }
     private fun initRecyclerView(){
         adapter = PerforacionAdapter(emptyList(),
@@ -66,8 +67,16 @@ class HomeFragment: Fragment() {
                     manipularExcel.exportarSTP(requireContext()
                         ,perforacion, profundidadesConGolpes )
                 }
-
-            })
+            },
+            onVerProfundidadesClick = { perforacion->
+                lifecycleScope.launch {
+                    viewModel.abrirPerforacionParaVisualizar(perforacion)
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_formFragmentProfundidades
+                    )
+                }
+            }
+        )
         binding.listaPerforaciones.layoutManager = LinearLayoutManager(requireContext())
         binding.listaPerforaciones.adapter = adapter
     }

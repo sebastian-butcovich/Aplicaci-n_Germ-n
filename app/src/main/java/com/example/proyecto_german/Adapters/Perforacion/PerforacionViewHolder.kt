@@ -9,7 +9,8 @@ import com.example.proyecto_german.databinding.ItemPerforacionBinding
 class PerforacionViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val binding = ItemPerforacionBinding.bind(view)
     fun render(perforacion: PerforacionModel,onClickListener:(PerforacionModel)-> Unit,
-               onExportClick:(PerforacionModel)-> Unit){
+               onExportClick:(PerforacionModel)-> Unit,
+               onVerProfundidadesClick:(PerforacionModel)-> Unit){
         binding.proyecto.text = "Proyecto: "+perforacion.proyecto
         binding.cliente.text = "Cliente: "+perforacion.cliente
         binding.atencion.text = "Atención: "+ perforacion.atencion
@@ -21,6 +22,9 @@ class PerforacionViewHolder(view: View): RecyclerView.ViewHolder(view) {
         }
         binding.btnExportar.setOnClickListener {
             onExportClick(perforacion)
+        }
+        binding.btnVerProfundidades.setOnClickListener {
+            onVerProfundidadesClick(perforacion)
         }
     }
 }
