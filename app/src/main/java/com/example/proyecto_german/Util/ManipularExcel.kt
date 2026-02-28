@@ -66,6 +66,7 @@ class ManipularExcel {
             )
             formatearCeldas(workbook,sheet,profundidadConGolpe)
             escribirDatos(profundidadConGolpe, sheet)
+            darEstiloALasEntradas(workbook,sheet,profundidadConGolpe)
         }
         FileOutputStream(archivo).use { output ->
             workbook.write(output)
@@ -93,9 +94,11 @@ class ManipularExcel {
         for(golpe in golpes){
             filaInicial = profuntidadANumeroDeFila(golpe.profundidad_inicial)
             filaFinal = profuntidadANumeroDeFila(golpe.profundidad_final)
-            sheet.addMergedRegion(CellRangeAddress(filaInicial+1,filaFinal-1,6,6))
-            sheet.addMergedRegion(CellRangeAddress(filaInicial+1,filaFinal-1,7,8))
-            sheet.addMergedRegion(CellRangeAddress(filaInicial+1,filaFinal-1,9,9))
+            sheet.addMergedRegion(CellRangeAddress(filaInicial,filaFinal-1,6,6))
+            sheet.addMergedRegion(CellRangeAddress(filaInicial,filaFinal-1,7,8))
+            sheet.addMergedRegion(CellRangeAddress(filaInicial,filaFinal-1,9,9))
+            sheet.addMergedRegion(CellRangeAddress(filaInicial,filaFinal-1,10,10))
+            sheet.addMergedRegion(CellRangeAddress(filaInicial,filaFinal-1,11,11))
         }
     }
 
@@ -105,47 +108,37 @@ class ManipularExcel {
     ) {
         val golpes = profundidadConGolpes.golpes.toList().orEmpty();
         var filaInicial: Int
-        var filaFinal: Int
-        if (golpes.isEmpty()) {
-            filaInicial =
-                profuntidadANumeroDeFila(profundidadConGolpes.profundidad.profundidadInicial!!)
-            filaFinal =
-                profuntidadANumeroDeFila(profundidadConGolpes.profundidad.profundidadFinal!!)
-        } else {
-            filaInicial =
-                profuntidadANumeroDeFila(profundidadConGolpes.golpes.firstOrNull()?.profundidad_inicial!!)
-            filaFinal =
-                profuntidadANumeroDeFila(profundidadConGolpes.golpes.lastOrNull()?.profundidad_final!!)
+        filaInicial =
+            profuntidadANumeroDeFila(profundidadConGolpes.profundidad.profundidadInicial!!)
+
             for (i in 0..golpes.size - 1) {
+                val filaInicialGolpe =
+                    profuntidadANumeroDeFila(profundidadConGolpes.golpes[i].profundidad_inicial)
                 if (golpes[i].numero_muestra != null) {
-                    sheet.getRow(filaFinal - 4).getCell(6).setCellValue(golpes[i].numero_muestra!!)
+                    sheet.getRow(filaInicialGolpe).getCell(6).setCellValue(golpes[i].numero_muestra!!)
                 }
-                sheet.getRow(filaFinal - 4).getCell(7).setCellValue(golpes[i].tipo)
-                if (golpes[i].golpes1 == null) {
-                    sheet.getRow(filaFinal - 4).getCell(9)
+                sheet.getRow(filaInicialGolpe).getCell(7).setCellValue(golpes[i].tipo)
+                if (golpes[i].golpes1 != null) {
+                    sheet.getRow(filaInicialGolpe).getCell(9)
                         .setCellValue(golpes[i].golpes1.toString())
                 }
-                if (golpes[i].golpes2 == null) {
-                    sheet.getRow(filaFinal - 4).getCell(10)
+                if (golpes[i].golpes2 != null) {
+                    sheet.getRow(filaInicialGolpe).getCell(10)
                         .setCellValue(golpes[i].golpes2.toString())
                 }
-                if (golpes[i].golpes2 == null) {
+                if (golpes[i].golpes3 != null) {
 
-                    sheet.getRow(filaFinal - 4).getCell(11)
+                    sheet.getRow(filaInicialGolpe).getCell(11)
                         .setCellValue(golpes[i].golpes3.toString())
                 }
             }
-        }
+
         if (profundidadConGolpes.profundidad.sucs != Sucs.VACIO) {
             sheet.getRow(filaInicial).getCell(12)
                 .setCellValue(profundidadConGolpes.profundidad.sucs.toString())
         }
         sheet.getRow(filaInicial).getCell(13)
             .setCellValue(profundidadConGolpes.profundidad.descripcion)
-    }
-
-    private fun determinarSiHayGolpes(golpesStp: GolpesStp): Boolean {
-        return golpesStp.golpes1 != 0 || golpesStp.golpes2 != 0 || golpesStp.golpes3 != 0;
     }
 
     fun exportarSTP(
@@ -246,5 +239,39 @@ class ManipularExcel {
 //            sheet.getRow(filaFinal-4).getCell(11).cellStyle = estilo;
 //            sheet.getRow(filaFinal).getCell(11).cellStyle = estilo;
 //        }
+    }
+    private fun darEstiloALasEntradas(workbook: XSSFWorkbook,sheet: XSSFSheet,profundidadConGolpes: ProfundidadConGolpes){
+        val golpes = profundidadConGolpes.golpes
+        var i:Int =0
+        val estilos = EstiloExcel()
+        for(golpe in golpes){
+            var filaInicial = profuntidadANumeroDeFila(golpe.profundidad_inicial)
+            var filaFinal = profuntidadANumeroDeFila(golpe.profundidad_final)
+            sheet.getRow(filaInicial).getCell(6).cellStyle = estilos.estilarGolpes(
+                workbook,sheet,filaInicial,6,i,golpes.size-1,
+                filaFinal
+            )
+            sheet.getRow(filaInicial).getCell(7).cellStyle = estilos.estilarGolpes(
+                workbook,sheet,filaInicial,7,i,golpes.size-1,
+                filaFinal
+            )
+            sheet.getRow(filaInicial).getCell(8).cellStyle = estilos.estilarGolpes(
+                workbook,sheet,filaInicial,8,i,golpes.size-1,
+                filaFinal
+            )
+            sheet.getRow(filaInicial).getCell(9).cellStyle = estilos.estilarGolpes(
+                workbook,sheet,filaInicial,9,i,golpes.size-1,
+                filaFinal
+            )
+            sheet.getRow(filaInicial).getCell(10).cellStyle = estilos.estilarGolpes(
+                workbook,sheet,filaInicial,10,i,golpes.size-1,
+                filaFinal
+            )
+            sheet.getRow(filaInicial).getCell(11).cellStyle = estilos.estilarGolpes(
+                workbook,sheet,filaInicial,11,i,golpes.size-1,
+                filaFinal
+            )
+            i++
+        }
     }
 }
