@@ -98,4 +98,11 @@ class PerforacionViewModel(
             _profundidadGolpes.value = lista.toMutableList()
         }
     }
+    fun abrirGolpesParaVisualizar(profundidad: Profundidad){
+        viewModelScope.launch {
+            profundidadActual = profundidad
+            val lista = obtenerGolpesDeUnaProfundidad(profundidad.id)
+            _golpesLiveData.value = lista.toMutableList()
+        }
+    }
 }

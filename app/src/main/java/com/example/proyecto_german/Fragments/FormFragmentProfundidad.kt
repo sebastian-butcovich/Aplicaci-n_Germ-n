@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +26,7 @@ import com.example.proyecto_german.databinding.FragmentProfundidadBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.launch
 import kotlin.getValue
 
 class FormFragmentProfundidad : Fragment() {
@@ -51,31 +53,86 @@ class FormFragmentProfundidad : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        inicializarValores()
         botonAgregar()
         observerAdapter()
         accionarCheckBox()
+        mostrarInputsProfundidades()
         agregarStpAccion()
         mostrarLista()
+    }
+    private fun inicializarValores(){
+        val posicion = determinarValorSucs()
+        binding.spinnerSucs.setSelection(posicion)
+        binding.descripcion.setText(
+            viewModel.profundidadActual?.descripcion
+        )
+        binding.spinnerSimbolo.setSelection(posicion)
+        binding.checkGolpes.isChecked = !determinarSiHayGolpes()
+        if(binding.checkGolpes.isChecked){
+            accionarCheckBox()
+        }
+        binding.profundidadInicialProfundidad.setText(
+            viewModel.profundidadActual?.profundidadInicial.toString())
+
+        binding.profundidadFinalProfundidad.setText(
+            viewModel.profundidadActual?.profundidadFinal.toString()
+        )
+    }
+    private fun determinarSiHayGolpes():Boolean{
+        var retorno = false
+        lifecycleScope.launch {
+            val lista = viewModel.obtenerGolpesDeUnaProfundidad(viewModel.profundidadActual!!.id)
+            if(lista.isEmpty()){
+                retorno = true
+            }
+        }
+        return retorno
+    }
+    private fun determinarValorSucs():Int {
+      val valor = binding.spinnerSucs.selectedItem
+      if(valor == Sucs.VACIO.toString()){
+          return 0
+      }else if(valor == Sucs.CH.toString()){
+          return 1
+      }else if(valor == Sucs.MH.toString()) {
+          return 2
+      }else if(valor == Sucs.SM.toString()){
+          return 3
+      }else
+          return 4
     }
 
     private fun accionarCheckBox() {
         val check = binding.root.findViewById<CheckBox>(R.id.checkGolpes)
+       check.setOnClickListener {
+          mostrarInputsProfundidades()
+       }
+    }
+
+    private fun mostrarInputsProfundidades() {
+        val check = binding.root.findViewById<CheckBox>(R.id.checkGolpes)
         val inputProfundidadIncial = binding.root.findViewById<TextInputEditText>(R.id.profundidadInicialProfundidad)
+        val contenedorProfundidadInicial = binding.root.findViewById<TextInputLayout>(R.id.contenedorProfundidadInicialProfundidad)
+        val contenedorProfundidadFinal = binding.root.findViewById<TextInputLayout>(R.id.contenedorProfundidadFinalProfundidad)
         val inputProfundidadFinal = binding.root.findViewById<TextInputEditText>(R.id.profundidadFinalProfundidad)
         val botonAgregarStp = binding.root.findViewById<FloatingActionButton>(R.id.button_floting_add_stp)
         inputProfundidadIncial.visibility = View.GONE
         inputProfundidadFinal.visibility = View.GONE
-       check.setOnClickListener {
-           if(check.isChecked){
-               inputProfundidadIncial.visibility = View.VISIBLE
-               inputProfundidadFinal.visibility = View.VISIBLE
-               botonAgregarStp.visibility = View.GONE
-           }else{
-               inputProfundidadIncial.visibility = View.GONE
-               inputProfundidadFinal.visibility = View.GONE
-               botonAgregarStp.visibility = View.VISIBLE
-           }
-       }
+        if(check.isChecked){
+            inputProfundidadIncial.visibility = View.VISIBLE
+            inputProfundidadFinal.visibility = View.VISIBLE
+            contenedorProfundidadFinal.visibility = View.VISIBLE
+            contenedorProfundidadInicial.visibility = View.VISIBLE
+            botonAgregarStp.visibility = View.GONE
+        }else{
+
+            inputProfundidadIncial.visibility = View.GONE
+            contenedorProfundidadFinal.visibility = View.GONE
+            contenedorProfundidadInicial.visibility = View.GONE
+            inputProfundidadFinal.visibility = View.GONE
+            botonAgregarStp.visibility = View.VISIBLE
+        }
     }
 
     private fun agregarStpAccion(){
@@ -97,7 +154,6 @@ class FormFragmentProfundidad : Fragment() {
 
     private fun botonAgregar() {
         binding.root.findViewById<Button>(R.id.boton_guardar_profundidad).setOnClickListener {
-
             cargarDatosProfundidad()
         }
     }

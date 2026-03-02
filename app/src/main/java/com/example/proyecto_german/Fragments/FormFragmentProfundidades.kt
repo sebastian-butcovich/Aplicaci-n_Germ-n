@@ -62,9 +62,18 @@ class FormFragmentProfundidades: Fragment() {
     }
 
     private fun initRecyclerView(){
-        adapter = ProfundiadAdapter(emptyList()){
-            profundidad -> onItemSelected(profundidad)
-        }
+        adapter = ProfundiadAdapter(emptyList(),
+            onClickListener = {profundidad ->
+                onItemSelected(profundidad)
+            },
+            onClickVerGolpes = {profundidad ->
+                viewModel.abrirGolpesParaVisualizar(profundidad)
+                findNavController().navigate(R.id.action_formFragmentProfundidades_to_formFragmentProfundidad)
+            },
+            onClickEditar = {profundidad -> },
+            onClickEliminar = {profundidad ->
+
+            })
         binding.listaProfundidad.layoutManager = LinearLayoutManager(requireContext())
         binding.listaProfundidad.adapter = adapter
     }

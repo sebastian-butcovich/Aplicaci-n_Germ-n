@@ -7,7 +7,10 @@ import com.example.proyecto_german.Adapters.Profundidad.ProfundidadViewHolder
 import com.example.proyecto_german.Model.Profundidad
 import com.example.proyecto_german.R
 
-class ProfundiadAdapter(var profundidades: List<Profundidad>, private val onClickListener: (Profundidad)-> Unit): RecyclerView.Adapter<ProfundidadViewHolder>() {
+class ProfundiadAdapter(var profundidades: List<Profundidad>, private val onClickListener: (Profundidad)-> Unit,
+private val onClickVerGolpes:(Profundidad)->Unit,
+    private val onClickEditar:(Profundidad)->Unit,
+    private val onClickEliminar:(Profundidad)->Unit): RecyclerView.Adapter<ProfundidadViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -31,7 +34,7 @@ class ProfundiadAdapter(var profundidades: List<Profundidad>, private val onClic
         position: Int
     ) {
         val item = profundidades.get(position)
-        holder.render(item,onClickListener)
+        holder.render(item,onClickListener,onClickVerGolpes,onClickEditar,onClickEliminar)
     }
 
     override fun getItemCount(): Int = profundidades.size

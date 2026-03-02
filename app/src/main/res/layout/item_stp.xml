@@ -89,5 +89,30 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/numero_muestra" />
         </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contendor_botones_stp"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/boton_editar_stp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/contendor_botones_stp"
+                app:layout_constraintStart_toStartOf="@+id/contendor_botones_stp"
+                app:layout_constraintEnd_toStartOf="@+id/boton_eliminar_stp"
+                android:layout_marginHorizontal="5dp"
+                android:text="Editar"/>
+            <Button
+                android:id="@+id/boton_eliminar_stp"
+                android:layout_width="0dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/bordo"
+                app:layout_constraintTop_toTopOf="@+id/contendor_botones_stp"
+                app:layout_constraintStart_toEndOf="@+id/boton_editar_stp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="Eliminar"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
