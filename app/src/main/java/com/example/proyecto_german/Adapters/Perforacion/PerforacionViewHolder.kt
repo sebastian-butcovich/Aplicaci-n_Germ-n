@@ -10,7 +10,9 @@ class PerforacionViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val binding = ItemPerforacionBinding.bind(view)
     fun render(perforacion: PerforacionModel,onClickListener:(PerforacionModel)-> Unit,
                onExportClick:(PerforacionModel)-> Unit,
-               onVerProfundidadesClick:(PerforacionModel)-> Unit){
+               onVerProfundidadesClick:(PerforacionModel)-> Unit,
+               onEliminarClick:(PerforacionModel)-> Unit,
+               onEditarClick:(PerforacionModel)-> Unit){
         binding.proyecto.text = "Proyecto: "+perforacion.proyecto
         binding.cliente.text = "Cliente: "+perforacion.cliente
         binding.atencion.text = "Atención: "+ perforacion.atencion
@@ -25,6 +27,12 @@ class PerforacionViewHolder(view: View): RecyclerView.ViewHolder(view) {
         }
         binding.btnVerProfundidades.setOnClickListener {
             onVerProfundidadesClick(perforacion)
+        }
+        binding.btnEliminarProfundidad.setOnClickListener {
+            onEliminarClick(perforacion)
+        }
+        binding.btnEditarProfundidad.setOnClickListener {
+            onEditarClick(perforacion)
         }
     }
 }

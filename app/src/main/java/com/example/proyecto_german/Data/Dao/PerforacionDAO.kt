@@ -56,5 +56,11 @@ interface PerforacionDAO {
            agregarGolpes(golpesReales)
        }
    }
+    @Query("DELETE FROM golpesStp WHERE id=:id")
+    suspend fun eliminarGolpe(id: Long)
+    @Query("DELETE FROM Profundidades WHERE id=:id")
+    suspend fun  eliminarProfundidad(id:Long)
+    @Query("DELETE FROM perforaciones where id=:id")
+    suspend fun eliminarPerforacion(id:Long)
 
 }

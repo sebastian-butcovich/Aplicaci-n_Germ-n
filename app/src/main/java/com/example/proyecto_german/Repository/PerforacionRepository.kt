@@ -26,4 +26,13 @@ class PerforacionRepository(private val dao: PerforacionDAO) {
     suspend fun obtenerGolpesDeUnaProfundidad(idProfundidad:Long):List<GolpesStp>{
         return dao.obtenerGolpesDeUnaProfundidad(idProfundidad)
     }
+    suspend fun eliminarGolpe(id: Long){
+        return dao.eliminarGolpe(id)
+    }
+    suspend fun eliminarProfundidad(id:Long){
+        return dao.eliminarProfundidad(id)
+    }
+    suspend fun eliminarPerforacion(id:Long){
+        return dao.eliminarPerforacion(id)
+    }
 }

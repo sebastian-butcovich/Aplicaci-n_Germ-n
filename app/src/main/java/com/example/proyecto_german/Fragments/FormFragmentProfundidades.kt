@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.map
@@ -72,7 +73,18 @@ class FormFragmentProfundidades: Fragment() {
             },
             onClickEditar = {profundidad -> },
             onClickEliminar = {profundidad ->
-
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Eliminar Profundidad")
+                builder.setMessage("¿Desea eliminar esta profundidad?")
+                builder.setPositiveButton("Sí"){
+                        dialog, which ->
+                    viewModel.eliminarProfundidad(profundidad)
+                }
+                builder.setNegativeButton("No"){dialog, which ->
+                    dialog.dismiss()
+                }
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
             })
         binding.listaProfundidad.layoutManager = LinearLayoutManager(requireContext())
         binding.listaProfundidad.adapter = adapter

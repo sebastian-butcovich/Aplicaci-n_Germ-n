@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -75,7 +76,22 @@ class HomeFragment: Fragment() {
                         R.id.action_homeFragment_to_formFragmentProfundidades
                     )
                 }
-            }
+            },
+            onEliminarClick = {perforacion->
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Eliminar Perforacion")
+                builder.setMessage("¿Desea eliminar esta perforacion?")
+                builder.setPositiveButton("Sí"){
+                        dialog, which ->
+                    viewModel.eliminarPerforacion(perforacion)
+                }
+                builder.setNegativeButton("No"){dialog, which ->
+                    dialog.dismiss()
+                }
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
+            },
+            onEditarClick = {perforacion->}
         )
         binding.listaPerforaciones.layoutManager = LinearLayoutManager(requireContext())
         binding.listaPerforaciones.adapter = adapter

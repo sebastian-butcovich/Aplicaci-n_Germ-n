@@ -7,7 +7,9 @@ import com.example.proyecto_german.databinding.ItemStpBinding
 
 class StpViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val binding = ItemStpBinding.bind(view)
-    fun render(golpesStp: GolpesStp,onClickListener:(GolpesStp)-> Unit){
+    fun render(golpesStp: GolpesStp,onClickListener:(GolpesStp)-> Unit,
+               editarGolpe:(GolpesStp)-> Unit,
+               eliminarGolpe:(GolpesStp)->Unit){
         binding.profundiadInicial.text = buildString {
             append("Profundidad Inicial: ")
             append(golpesStp.profundidad_inicial.toString())
@@ -38,6 +40,9 @@ class StpViewHolder(view: View): RecyclerView.ViewHolder(view) {
         }
         itemView.setOnClickListener {
             onClickListener(golpesStp)
+        }
+        binding.botonEliminarGolpe.setOnClickListener {
+            eliminarGolpe(golpesStp)
         }
     }
 }

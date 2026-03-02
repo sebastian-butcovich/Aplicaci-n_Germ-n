@@ -1,6 +1,7 @@
 package com.example.proyecto_german.ViewModel
 
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,6 +30,12 @@ class PerforacionViewModel(
      val golpesActuales = mutableListOf<GolpesStp>()
      private val _golpesLiveData = MutableLiveData<List<GolpesStp>>(emptyList<GolpesStp>())
     val golpesLiveData: LiveData<List<GolpesStp>> get() = _golpesLiveData
+    enum class ModoProfundidad{
+        CREAR,
+        EDITAR,
+        VER
+    }
+    var modoProfundidad = ModoProfundidad.CREAR
     fun obtenerPerforaciones(){
         viewModelScope.launch {
             _perforaciones.value = repository.obtenerPerforaciones()
@@ -102,7 +109,30 @@ class PerforacionViewModel(
         viewModelScope.launch {
             profundidadActual = profundidad
             val lista = obtenerGolpesDeUnaProfundidad(profundidad.id)
+            golpesActuales.clear()
+            golpesActuales.addAll(lista)
             _golpesLiveData.value = lista.toMutableList()
+        }
+    }
+    fun eliminarGolpe(golpe: GolpesStp){
+        viewModelScope.launch {
+            repository.eliminarGolpe(golpe.id)
+            val profundidad = profundidadActual ?: return@launch
+            abrirGolpesParaVisualizar(profundidad)
+        }
+    }
+    fun eliminarProfundidad(profundidad: Profundidad){
+        viewModelScope.launch {
+            repository.eliminarProfundidad(profundidad.id)
+            val perforacion = _perforacion.value?:return@launch
+            val nuevaLista = obtenerProfundidadesYGolpesDeUnaPerforacion(perforacion.id)
+            _profundidadGolpes.value = nuevaLista.toMutableList()
+        }
+    }
+    fun eliminarPerforacion(perforacion: PerforacionModel){
+        viewModelScope.launch {
+            repository.eliminarPerforacion(perforacion.id)
+            obtenerPerforaciones()
         }
     }
 }

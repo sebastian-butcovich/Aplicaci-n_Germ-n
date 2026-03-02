@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_german.Adapters.STP.StpAdapter
 import com.example.proyecto_german.Data.Application.PerforacionesApplication
+import com.example.proyecto_german.Model.GolpesStp
 import com.example.proyecto_german.Model.Profundidad
 import com.example.proyecto_german.Model.Sucs
 import com.example.proyecto_german.R
@@ -30,6 +32,7 @@ import kotlinx.coroutines.launch
 import kotlin.getValue
 
 class FormFragmentProfundidad : Fragment() {
+
     private var _binding: FragmentProfundidadBinding? = null
     private val binding get() = _binding!!
 
@@ -48,59 +51,74 @@ class FormFragmentProfundidad : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentProfundidadBinding.inflate(inflater, container, false)
+        when(viewModel.modoProfundidad){
+            PerforacionViewModel.ModoProfundidad.CREAR -> habilitarEdicion(true)
+            PerforacionViewModel.ModoProfundidad.EDITAR -> habilitarEdicion(true)
+            PerforacionViewModel.ModoProfundidad.VER -> habilitarEdicion(false)
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mostrarLista()
+        observerAdapter()
         inicializarValores()
         botonAgregar()
-        observerAdapter()
         accionarCheckBox()
         mostrarInputsProfundidades()
         agregarStpAccion()
-        mostrarLista()
     }
     private fun inicializarValores(){
-        val posicion = determinarValorSucs()
-        binding.spinnerSucs.setSelection(posicion)
-        binding.descripcion.setText(
-            viewModel.profundidadActual?.descripcion
+        //Existe la profundidad o no tenes nada que hacer
+        val profundidad = viewModel.profundidadActual?:return
+        binding.spinnerSucs.setSelection(
+            obtenerPosicionSucs(profundidad.sucs)
         )
-        binding.spinnerSimbolo.setSelection(posicion)
-        binding.checkGolpes.isChecked = !determinarSiHayGolpes()
+        binding.descripcion.setText(
+            profundidad.descripcion
+        )
+        binding.spinnerSimbolo.setSelection(
+            obtenerPosicionSimbolo(profundidad.simbolo)
+        )
+
         if(binding.checkGolpes.isChecked){
             accionarCheckBox()
         }
         binding.profundidadInicialProfundidad.setText(
-            viewModel.profundidadActual?.profundidadInicial.toString())
+            profundidad.profundidadInicial?.toString()?:"")
 
         binding.profundidadFinalProfundidad.setText(
-            viewModel.profundidadActual?.profundidadFinal.toString()
+            profundidad.profundidadFinal?.toString()?:""
         )
+        cargarEstadosGolpes(profundidad.id)
     }
-    private fun determinarSiHayGolpes():Boolean{
-        var retorno = false
+    private fun cargarEstadosGolpes(idProfundidad: Long){
         lifecycleScope.launch {
-            val lista = viewModel.obtenerGolpesDeUnaProfundidad(viewModel.profundidadActual!!.id)
-            if(lista.isEmpty()){
-                retorno = true
-            }
+            val golpes = viewModel.obtenerGolpesDeUnaProfundidad(idProfundidad)
+            val hayGolpes = golpes.isNotEmpty()
+            binding.checkGolpes.isChecked = !hayGolpes
+            mostrarInputsProfundidades()
         }
-        return retorno
     }
-    private fun determinarValorSucs():Int {
-      val valor = binding.spinnerSucs.selectedItem
-      if(valor == Sucs.VACIO.toString()){
-          return 0
-      }else if(valor == Sucs.CH.toString()){
-          return 1
-      }else if(valor == Sucs.MH.toString()) {
-          return 2
-      }else if(valor == Sucs.SM.toString()){
-          return 3
-      }else
-          return 4
+    private fun obtenerPosicionSimbolo(simbolo: String): Int{
+        when(simbolo){
+            "ARENA"->return 1
+            "GRAVAS"->return 2
+            "CL"->return 3
+            "CH"->return 4
+            "ML"->return 5
+            "MH"->return 6
+            "OL"->return 7
+            "OH"->return 8
+            "PT"->return 9
+
+        }
+        return 0
+    }
+
+    private fun obtenerPosicionSucs(sucs: Sucs):Int {
+      return Sucs.entries.indexOf(sucs)
     }
 
     private fun accionarCheckBox() {
@@ -141,14 +159,32 @@ class FormFragmentProfundidad : Fragment() {
         }
     }
     private fun mostrarLista(){
-        adapter = StpAdapter(emptyList()){
-            golpeStp->onItemSelected()
-        }
+        adapter = StpAdapter(emptyList(),
+            onClickListener = { golpesStp ->
+                onItemSelected(golpesStp)
+            },
+            editarGolpe = {golpesStp ->
+
+            },
+            eliminarGolpe = {golpesStp ->
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Eliminar golpe")
+                builder.setMessage("¿Desea eliminar este golpe?")
+                builder.setPositiveButton("Sí"){
+                    dialog, which ->
+                    viewModel.eliminarGolpe(golpesStp)
+                }
+                builder.setNegativeButton("No"){dialog, which ->
+                    dialog.dismiss()
+                }
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
+            })
         binding.listaSpt.layoutManager = LinearLayoutManager(requireContext())
         binding.listaSpt.adapter = adapter
     }
 
-    private fun onItemSelected() {
+    private fun onItemSelected(golpe: GolpesStp) {
         Toast.makeText(requireContext(),"Seleccionaste un item",Toast.LENGTH_SHORT).show()
     }
 
@@ -191,5 +227,11 @@ class FormFragmentProfundidad : Fragment() {
         viewModel.golpesLiveData.observe(viewLifecycleOwner) { lista ->
             adapter.actualizarLista(lista)
         }
+    }
+    private fun habilitarEdicion(habilitar:Boolean){
+        binding.descripcion.isEnabled = habilitar
+        binding.spinnerSucs.isEnabled = habilitar
+        binding.spinnerSimbolo.isEnabled = habilitar
+        binding.checkGolpes.isEnabled = habilitar
     }
 }
