@@ -44,5 +44,9 @@ class StpViewHolder(view: View): RecyclerView.ViewHolder(view) {
         binding.botonEliminarGolpe.setOnClickListener {
             eliminarGolpe(golpesStp)
         }
+        binding.botonEditarStp.setOnClickListener {
+            editarGolpe(golpesStp)
+        }
+
     }
 }

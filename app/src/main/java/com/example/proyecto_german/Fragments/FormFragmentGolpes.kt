@@ -43,42 +43,60 @@ class FormFragmentGolpes: Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observarGolpe()
+        if(viewModel._golpeActual.value == null){
+            limpiarCampos()
+        }
         binding.root.findViewById<Button>(R.id.boton_guardar_golpe).setOnClickListener {
             guardarEnLaListaStp()
         }
     }
 
         private fun guardarEnLaListaStp() {
-        if (chequedoDeDatos()) {
-            val dataProfundidadInicial = binding.profundidadInicial.text.toString().toDouble()
-            val dataProfundidadFinal = binding.profundidadFinal.text.toString().toDouble()
-            val dataMuestrasNumero = binding.muestraNro.text.toString().toDoubleOrNull()
-            val dataTipo = binding.spinnerTipo.selectedItem.toString()
-            val dataStp1 = binding.inputStp1.text.toString().toIntOrNull()
-            val dataStp2 = binding.inputStp2.text.toString().toIntOrNull()
-            val dataStp3 = binding.inputStp3.text.toString().toIntOrNull()
-            val pf = GolpesStp(
-                0,
-                0,
-                dataProfundidadInicial,
-                dataProfundidadFinal,
-                dataMuestrasNumero,
-                dataTipo,
-                dataStp1,
-                dataStp2,
-                dataStp3,
-            )
-            //Con esto ya estoy guardando una entrada.
-            viewModel.agregarGolpe( pf)
-            findNavController().popBackStack()
-
-        }else{
-            Toast.makeText(context,"Faltan los datos mínimos para cargar un profundidad, mínimamente es necesario" +
-                    "cargar la profundidad inicial y final", Toast.LENGTH_SHORT).show()
-        }
+            if (!chequedoDeDatos()) {
+                Toast.makeText(context,"Faltan los datos mínimos para cargar un profundidad, mínimamente es necesario" +
+                        "cargar la profundidad inicial y final", Toast.LENGTH_SHORT).show()
+            }else{
+                val dataProfundidadInicial = binding.profundidadInicial.text.toString().toDouble()
+                val dataProfundidadFinal = binding.profundidadFinal.text.toString().toDouble()
+                val dataMuestrasNumero = binding.muestraNro.text.toString().toDoubleOrNull()
+                val dataTipo = binding.spinnerTipo.selectedItem.toString()
+                val dataStp1 = binding.inputStp1.text.toString().toIntOrNull()
+                val dataStp2 = binding.inputStp2.text.toString().toIntOrNull()
+                val dataStp3 = binding.inputStp3.text.toString().toIntOrNull()
+                val golpeExistente = viewModel.golpeActualLiveData.value
+                if(golpeExistente == null){
+                    val pf = GolpesStp(
+                        0,
+                        0,
+                        dataProfundidadInicial,
+                        dataProfundidadFinal,
+                        dataMuestrasNumero,
+                        dataTipo,
+                        dataStp1,
+                        dataStp2,
+                        dataStp3,
+                    )
+                    //Con esto ya estoy guardando una entrada.
+                    viewModel.agregarGolpe( pf)
+                }else{
+                    val golpeActualizado = golpeExistente.copy(
+                        id=golpeExistente.id,
+                        profundidad_inicial = dataProfundidadInicial,
+                        profundidad_final = dataProfundidadFinal,
+                        tipo = dataTipo,
+                        numero_muestra = dataMuestrasNumero,
+                        golpes1 = dataStp1,
+                        golpes2 = dataStp2,
+                        golpes3 = dataStp3
+                        )
+                    viewModel.actualizarGolpe(golpeActualizado)
+                }
+                findNavController().popBackStack()
+            }
     }
 
-    override fun onResume() {
+    private fun limpiarCampos() {
         super.onResume()
         binding.profundidadInicial.text = null
         binding.profundidadFinal.text = null
@@ -92,5 +110,41 @@ class FormFragmentGolpes: Fragment() {
                 && binding.profundidadInicial.text?.isEmpty() == false/* binding.muestraNro.text?.isEmpty() == false
                 && binding.inputStp1.text?.isEmpty() == false && binding.inputStp2.text?.isEmpty() == false &&
                 binding.inputStp3.text?.isEmpty() == false &&*/
+    }
+//    private fun inicializarValores(){
+//        val golpe = viewModel._golpeActual.value ?: return
+//        binding.profundidadInicial.setText(
+//            golpe.profundidad_inicial.toString()
+//        )
+//        binding.profundidadFinal.setText(
+//            golpe.profundidad_final.toString()
+//        )
+//        binding.inputStp1.setText(golpe.golpes1.toString())
+//        binding.inputStp2.setText(golpe.golpes2.toString())
+//        binding.inputStp3.setText(golpe.golpes3.toString())
+//    }
+    private fun observarGolpe(){
+        viewModel.golpeActualLiveData.observe(viewLifecycleOwner){
+            golpe->
+            golpe ?: return@observe
+            binding.profundidadInicial.setText(
+                golpe.profundidad_inicial.toString()
+            )
+            binding.profundidadFinal.setText(
+                golpe.profundidad_final.toString()
+            )
+            binding.muestraNro.setText(
+                golpe.numero_muestra?.toString()
+            )
+            binding.inputStp1.setText(
+                golpe.golpes1?.toString()
+            )
+            binding.inputStp2.setText(
+                golpe.golpes2?.toString()
+            )
+            binding.inputStp3.setText(
+                golpe.golpes3?.toString()
+            )
+        }
     }
 }

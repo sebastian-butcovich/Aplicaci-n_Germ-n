@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.proyecto_german.Data.Application.PerforacionesApplication
 import com.example.proyecto_german.Model.PerforacionModel
@@ -21,8 +22,10 @@ import com.example.proyecto_german.ViewModel.PerforacionViewModel
 import com.example.proyecto_german.databinding.FragmentFormularioPerforacionBinding
 import kotlin.getValue
 import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 class FormFragment: Fragment() {
@@ -50,9 +53,53 @@ class FormFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         accionBoton()
+        limpiarFormulario()
         generarCalendario()
+        if(viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.EDITAR){
+            cambiarAEditar()
+            inicializarInputs()
+        }
     }
 
+    private fun limpiarFormulario() {
+        binding.inputCliente.setText("")
+        binding.inputProyecto.setText("")
+        binding.inputAtencion.setText("")
+        binding.inputProfundidad.setText("")
+        binding.inputEstadoTiempo.setText("")
+        binding.inputLecturaInicial.setText("")
+        binding.inputLecturaFinal.setText("")
+        binding.inputCoordenadaN.setText("")
+        binding.inputCoordenadaE.setText("")
+        binding.inputNumeroPerforacion.setText("")
+        binding.inputLocalizacion.setText("")
+        binding.spinnerNivelFreatico.setSelection(0)
+    }
+
+    private fun cambiarAEditar() {
+        binding.botonContinuar.visibility = View.GONE
+        binding.botonEditar.visibility = View.VISIBLE
+    }
+
+    private fun inicializarInputs(){
+        val perforacion = viewModel.perforacionEdit ?:return
+        binding.inputCliente.setText(perforacion.cliente)
+        binding.inputAtencion.setText(perforacion.atencion)
+        binding.inputProyecto.setText(perforacion.proyecto)
+        binding.inputLocalizacion.setText(perforacion.localizacion)
+        binding.inputNumeroPerforacion.setText(perforacion.numeroPerforacion.toString())
+        binding.inputProfundidad.setText(perforacion.profundidadMetros.toString())
+        binding.inputCoordenadaE.setText(perforacion.coordenadaE.toString())
+        binding.inputCoordenadaN.setText(perforacion.coordenadaN.toString())
+        if(perforacion.nivelFreatico ){
+            binding.spinnerNivelFreatico.setSelection(1)
+        }else{
+            binding.spinnerNivelFreatico.setSelection(0)
+        }
+        binding.inputLecturaInicial.setText(perforacion.lecturaInicial.toString())
+        binding.inputLecturaFinal.setText(perforacion.lecturaFinal.toString())
+        binding.inputEstadoTiempo.setText(perforacion.estadoDelTiempo)
+    }
     fun accionBoton(){
         val miBoton = binding.root.findViewById<Button>(R.id.boton_continuar)
         miBoton.setOnClickListener {
@@ -60,6 +107,14 @@ class FormFragment: Fragment() {
                 val perforacion = obtenerDatosDeLosInputs()
                 viewModel.actulizarPerforacion(perforacion)
                 findNavController().navigate(R.id.action_formFragment_to_formFragmentProfundidades)
+            }else{
+                Toast.makeText(context,"No ingresaste los dato mínimos del formulario",Toast.LENGTH_SHORT).show()
+            }
+        }
+        binding.root.findViewById<Button>(R.id.boton_editar).setOnClickListener {
+            if(chequeoDatosFormulario()){
+                val perforacion = obtenerDatosDeLosInputs()
+                viewModel.actulizarPerforacion(perforacion)
             }else{
                 Toast.makeText(context,"No ingresaste los dato mínimos del formulario",Toast.LENGTH_SHORT).show()
             }
@@ -100,11 +155,23 @@ class FormFragment: Fragment() {
         val lecturaInicial = binding.inputLecturaInicial.text.toString().toDouble()
         val lecturaFinal = binding.inputLecturaFinal.text.toString().toDouble()
         val estadoTiempo = binding.inputEstadoTiempo.text.toString()
-        var p= PerforacionModel(0,"",fecha,
-            "",cliente,atencion,proyecto,localizacion,fecha,numeroPerforacion
-            ,profundidad,coordenadaX,coordenadaY,
-            nivelFreatico,lecturaInicial,lecturaFinal,estadoTiempo)
-        return p
+        if(viewModel.perforacionEdit != null && viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.EDITAR ){
+            val p= PerforacionModel(
+                viewModel.perforacionEdit!!.id,"",fecha,
+                "",cliente,atencion,proyecto,localizacion,fecha,numeroPerforacion
+                ,profundidad,coordenadaX,coordenadaY,
+                nivelFreatico,lecturaInicial,lecturaFinal,estadoTiempo)
+            viewModel.actualizarPerforacion(p)
+            viewModel.obtenerPerforaciones()
+            findNavController().popBackStack()
+            return p
+        }else{
+            val p= PerforacionModel(0,"",fecha,
+                "",cliente,atencion,proyecto,localizacion,fecha,numeroPerforacion
+                ,profundidad,coordenadaX,coordenadaY,
+                nivelFreatico,lecturaInicial,lecturaFinal,estadoTiempo)
+            return p
+        }
 
     }
 
@@ -129,7 +196,12 @@ class FormFragment: Fragment() {
     }
     private fun pasarDatosAlInputFecha(calendario: Calendar){
         val formatoFecha = "dd-MM-yyyy"
-        val formatoSimple = SimpleDateFormat(formatoFecha, Locale.ENGLISH)
+        val formatoSimple = SimpleDateFormat(formatoFecha, Locale.getDefault())
         binding.inputFecha.setText(formatoSimple.format(calendario.time))
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.modoProfundidad = PerforacionViewModel.ModoProfundidad.CREAR
     }
 }

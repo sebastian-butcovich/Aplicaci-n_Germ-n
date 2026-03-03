@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.proyecto_german.Model.GolpesStp
 import com.example.proyecto_german.Model.PerforacionModel
 
@@ -19,6 +20,7 @@ class PerforacionViewModel(
 ): ViewModel() {
     // Está variable sirve para guardar la perforación nueva agregada y guardarla cuando sea necesario
     private val _perforacion = MutableLiveData<PerforacionModel?>()
+    var perforacionEdit: PerforacionModel? = null
     //Esta estructura va a guardar la lista de perforaciones.
     private val _perforaciones = MutableLiveData<List<PerforacionModel>>()
     // Esta lista sirve para mostrar y dar seguimiento a los datos
@@ -30,6 +32,8 @@ class PerforacionViewModel(
      val golpesActuales = mutableListOf<GolpesStp>()
      private val _golpesLiveData = MutableLiveData<List<GolpesStp>>(emptyList<GolpesStp>())
     val golpesLiveData: LiveData<List<GolpesStp>> get() = _golpesLiveData
+    var _golpeActual = MutableLiveData<GolpesStp?>()
+    val golpeActualLiveData: LiveData<GolpesStp?> =_golpeActual
     enum class ModoProfundidad{
         CREAR,
         EDITAR,
@@ -58,7 +62,11 @@ class PerforacionViewModel(
          val perforacion = _perforacion.value ?: return
          val profundidades = profundidadesConGolpes.value.orEmpty()
         viewModelScope.launch {
-            repository.guardarPerforacionConProfundiades(perforacion,profundidades)
+            if(perforacion.id == 0L){
+                repository.guardarPerforacionConProfundiades(perforacion,profundidades)
+            }else{
+                repository.acutliarPerforacionConProfundidad(perforacion,profundidades)
+            }
             _perforacion.postValue(null)
             _profundidadGolpes.postValue(mutableListOf())
         }
@@ -114,6 +122,12 @@ class PerforacionViewModel(
             _golpesLiveData.value = lista.toMutableList()
         }
     }
+    fun limpiarAgregarProfundidad(){
+       modoProfundidad = PerforacionViewModel.ModoProfundidad.CREAR
+        profundidadActual = null
+        golpesActuales.clear()
+        _golpesLiveData.value = emptyList<GolpesStp>()
+    }
     fun eliminarGolpe(golpe: GolpesStp){
         viewModelScope.launch {
             repository.eliminarGolpe(golpe.id)
@@ -134,5 +148,42 @@ class PerforacionViewModel(
             repository.eliminarPerforacion(perforacion.id)
             obtenerPerforaciones()
         }
+    }
+    fun seleccionarGolpe(golpe: GolpesStp){
+        _golpeActual.value = golpe
+    }
+    fun actualizarGolpe(golpeEditado: GolpesStp){
+        viewModelScope.launch {
+            repository.actualizarGolpe(golpeEditado)
+            val profundidad = profundidadActual ?: return@launch
+            val nuevaLista = repository.obtenerGolpesDeUnaProfundidad(profundidad.id)
+            golpesActuales.clear()
+            golpesActuales.addAll(nuevaLista)
+            _golpesLiveData.value = golpesActuales.toList()
+        }
+        _golpeActual.value = null
+    }
+    fun actuarlizarProfundidadBaseDatos(profundidad: Profundidad,golpes:List<GolpesStp>){
+        viewModelScope.launch {
+            val golpesAgregar = golpes.filter {
+                it.id ==0L
+            }.map { golpe->
+                    golpe.copy()
+
+            }
+            repository.agregarGolpe(golpesAgregar)
+            repository.actualizarProfundidad(profundidad)
+            profundidadActual = profundidad
+            val perforacion = _perforacion.value ?: return@launch
+            val nuevaLista = obtenerProfundidadesYGolpesDeUnaPerforacion(perforacion.id)
+            _profundidadGolpes.value = nuevaLista.toMutableList()
+            profundidadActual = null
+        }
+    }
+    fun actualizarPerforacion(perforacion: PerforacionModel){
+        viewModelScope.launch {
+            repository.actualizarPerforacion(perforacion)
+        }
+
     }
 }

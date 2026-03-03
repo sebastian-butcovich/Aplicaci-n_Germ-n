@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_german.Adapters.Profundidad.ProfundiadAdapter
 import com.example.proyecto_german.Data.Application.PerforacionesApplication
+import com.example.proyecto_german.Model.GolpesStp
 import com.example.proyecto_german.Model.Profundidad
 import com.example.proyecto_german.R
 import com.example.proyecto_german.Repository.PerforacionRepository
@@ -42,7 +43,7 @@ class FormFragmentProfundidades: Fragment() {
         _biding = FragmentProfundidadesBinding.inflate(inflater,container,false)
         binding.root.findViewById<FloatingActionButton>(R.id.button_floting_add).setOnClickListener {
             //Tengo que limpiar la lista de golpes y la profundidad
-
+            viewModel.limpiarAgregarProfundidad()
             findNavController().navigate(R.id.action_formFragmentProfundidades_to_formFragmentProfundidad)
         }
         return binding.root
@@ -68,10 +69,15 @@ class FormFragmentProfundidades: Fragment() {
                 onItemSelected(profundidad)
             },
             onClickVerGolpes = {profundidad ->
+                viewModel.modoProfundidad = PerforacionViewModel.ModoProfundidad.VER
                 viewModel.abrirGolpesParaVisualizar(profundidad)
                 findNavController().navigate(R.id.action_formFragmentProfundidades_to_formFragmentProfundidad)
             },
-            onClickEditar = {profundidad -> },
+            onClickEditar = {profundidad ->
+                viewModel.modoProfundidad = PerforacionViewModel.ModoProfundidad.EDITAR
+                viewModel.abrirGolpesParaVisualizar(profundidad)
+                findNavController().navigate(R.id.action_formFragmentProfundidades_to_formFragmentProfundidad)
+            },
             onClickEliminar = {profundidad ->
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setTitle("Eliminar Profundidad")

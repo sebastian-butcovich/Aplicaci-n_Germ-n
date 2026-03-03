@@ -35,4 +35,20 @@ class PerforacionRepository(private val dao: PerforacionDAO) {
     suspend fun eliminarPerforacion(id:Long){
         return dao.eliminarPerforacion(id)
     }
+    suspend fun actualizarGolpe(golpe: GolpesStp){
+        return dao.actualizarGolpe(golpe)
+    }
+    suspend fun actualizarProfundidad(profundidad: Profundidad){
+        return dao.actualizarProfundidad(profundidad)
+    }
+    suspend fun actualizarPerforacion(perforacion: PerforacionModel){
+        return dao.actualizarPerforacion(perforacion)
+    }
+    suspend fun acutliarPerforacionConProfundidad(perforacion: PerforacionModel, profundidadesConGolpes:List<ProfundidadConGolpes>){
+        return dao.actualizarPerforaciónCompleta(perforacion,profundidadesConGolpes)
+    }
+    //Esta función sirve para cuando actulizo una profundidad y al hacer agrego un golpe nuevo
+    suspend fun agregarGolpe(golpes: List<GolpesStp>){
+        return dao.agregarGolpes(golpes)
+    }
 }

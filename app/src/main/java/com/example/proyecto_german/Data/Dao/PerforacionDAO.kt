@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.example.proyecto_german.Model.GolpesStp
 import com.example.proyecto_german.Model.PerforacionConProfundidadesModel
 import com.example.proyecto_german.Model.PerforacionModel
@@ -62,5 +63,32 @@ interface PerforacionDAO {
     suspend fun  eliminarProfundidad(id:Long)
     @Query("DELETE FROM perforaciones where id=:id")
     suspend fun eliminarPerforacion(id:Long)
+    @Update
+    suspend fun actualizarGolpe(golpe: GolpesStp)
+    @Update
+    suspend fun actualizarProfundidad(profundidad: Profundidad)
+    @Update
+    suspend fun actualizarPerforacion(perforacion: PerforacionModel)
+    @Update
+    suspend fun actualizarPerforaciónCompleta(perforacion: PerforacionModel,
+                                              profundidadesConGolpes:List<ProfundidadConGolpes>){
+        actualizarPerforacion(perforacion)
+        for(profundidadConGolpes in profundidadesConGolpes){
+            if(profundidadConGolpes.profundidad.id !=0L){
+                actualizarProfundidad(profundidadConGolpes.profundidad)
+            }else{
+                val profundidad = profundidadConGolpes.profundidad.copy(
+                    id=profundidadConGolpes.profundidad.id,
+                    perforacionId = perforacion.id,
+                    sucs=profundidadConGolpes.profundidad.sucs,
+                    descripcion = profundidadConGolpes.profundidad.descripcion,
+                    simbolo = profundidadConGolpes.profundidad.simbolo,
+                    profundidadInicial = profundidadConGolpes.profundidad.profundidadInicial,
+                    profundidadFinal = profundidadConGolpes.profundidad.profundidadFinal
+                )
+                agregarProfundidad(profundidad)
+            }
+        }
+    }
 
 }

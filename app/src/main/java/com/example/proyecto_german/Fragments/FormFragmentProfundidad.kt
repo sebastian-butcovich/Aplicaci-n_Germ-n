@@ -155,16 +155,32 @@ class FormFragmentProfundidad : Fragment() {
 
     private fun agregarStpAccion(){
         binding.buttonFlotingAddStp.setOnClickListener {
+            if(viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.CREAR){
+                viewModel.profundidadActual =null
+            }
             binding.root.findNavController().navigate(R.id.action_formFragmentProfundidad_to_formFragmentGolpes)
         }
     }
+
+    private fun limpiarInputs() {
+        binding.descripcion.setText("")
+        binding.profundidadInicialProfundidad.setText("")
+        binding.profundidadInicialProfundidad.setText("")
+        binding.checkGolpes.isChecked = false
+        binding.spinnerSucs.setSelection(0)
+        binding.spinnerSimbolo.setSelection(0)
+    }
+
     private fun mostrarLista(){
         adapter = StpAdapter(emptyList(),
             onClickListener = { golpesStp ->
                 onItemSelected(golpesStp)
             },
             editarGolpe = {golpesStp ->
-
+                viewModel.seleccionarGolpe(golpesStp)
+                findNavController().navigate(
+                    R.id.action_formFragmentProfundidad_to_formFragmentGolpes
+                )
             },
             eliminarGolpe = {golpesStp ->
                 val builder = AlertDialog.Builder(requireContext())
@@ -194,6 +210,7 @@ class FormFragmentProfundidad : Fragment() {
         }
     }
     private fun cargarDatosProfundidad(){
+        val profundidadExistente = viewModel.profundidadActual
         val primerGolpe = viewModel.golpesActuales.firstOrNull()
         val ultimoGolpe = viewModel.golpesActuales.lastOrNull()
         var profundidadInicial:Double? ;
@@ -205,17 +222,51 @@ class FormFragmentProfundidad : Fragment() {
             profundidadInicial = primerGolpe.profundidad_inicial
             profundidadFinal = ultimoGolpe.profundidad_final
         }
-        val profundidad = Profundidad(
-            id=0, perforacionId =0,
-            descripcion = binding.descripcion.text.toString(),
-            simbolo = binding.spinnerSimbolo.selectedItem.toString(),
-            sucs = Sucs.valueOf(
-                binding.spinnerSucs.selectedItem.toString()
-            ),
+        val descripcion = binding.descripcion.text.toString()
+        val simbolo = binding.spinnerSimbolo.selectedItem.toString()
+        val sucs =Sucs.valueOf(
+            binding.spinnerSucs.selectedItem.toString()
+        )
+        val profundidad = if(viewModel.modoProfundidad != PerforacionViewModel.ModoProfundidad.CREAR){
+            profundidadExistente!!.copy(
+            descripcion = descripcion,
+            simbolo = simbolo,
+            sucs = sucs,
             profundidadFinal =  profundidadFinal,
             profundidadInicial = profundidadInicial
         )
-        viewModel.profundidadActual = profundidad
+
+        }else{
+            Profundidad(
+                id=0, perforacionId =0,
+                descripcion = descripcion,
+                simbolo = simbolo,
+                sucs = sucs,
+                profundidadFinal =  profundidadFinal,
+                profundidadInicial = profundidadInicial)
+        }
+        if(viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.CREAR){
+            viewModel.profundidadActual = profundidad
+        }else{
+            val golpes = viewModel.golpesActuales.filter {
+                it.id == 0L
+            }.map {
+                golpe->
+                    golpe.copy(
+                        id= golpe.id,
+                        profundidadId = profundidad.id,
+                        profundidad_inicial = golpe.profundidad_inicial,
+                        profundidad_final = golpe.profundidad_final,
+                        numero_muestra = golpe.numero_muestra,
+                        tipo = golpe.tipo,
+                        golpes1 = golpe.golpes1,
+                        golpes2 = golpe.golpes2,
+                        golpes3 = golpe.golpes3
+                    )
+
+            }
+            viewModel.actuarlizarProfundidadBaseDatos(profundidad,golpes)
+        }
         viewModel.confirmarProfundidadConGolpes()
         findNavController().popBackStack()
     }
@@ -233,5 +284,7 @@ class FormFragmentProfundidad : Fragment() {
         binding.spinnerSucs.isEnabled = habilitar
         binding.spinnerSimbolo.isEnabled = habilitar
         binding.checkGolpes.isEnabled = habilitar
+        binding.profundidadInicialProfundidad.isEnabled = habilitar
+        binding.profundidadFinalProfundidad.isEnabled = habilitar
     }
 }

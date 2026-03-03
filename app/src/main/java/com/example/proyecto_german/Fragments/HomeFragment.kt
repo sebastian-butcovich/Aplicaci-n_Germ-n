@@ -91,7 +91,11 @@ class HomeFragment: Fragment() {
                 val dialog: AlertDialog = builder.create()
                 dialog.show()
             },
-            onEditarClick = {perforacion->}
+            onEditarClick = {perforacion->
+                viewModel.perforacionEdit = perforacion
+                viewModel.modoProfundidad = PerforacionViewModel.ModoProfundidad.EDITAR
+                findNavController().navigate(R.id.action_homeFragment_to_formFragment)
+            }
         )
         binding.listaPerforaciones.layoutManager = LinearLayoutManager(requireContext())
         binding.listaPerforaciones.adapter = adapter
