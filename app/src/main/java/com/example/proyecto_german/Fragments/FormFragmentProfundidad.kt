@@ -68,7 +68,14 @@ class FormFragmentProfundidad : Fragment() {
         accionarCheckBox()
         mostrarInputsProfundidades()
         agregarStpAccion()
+        //En caso de que solo quiera ver los golpes
+        ocultarBotonoesEnCasoDeNoEditar()
     }
+
+    private fun ocultarBotonoesEnCasoDeNoEditar() {
+        viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.VER
+    }
+
     private fun inicializarValores(){
         //Existe la profundidad o no tenes nada que hacer
         val profundidad = viewModel.profundidadActual?:return
@@ -95,7 +102,12 @@ class FormFragmentProfundidad : Fragment() {
     }
     private fun cargarEstadosGolpes(idProfundidad: Long){
         lifecycleScope.launch {
-            val golpes = viewModel.obtenerGolpesDeUnaProfundidad(idProfundidad)
+            val golpes = if(idProfundidad == 0L){
+                viewModel.golpesActuales
+            }else{
+                viewModel.obtenerGolpesDeUnaProfundidad(idProfundidad)
+            }
+
             val hayGolpes = golpes.isNotEmpty()
             binding.checkGolpes.isChecked = !hayGolpes
             mostrarInputsProfundidades()
@@ -155,9 +167,10 @@ class FormFragmentProfundidad : Fragment() {
 
     private fun agregarStpAccion(){
         binding.buttonFlotingAddStp.setOnClickListener {
-            if(viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.CREAR){
-                viewModel.profundidadActual =null
-            }
+           // if(viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.CREAR){
+              //  viewModel.profundidadActual =null
+            //}
+            viewModel._golpeActual.value = null
             binding.root.findNavController().navigate(R.id.action_formFragmentProfundidad_to_formFragmentGolpes)
         }
     }
@@ -178,6 +191,7 @@ class FormFragmentProfundidad : Fragment() {
             },
             editarGolpe = {golpesStp ->
                 viewModel.seleccionarGolpe(golpesStp)
+                viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.EDITAR
                 findNavController().navigate(
                     R.id.action_formFragmentProfundidad_to_formFragmentGolpes
                 )
@@ -195,7 +209,8 @@ class FormFragmentProfundidad : Fragment() {
                 }
                 val dialog: AlertDialog = builder.create()
                 dialog.show()
-            })
+            },
+            viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.VER)
         binding.listaSpt.layoutManager = LinearLayoutManager(requireContext())
         binding.listaSpt.adapter = adapter
     }
@@ -265,11 +280,17 @@ class FormFragmentProfundidad : Fragment() {
                     )
 
             }
-            viewModel.actuarlizarProfundidadBaseDatos(profundidad,golpes)
+            if(profundidad.id !=0L){
+                viewModel.actuarlizarProfundidadBaseDatos(profundidad,golpes)
+            }else{
+                viewModel.actualizarProfundidadEnMemoria(profundidad)
+            }
         }
         viewModel.confirmarProfundidadConGolpes()
         findNavController().popBackStack()
     }
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -286,5 +307,9 @@ class FormFragmentProfundidad : Fragment() {
         binding.checkGolpes.isEnabled = habilitar
         binding.profundidadInicialProfundidad.isEnabled = habilitar
         binding.profundidadFinalProfundidad.isEnabled = habilitar
+        binding.root.findViewById<FloatingActionButton>(R.id.button_floting_add_stp).isEnabled = habilitar
+        if(!habilitar){
+            binding.botonGuardarProfundidad.visibility = View.GONE
+        }
     }
 }

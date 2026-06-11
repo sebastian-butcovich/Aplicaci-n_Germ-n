@@ -43,10 +43,10 @@ class FormFragmentGolpes: Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observarGolpe()
-        if(viewModel._golpeActual.value == null){
+        if(viewModel.golpeActualLiveData.value == null){
             limpiarCampos()
         }
+        observarGolpe()
         binding.root.findViewById<Button>(R.id.boton_guardar_golpe).setOnClickListener {
             guardarEnLaListaStp()
         }
@@ -97,13 +97,12 @@ class FormFragmentGolpes: Fragment() {
     }
 
     private fun limpiarCampos() {
-        super.onResume()
-        binding.profundidadInicial.text = null
-        binding.profundidadFinal.text = null
-        binding.muestraNro.text = null
-        binding.inputStp1.text = null
-        binding.inputStp2.text = null
-        binding.inputStp3.text =  null
+        binding.profundidadInicial.setText("")
+        binding.profundidadFinal.setText("")
+        binding.muestraNro.setText("")
+        binding.inputStp1.setText("")
+        binding.inputStp2.setText("")
+        binding.inputStp3.setText("")
     }
     private fun chequedoDeDatos(): Boolean {
         return binding.profundidadFinal.text?.isEmpty() == false

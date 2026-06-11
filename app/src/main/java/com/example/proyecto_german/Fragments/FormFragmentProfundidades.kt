@@ -105,7 +105,10 @@ class FormFragmentProfundidades: Fragment() {
             adapter.updateList(listaProfundidades)
         }
     }
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _biding = null
+    }
 
 
 }

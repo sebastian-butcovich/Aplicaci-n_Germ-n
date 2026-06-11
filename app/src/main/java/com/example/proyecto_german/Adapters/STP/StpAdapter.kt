@@ -8,7 +8,8 @@ import com.example.proyecto_german.R
 
 class StpAdapter(var golpes:List<GolpesStp>, private val onClickListener: (GolpesStp)-> Unit,
     private val editarGolpe:(GolpesStp)-> Unit,
-    private val eliminarGolpe:(GolpesStp)-> Unit): RecyclerView.Adapter<StpViewHolder>(){
+    private val eliminarGolpe:(GolpesStp)-> Unit,
+                 val soloLectura:Boolean): RecyclerView.Adapter<StpViewHolder>(){
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -25,10 +26,10 @@ class StpAdapter(var golpes:List<GolpesStp>, private val onClickListener: (Golpe
 
     override fun onBindViewHolder(
         holder: StpViewHolder,
-        position: Int
+        position: Int,
     ) {
         val item = golpes.get(position)
-        holder.render(item,onClickListener,editarGolpe,eliminarGolpe)
+        holder.render(item,onClickListener,editarGolpe,eliminarGolpe, soloLectura )
     }
      fun actualizarLista(listaGolpesStp:List<GolpesStp>){
         golpes = listaGolpesStp.toMutableList()
