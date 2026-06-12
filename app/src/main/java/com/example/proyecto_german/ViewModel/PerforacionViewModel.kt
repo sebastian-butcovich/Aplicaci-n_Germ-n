@@ -76,15 +76,6 @@ class PerforacionViewModel(
         }
     }
 
-    fun actualizarProfundidad(profundidad: Profundidad) {
-        profundidadActual = profundidad
-    }
-
-    fun iniciarCargaDeGolpes(profundidad: Profundidad) {
-        profundidadActual = profundidad
-        golpesActuales.clear()
-    }
-
     fun agregarGolpe(golpe: GolpesStp) {
         golpesActuales.add(golpe)
         _golpesLiveData.value = golpesActuales.toList()
@@ -279,18 +270,20 @@ class PerforacionViewModel(
 
     }
      fun actualizarProfundidadEnMemoria(profundidad: Profundidad) {
+       // 1. Obtener la lista actual
         val listaActual = _profundidadGolpes.value?.toMutableList() ?:return
-         val index = listaActual.indexOfFirst {
-             it.profundidad.id == profundidad.id
+         // 2. Mapeo la lista: creo una nueva lista cambiando solamente el elemento que coincide
+         val listaActualizada = listaActual.map { item->
+             if(item.profundidad.id == profundidad.id){
+                 //Encontramos el elemento: lo clonamos con la nueva profundidad
+                 item.copy(profundidad = profundidad)
+             }else{
+                 // No es el elemento que busco: lo dejo como estaba
+                 item
+             }
          }
-         if(index !=-1){
-             val profundidadConGolpes = listaActual[index]
-             listaActual[index] = profundidadConGolpes.copy(
-                 profundidad = profundidad
-             )
-             _profundidadGolpes.value = listaActual
+             _profundidadGolpes.value = listaActualizada
          }
-    }
     fun limpiarProfundidades(){
         _profundidadGolpes.value = emptyList()
     }
