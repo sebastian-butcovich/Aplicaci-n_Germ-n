@@ -60,7 +60,7 @@ class FormFragmentProfundidades: Fragment() {
         binding.root.findViewById<Button>(R.id.boton_guardar).setOnClickListener {
             viewModel.agregarPerforacion()
             Toast.makeText(requireContext(),"Base de datos guardada",Toast.LENGTH_SHORT).show()
-        }
+            findNavController().navigate(R.id.action_formFragmentProfundidades_to_homeFragment)        }
     }
 
     private fun initRecyclerView(){

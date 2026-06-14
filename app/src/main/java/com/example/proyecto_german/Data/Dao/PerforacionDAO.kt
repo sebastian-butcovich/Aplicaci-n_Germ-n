@@ -86,7 +86,20 @@ interface PerforacionDAO {
                     profundidadInicial = profundidadConGolpes.profundidad.profundidadInicial,
                     profundidadFinal = profundidadConGolpes.profundidad.profundidadFinal
                 )
-                agregarProfundidad(profundidad)
+                val idProfundidad:Long =agregarProfundidad(profundidad)
+                val golpesReales = profundidadConGolpes.golpes.map {
+                    GolpesStp(
+                        profundidadId=idProfundidad,
+                        profundidad_inicial = it.profundidad_inicial,
+                        profundidad_final = it.profundidad_final,
+                        numero_muestra = it.numero_muestra,
+                        tipo=it.tipo,
+                        golpes1 = it.golpes1,
+                        golpes2 = it.golpes2,
+                        golpes3 = it.golpes3
+                    )
+                }
+                agregarGolpes(golpesReales)
             }
         }
     }

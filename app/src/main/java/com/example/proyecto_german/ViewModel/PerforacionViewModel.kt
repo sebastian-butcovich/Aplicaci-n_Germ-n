@@ -4,12 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.proyecto_german.Model.GolpesStp
 import com.example.proyecto_german.Model.PerforacionModel
 import com.example.proyecto_german.Model.Profundidad
 import com.example.proyecto_german.Model.Temporales.ProfundidadConGolpes
 import com.example.proyecto_german.Repository.PerforacionRepository
 import kotlinx.coroutines.launch
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 
 class PerforacionViewModel(
     private val repository: PerforacionRepository
@@ -51,8 +54,7 @@ class PerforacionViewModel(
         profundidad: Profundidad,
         golpes: List<GolpesStp>
     ) {
-        val lista =
-            profundidadesConGolpes.value.orEmpty() + ProfundidadConGolpes(profundidad, golpes)
+        var lista  = profundidadesConGolpes.value.orEmpty() + ProfundidadConGolpes(profundidad, golpes)
         _profundidadGolpes.value = lista
     }
 
@@ -83,7 +85,9 @@ class PerforacionViewModel(
 
     fun confirmarProfundidadConGolpes() {
         val profundidad = profundidadActual ?: return
-        agregarProfundidadConGolpes(profundidad, golpesActuales.toList())
+        if(modoProfundidad == ModoProfundidad.CREAR){
+            agregarProfundidadConGolpes(profundidad, golpesActuales.toList())
+        }
         profundidadActual = null;
         golpesActuales.clear()
         _golpesLiveData.value = listOf()
@@ -276,12 +280,13 @@ class PerforacionViewModel(
          val listaActualizada = listaActual.map { item->
              if(item.profundidad.id == profundidad.id){
                  //Encontramos el elemento: lo clonamos con la nueva profundidad
-                 item.copy(profundidad = profundidad)
+                 item.copy(profundidad = profundidad,golpes = golpesActuales.toList())
              }else{
                  // No es el elemento que busco: lo dejo como estaba
                  item
              }
          }
+            profundidadActual = profundidad;
              _profundidadGolpes.value = listaActualizada
          }
     fun limpiarProfundidades(){
