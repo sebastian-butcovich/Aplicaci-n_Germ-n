@@ -16,7 +16,7 @@ data class PerforacionModel(
     val proyecto:String,
     val localizacion:String,
     val fecha: Date,
-    val numeroPerforacion: Int,
+    val numeroPerforacion: Double,
     val profundidadMetros: Double,
     val coordenadaE:Double,
     val coordenadaN: Double,

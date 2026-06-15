@@ -148,7 +148,7 @@ class FormFragment: Fragment() {
         val fecha = java.util.Date()
         val localizacion = binding.inputLocalizacion.text.toString();
         Log.i("Fecha",fecha.toString())
-        val numeroPerforacion = binding.inputNumeroPerforacion.text.toString().toInt()
+        val numeroPerforacion = binding.inputNumeroPerforacion.text.toString().toDouble()
         val profundidad = binding.inputProfundidad.text.toString().toDouble()
         val coordenadaX = binding.inputCoordenadaE.text.toString().toDouble()
         val coordenadaY = binding.inputCoordenadaN.text.toString().toDouble()
@@ -184,6 +184,8 @@ class FormFragment: Fragment() {
             calendario.set(Calendar.DAY_OF_MONTH,dia)
             pasarDatosAlInputFecha(calendario)
         }
+        binding.inputFecha.isFocusable = false
+        binding.inputFecha.isClickable = true
         binding.inputFecha.setOnClickListener {
             DatePickerDialog(
                 requireContext(),

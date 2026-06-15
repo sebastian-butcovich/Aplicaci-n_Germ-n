@@ -7,5 +7,5 @@
     <item
         android:id="@+id/menu_registro"
         android:icon="@drawable/registrar"
-        android:title="Registro de perforación"/>
+        android:title="@string/registro"/>
 </menu>

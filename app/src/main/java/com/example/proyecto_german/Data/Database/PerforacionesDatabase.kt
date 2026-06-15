@@ -11,7 +11,7 @@ import com.example.proyecto_german.Model.Profundidad
 
 @Database(
     entities = [PerforacionModel::class, Profundidad::class, GolpesStp::class]
-    , version = 8,
+    , version = 9,
     exportSchema = false
 )
 @TypeConverters(DataConverters::class)
