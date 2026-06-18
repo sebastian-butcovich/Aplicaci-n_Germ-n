@@ -261,7 +261,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Estado del tiempo"
-            android:inputType="text" />
+            android:inputType="text"
+            android:digits="abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ"/>
     </com.google.android.material.textfield.TextInputLayout>
     <Button
         android:id="@+id/boton_continuar"
