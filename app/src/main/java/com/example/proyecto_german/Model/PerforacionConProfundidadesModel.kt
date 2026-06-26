@@ -5,7 +5,7 @@ import androidx.room.Relation
 
 data class PerforacionConProfundidadesModel(
     @Embedded
-    val perforacion: PerforacionModel,
+    val perforacion: Perforacion,
     @Relation(
         Profundidad::class,
        parentColumn = "id",

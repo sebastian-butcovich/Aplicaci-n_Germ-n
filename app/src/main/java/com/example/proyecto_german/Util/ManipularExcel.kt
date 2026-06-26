@@ -3,8 +3,7 @@ package com.example.proyecto_german.Util
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.FileProvider
-import com.example.proyecto_german.Model.GolpesStp
-import com.example.proyecto_german.Model.PerforacionModel
+import com.example.proyecto_german.Model.Perforacion
 import com.example.proyecto_german.Model.Profundidad
 import com.example.proyecto_german.Model.Sucs
 import com.example.proyecto_german.Model.Temporales.ProfundidadConGolpes
@@ -33,7 +32,7 @@ class ManipularExcel {
 
     fun completarExcel(
         archivo: File,
-        perforacion: PerforacionModel,
+        perforacion: Perforacion,
         profundidadConGolpes: List<ProfundidadConGolpes>
     ) {
         val workbook = XSSFWorkbook(FileInputStream(archivo))
@@ -143,7 +142,7 @@ class ManipularExcel {
 
     fun exportarSTP(
         context: Context,
-        perforacion: PerforacionModel,
+        perforacion: Perforacion,
         profundidadConGolpes: List<ProfundidadConGolpes>
     ) {
         val nombreArchivo = "STP_${perforacion.numeroPerforacion}.xlsx"

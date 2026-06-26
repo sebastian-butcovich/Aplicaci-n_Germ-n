@@ -1,11 +1,9 @@
 package com.example.proyecto_german.Fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -14,10 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_german.Adapters.Perforacion.PerforacionAdapter
-import com.example.proyecto_german.Adapters.Profundidad.ProfundiadAdapter
 import com.example.proyecto_german.Data.Application.PerforacionesApplication
-import com.example.proyecto_german.Model.PerforacionModel
-import com.example.proyecto_german.Model.Profundidad
+import com.example.proyecto_german.Model.Perforacion
 import com.example.proyecto_german.R
 import com.example.proyecto_german.Repository.PerforacionRepository
 import com.example.proyecto_german.Util.ManipularExcel
@@ -100,7 +96,7 @@ class HomeFragment: Fragment() {
         binding.listaPerforaciones.layoutManager = LinearLayoutManager(requireContext())
         binding.listaPerforaciones.adapter = adapter
     }
-    private fun onItemSelected(perforacion: PerforacionModel){
+    private fun onItemSelected(perforacion: Perforacion){
         Toast.makeText(requireContext(),perforacion.proyecto,Toast.LENGTH_SHORT).show()
     }
     private fun observarPerforaciones(){

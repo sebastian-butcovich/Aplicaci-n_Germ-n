@@ -2,17 +2,16 @@ package com.example.proyecto_german.Adapters.Perforacion
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.example.proyecto_german.Model.PerforacionModel
-import com.example.proyecto_german.Util.ManipularExcel
+import com.example.proyecto_german.Model.Perforacion
 import com.example.proyecto_german.databinding.ItemPerforacionBinding
 
 class PerforacionViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val binding = ItemPerforacionBinding.bind(view)
-    fun render(perforacion: PerforacionModel,onClickListener:(PerforacionModel)-> Unit,
-               onExportClick:(PerforacionModel)-> Unit,
-               onVerProfundidadesClick:(PerforacionModel)-> Unit,
-               onEliminarClick:(PerforacionModel)-> Unit,
-               onEditarClick:(PerforacionModel)-> Unit){
+    fun render(perforacion: Perforacion, onClickListener:(Perforacion)-> Unit,
+               onExportClick:(Perforacion)-> Unit,
+               onVerProfundidadesClick:(Perforacion)-> Unit,
+               onEliminarClick:(Perforacion)-> Unit,
+               onEditarClick:(Perforacion)-> Unit){
         binding.proyecto.text = "Proyecto: "+perforacion.proyecto
         binding.cliente.text = "Cliente: "+perforacion.cliente
         binding.atencion.text = "Atención: "+ perforacion.atencion

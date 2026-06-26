@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "Profundidades",
     foreignKeys = [
         ForeignKey(
-            entity = PerforacionModel::class,
+            entity = Perforacion::class,
             parentColumns = ["id"],
             childColumns = ["perforacionId"],
             onDelete = ForeignKey.CASCADE

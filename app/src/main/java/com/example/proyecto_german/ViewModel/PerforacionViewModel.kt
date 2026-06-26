@@ -4,28 +4,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.proyecto_german.Model.GolpesStp
-import com.example.proyecto_german.Model.PerforacionModel
+import com.example.proyecto_german.Model.Perforacion
 import com.example.proyecto_german.Model.Profundidad
 import com.example.proyecto_german.Model.Temporales.ProfundidadConGolpes
 import com.example.proyecto_german.Repository.PerforacionRepository
 import kotlinx.coroutines.launch
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 
 class PerforacionViewModel(
     private val repository: PerforacionRepository
 ) : ViewModel() {
     // Está variable sirve para guardar la perforación nueva agregada y guardarla cuando sea necesario
-    private val _perforacion = MutableLiveData<PerforacionModel?>()
-    var perforacionEdit: PerforacionModel? = null
+    private val _perforacion = MutableLiveData<Perforacion?>()
+    var perforacionEdit: Perforacion? = null
 
     //Esta estructura va a guardar la lista de perforaciones.
-    private val _perforaciones = MutableLiveData<List<PerforacionModel>>()
+    private val _perforaciones = MutableLiveData<List<Perforacion>>()
 
     // Esta lista sirve para mostrar y dar seguimiento a los datos
-    val perforaciones: LiveData<List<PerforacionModel>> = _perforaciones
+    val perforaciones: LiveData<List<Perforacion>> = _perforaciones
 
     //Profundidades y golpes
     private val _profundidadGolpes = MutableLiveData<List<ProfundidadConGolpes>>(emptyList())
@@ -58,7 +55,7 @@ class PerforacionViewModel(
         _profundidadGolpes.value = lista
     }
 
-    fun actulizarPerforacion(perforacion: PerforacionModel) {
+    fun actulizarPerforacion(perforacion: Perforacion) {
         _perforacion.value = perforacion;
     }
 
@@ -114,7 +111,7 @@ class PerforacionViewModel(
         return repository.obtenerGolpesDeUnaProfundidad(idProfundidad)
     }
 
-    fun abrirPerforacionParaVisualizar(perforacion: PerforacionModel) {
+    fun abrirPerforacionParaVisualizar(perforacion: Perforacion) {
         viewModelScope.launch {
             _perforacion.value = perforacion
             val lista = obtenerProfundidadesYGolpesDeUnaPerforacion(perforacion.id)
@@ -209,7 +206,7 @@ class PerforacionViewModel(
         _profundidadGolpes.value = listaActual
     }
 
-    fun eliminarPerforacion(perforacion: PerforacionModel) {
+    fun eliminarPerforacion(perforacion: Perforacion) {
         viewModelScope.launch {
             repository.eliminarPerforacion(perforacion.id)
             obtenerPerforaciones()
@@ -267,7 +264,7 @@ class PerforacionViewModel(
         }
     }
 
-    fun actualizarPerforacion(perforacion: PerforacionModel) {
+    fun actualizarPerforacion(perforacion: Perforacion) {
         viewModelScope.launch {
             repository.actualizarPerforacion(perforacion)
         }

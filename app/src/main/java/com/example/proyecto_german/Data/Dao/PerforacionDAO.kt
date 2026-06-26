@@ -7,18 +7,18 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.example.proyecto_german.Model.GolpesStp
 import com.example.proyecto_german.Model.PerforacionConProfundidadesModel
-import com.example.proyecto_german.Model.PerforacionModel
+import com.example.proyecto_german.Model.Perforacion
 import com.example.proyecto_german.Model.Profundidad
 import com.example.proyecto_german.Model.Temporales.ProfundidadConGolpes
 
 @Dao
 interface PerforacionDAO {
     @Query("SELECT * FROM perforaciones")
-    suspend fun getAllPerforaciones(): List<PerforacionModel>
+    suspend fun getAllPerforaciones(): List<Perforacion>
     @Query("SELECT * FROM profundidades where perforacionId=:idPerforacion ")
     suspend fun obtenerProfundidadesDeUnaPerforacion( idPerforacion:Long):List<Profundidad>
     @Insert
-    suspend fun agregarPerforacion(perforacionModel: PerforacionModel): Long
+    suspend fun agregarPerforacion(perforacion: Perforacion): Long
     @Insert
     suspend fun agregarProfundidad(profundidades:Profundidad) :Long
     @Insert
@@ -30,8 +30,8 @@ interface PerforacionDAO {
     suspend fun obtenerGolpesDeUnaProfundidad(idProfundidad:Long):List<GolpesStp>
     @Transaction
    suspend fun insertarPerforacionCompleta(
-       perforacion: PerforacionModel,
-       profundidadConGolpes: List<ProfundidadConGolpes>
+        perforacion: Perforacion,
+        profundidadConGolpes: List<ProfundidadConGolpes>
    )
    {
        //Agrego la perforacion
@@ -68,9 +68,9 @@ interface PerforacionDAO {
     @Update
     suspend fun actualizarProfundidad(profundidad: Profundidad)
     @Update
-    suspend fun actualizarPerforacion(perforacion: PerforacionModel)
+    suspend fun actualizarPerforacion(perforacion: Perforacion)
     @Update
-    suspend fun actualizarPerforaciónCompleta(perforacion: PerforacionModel,
+    suspend fun actualizarPerforaciónCompleta(perforacion: Perforacion,
                                               profundidadesConGolpes:List<ProfundidadConGolpes>){
         actualizarPerforacion(perforacion)
         for(profundidadConGolpes in profundidadesConGolpes){

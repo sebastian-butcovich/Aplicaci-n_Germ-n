@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import java.util.Date
 
 @Entity(tableName ="perforaciones")
-data class PerforacionModel(
+data class Perforacion(
     @PrimaryKey(autoGenerate = true)
     val id: Long=0,
     val codigo:String,

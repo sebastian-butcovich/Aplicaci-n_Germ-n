@@ -2,7 +2,6 @@ package com.example.proyecto_german.Fragments
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,21 +10,17 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.proyecto_german.Data.Application.PerforacionesApplication
-import com.example.proyecto_german.Model.PerforacionModel
+import com.example.proyecto_german.Model.Perforacion
 import com.example.proyecto_german.R
 import com.example.proyecto_german.Repository.PerforacionRepository
 import com.example.proyecto_german.ViewModel.PerforacionViewModel
 import com.example.proyecto_german.databinding.FragmentFormularioPerforacionBinding
 import kotlin.getValue
 import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 
 class FormFragment: Fragment() {
@@ -138,7 +133,7 @@ class FormFragment: Fragment() {
             return false
         }
     }
-    private fun obtenerDatosDeLosInputs(): PerforacionModel {
+    private fun obtenerDatosDeLosInputs(): Perforacion {
         val cliente = binding.inputCliente.text.toString()
         Log.i("Cliente",cliente)
         val atencion = binding.inputAtencion.text.toString()
@@ -157,7 +152,7 @@ class FormFragment: Fragment() {
         val lecturaFinal = binding.inputLecturaFinal.text.toString().toDouble()
         val estadoTiempo = binding.inputEstadoTiempo.text.toString()
         if(viewModel.perforacionEdit != null && viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.EDITAR ){
-            val p= PerforacionModel(
+            val p= Perforacion(
                 viewModel.perforacionEdit!!.id,"",fecha,
                 "",cliente,atencion,proyecto,localizacion,fecha,numeroPerforacion
                 ,profundidad,coordenadaX,coordenadaY,
@@ -167,7 +162,7 @@ class FormFragment: Fragment() {
             findNavController().popBackStack()
             return p
         }else{
-            val p= PerforacionModel(0,"",fecha,
+            val p= Perforacion(0,"",fecha,
                 "",cliente,atencion,proyecto,localizacion,fecha,numeroPerforacion
                 ,profundidad,coordenadaX,coordenadaY,
                 nivelFreatico,lecturaInicial,lecturaFinal,estadoTiempo)

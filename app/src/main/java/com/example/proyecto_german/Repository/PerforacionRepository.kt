@@ -1,23 +1,22 @@
 package com.example.proyecto_german.Repository
 
-import android.util.Log
 import com.example.proyecto_german.Data.Dao.PerforacionDAO
 import com.example.proyecto_german.Model.GolpesStp
-import com.example.proyecto_german.Model.PerforacionModel
+import com.example.proyecto_german.Model.Perforacion
 import com.example.proyecto_german.Model.Profundidad
 import com.example.proyecto_german.Model.Temporales.ProfundidadConGolpes
 
 class PerforacionRepository(private val dao: PerforacionDAO) {
-    suspend fun guardarPerforacion(perforacion: PerforacionModel){
+    suspend fun guardarPerforacion(perforacion: Perforacion){
         val perforacionId = dao.agregarPerforacion(perforacion)
     }
     suspend fun guardarPerforacionConProfundiades(
-        perforacion: PerforacionModel,
+        perforacion: Perforacion,
         profundiadConGolpes:List<ProfundidadConGolpes>
     ){
         dao.insertarPerforacionCompleta(perforacion,profundiadConGolpes)
     }
-    suspend fun  obtenerPerforaciones():List<PerforacionModel>{
+    suspend fun  obtenerPerforaciones():List<Perforacion>{
         return dao.getAllPerforaciones()
     }
     suspend fun obtenerProfundiadesDeUnaPerforacion(idPerforacion:Long):List<Profundidad>{
@@ -41,10 +40,10 @@ class PerforacionRepository(private val dao: PerforacionDAO) {
     suspend fun actualizarProfundidad(profundidad: Profundidad){
         return dao.actualizarProfundidad(profundidad)
     }
-    suspend fun actualizarPerforacion(perforacion: PerforacionModel){
+    suspend fun actualizarPerforacion(perforacion: Perforacion){
         return dao.actualizarPerforacion(perforacion)
     }
-    suspend fun acutliarPerforacionConProfundidad(perforacion: PerforacionModel, profundidadesConGolpes:List<ProfundidadConGolpes>){
+    suspend fun acutliarPerforacionConProfundidad(perforacion: Perforacion, profundidadesConGolpes:List<ProfundidadConGolpes>){
         return dao.actualizarPerforaciónCompleta(perforacion,profundidadesConGolpes)
     }
     //Esta función sirve para cuando actulizo una profundidad y al hacer agrego un golpe nuevo

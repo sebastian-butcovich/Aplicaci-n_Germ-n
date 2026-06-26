@@ -6,11 +6,11 @@ import androidx.room.TypeConverters
 import com.example.proyecto_german.Data.Dao.PerforacionDAO
 import com.example.proyecto_german.Data.DataConverters
 import com.example.proyecto_german.Model.GolpesStp
-import com.example.proyecto_german.Model.PerforacionModel
+import com.example.proyecto_german.Model.Perforacion
 import com.example.proyecto_german.Model.Profundidad
 
 @Database(
-    entities = [PerforacionModel::class, Profundidad::class, GolpesStp::class]
+    entities = [Perforacion::class, Profundidad::class, GolpesStp::class]
     , version = 9,
     exportSchema = false
 )

@@ -3,15 +3,15 @@ package com.example.proyecto_german.Adapters.Perforacion
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.proyecto_german.Model.PerforacionModel
+import com.example.proyecto_german.Model.Perforacion
 import com.example.proyecto_german.R
 
-class PerforacionAdapter(var perforaciones:List<PerforacionModel>,
-                         private val onClickListener: (PerforacionModel)-> Unit,
-    private val onExportClick:(PerforacionModel)-> Unit,
-    private val onVerProfundidadesClick:(PerforacionModel)-> Unit,
-    private val onEliminarClick:(PerforacionModel)-> Unit,
-    private val onEditarClick:(PerforacionModel)-> Unit):
+class PerforacionAdapter(var perforaciones:List<Perforacion>,
+                         private val onClickListener: (Perforacion)-> Unit,
+                         private val onExportClick:(Perforacion)-> Unit,
+                         private val onVerProfundidadesClick:(Perforacion)-> Unit,
+                         private val onEliminarClick:(Perforacion)-> Unit,
+                         private val onEditarClick:(Perforacion)-> Unit):
     RecyclerView.Adapter<PerforacionViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -38,7 +38,7 @@ class PerforacionAdapter(var perforaciones:List<PerforacionModel>,
     }
 
     override fun getItemCount(): Int = perforaciones.size
-    fun actualizarListaPerforacion(nuevaLista:List<PerforacionModel>){
+    fun actualizarListaPerforacion(nuevaLista:List<Perforacion>){
         perforaciones =nuevaLista
         notifyDataSetChanged()
     }
