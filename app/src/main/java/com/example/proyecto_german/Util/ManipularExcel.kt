@@ -80,8 +80,9 @@ class ManipularExcel {
     ) {
         //Obtener fila inicial fila final
         //Si no tiene golpes simplemente formatear sucs y descripción
-        var filaFinal = profuntidadANumeroDeFila(profundidadConGolpes.profundidad.profundidadFinal!!)-1
-        var filaInicial = profuntidadANumeroDeFila(profundidadConGolpes.profundidad.profundidadInicial!!)
+        //Se puede dar el caso de que no tenga golpes
+        var filaInicial = profuntidadANumeroDeFila(profundidadConGolpes.profundidad.profundidadInicial!!)-1
+        var filaFinal = profuntidadANumeroDeFila(profundidadConGolpes.profundidad.profundidadFinal!!)
         val estilo = EstiloExcel()
         //Juntar celdas de Sucs y Descripcion
         //Socs
@@ -184,7 +185,7 @@ class ManipularExcel {
         sheet: XSSFSheet,
         profundidad: Profundidad,
     ) {
-        val filaFinal = profuntidadANumeroDeFila(profundidad.profundidadFinal!!)-1
+        val filaFinal = profuntidadANumeroDeFila(profundidad.profundidadFinal!!)
         var filaInicial = profuntidadANumeroDeFila(profundidad.profundidadInicial!!)-1
         val estilo = EstiloExcel()
         if (filaInicial == 0) {

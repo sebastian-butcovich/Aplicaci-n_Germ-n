@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnExportar"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -78,7 +78,7 @@
                 android:text="Exportar como excel"
                 android:layout_weight="1"
                 android:layout_marginHorizontal="2dp"/>
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnVerProfundidades"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnEditarProfundidad"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -100,11 +100,11 @@
                 android:textSize="12dp"
                 android:layout_weight="1"
                 android:layout_marginHorizontal="2dp"/>
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnEliminarProfundidad"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:backgroundTint="@color/bordo"
+                android:backgroundTint="#B3261E"
                 android:textColor="@color/white"
                 android:text="Eliminar"
                 android:textSize="12dp"
@@ -112,4 +112,4 @@
                 android:layout_marginHorizontal="2dp"/>
         </LinearLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

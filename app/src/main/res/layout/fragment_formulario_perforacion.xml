@@ -16,8 +16,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/titulo_formulario"
-        android:textSize="30sp" />
+        android:text="Nueva perforación"
+        android:textStyle="bold"
+        android:textSize="28sp"
+        android:textColor="?attr/colorPrimary"
+        android:layout_marginBottom="24dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/contenedor_input_cliente"
@@ -117,7 +120,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Número de Perforación"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal"
+                android:digits="0123456789"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -136,7 +140,8 @@
                 android:transitionName="profundidad"
                 android:layout_height="wrap_content"
                 android:hint="Profundidad [m]"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:digits="0123456789"/>
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -230,7 +235,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Lectura inicial"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:digits="0123456789"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -247,7 +253,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Lectura final"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:digits="0123456789"/>
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

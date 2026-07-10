@@ -3,4 +3,28 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="bordo">#800000</color>
+
+        <!-- Color principal -->
+        <color name="primary">#1565C0</color>
+        <color name="primary_dark">#0D47A1</color>
+        <color name="primary_light">#42A5F5</color>
+
+        <!-- Fondo -->
+        <color name="background">#F5F7FA</color>
+        <color name="surface">#FFFFFF</color>
+
+        <!-- Texto -->
+        <color name="text_primary">#212121</color>
+        <color name="text_secondary">#757575</color>
+
+        <!-- Bordes -->
+        <color name="outline">#D9D9D9</color>
+
+        <!-- Acciones -->
+
+        <color name="success">#2E7D32</color>
+        <color name="warning">#F9A825</color>
+        <color name="error">#C62828</color>
+
+
 </resources>

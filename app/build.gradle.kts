@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.google.material)
     val room_version = "2.8.4"
     val nav_version = "2.9.6"
     implementation(libs.androidx.core.ktx)

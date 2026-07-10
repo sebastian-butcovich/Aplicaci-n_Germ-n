@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ========================= -->
+    <!-- CARDS                     -->
+    <!-- ========================= -->
+
+    <style name="CardSPT"
+        parent="Widget.Material3.CardView.Elevated">
+
+        <item name="cardCornerRadius">18dp</item>
+        <item name="cardElevation">4dp</item>
+
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">@color/outline</item>
+
+    </style>
+
+    <!-- ========================= -->
+    <!-- BOTON PRINCIPAL           -->
+    <!-- ========================= -->
+
+    <style name="BotonPrincipal"
+        parent="Widget.Material3.Button">
+
+        <item name="cornerRadius">14dp</item>
+
+        <item name="android:minHeight">56dp</item>
+
+        <item name="android:textStyle">bold</item>
+
+        <item name="android:textAllCaps">false</item>
+
+    </style>
+
+    <!-- ========================= -->
+    <!-- BOTON OUTLINED            -->
+    <!-- ========================= -->
+
+    <style name="BotonSecundario"
+        parent="Widget.Material3.Button.OutlinedButton">
+
+        <item name="cornerRadius">14dp</item>
+
+        <item name="android:minHeight">52dp</item>
+
+        <item name="android:textAllCaps">false</item>
+
+    </style>
+
+    <!-- ========================= -->
+    <!-- CAMPOS                    -->
+    <!-- ========================= -->
+
+    <style name="CampoFormulario"
+        parent="Widget.Material3.TextInputLayout.OutlinedBox">
+
+        <item name="boxCornerRadiusTopStart">14dp</item>
+
+        <item name="boxCornerRadiusTopEnd">14dp</item>
+
+        <item name="boxCornerRadiusBottomStart">14dp</item>
+
+        <item name="boxCornerRadiusBottomEnd">14dp</item>
+
+    </style>
+
+</resources>
