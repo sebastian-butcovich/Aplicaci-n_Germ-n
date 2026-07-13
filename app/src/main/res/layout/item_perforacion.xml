@@ -4,112 +4,187 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="12dp"
-    android:layout_marginVertical="8dp"
-    app:cardCornerRadius="25dp">
+    android:layout_marginVertical="6dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="0.5dp"
+    app:strokeColor="@color/outline">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:orientation="vertical"
-        android:padding="15dp"
-        app:flow_horizontalAlign="start"
-        app:flow_wrapMode="aligned"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/proyecto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="2dp"
-            android:hint="Proyecto"
-            android:textSize="17dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/numero_muestra" />
-        <TextView
-            android:id="@+id/cliente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="2dp"
-            android:text="Cliente"
-            android:textSize="17dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="Proyecto"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface" />
 
-        <TextView
-            android:id="@+id/atencion"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="2dp"
-            android:text="Atención"
-            android:textSize="17dp"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/numero_perforacion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="2dp"
-            android:hint="Numero de perforación"
-            android:textSize="17dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tipo" />
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:id="@+id/cliente"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cliente:"
+                android:textSize="14sp"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:layout_marginEnd="4dp"/>
+            <TextView
+                android:id="@+id/valor_cliente"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Sebastián"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnSurface" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/profundiad"
-            android:layout_width="wrap_content"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/outline"
+            android:layout_marginBottom="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="2dp"
-            android:hint="Profundidad"
-            android:textSize="17dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/sucs" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/atencion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Atención:"
+                    android:textSize="14sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:layout_marginEnd="4dp"/>
+                <TextView
+                    android:id="@+id/valor_atencion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Ejemplo"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnSurface"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/numero_perforacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="N° perforación:"
+                    android:textSize="14sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:layout_marginEnd="4dp"/>
+                <TextView
+                    android:id="@+id/valor_numero_perforacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="2"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="?attr/colorOnSurface" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="14dp">
+            <TextView
+                android:id="@+id/profundiad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profundidad:"
+                android:textSize="14sp"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:layout_marginEnd="4dp"/>
+            <TextView
+                android:id="@+id/valor_profundiad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="14 mts"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnSurface" />
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/contendor_botones"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:orientation="horizontal">
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnExportar"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="12dp"
-                android:text="Exportar como excel"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginHorizontal="2dp"/>
+                android:layout_marginEnd="4dp"
+                android:text="Exportar"
+                android:textSize="12sp"
+                app:iconSize="16dp" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnVerProfundidades"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="Ver Profundidades"
-                android:textSize="12dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginHorizontal="2dp"/>
+                android:layout_marginStart="4dp"
+                android:text="Profundidades"
+                android:textSize="12sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnEditarProfundidad"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="Editar"
-                android:textSize="12dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginHorizontal="2dp"/>
+                android:layout_marginEnd="4dp"
+                android:text="Editar"
+                android:textSize="12sp" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnEliminarProfundidad"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:backgroundTint="#B3261E"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:backgroundTint="@color/error"
                 android:textColor="@color/white"
                 android:text="Eliminar"
-                android:textSize="12dp"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="2dp"/>
+                android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

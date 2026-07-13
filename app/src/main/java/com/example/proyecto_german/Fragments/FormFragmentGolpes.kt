@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -50,6 +51,16 @@ class FormFragmentGolpes: Fragment() {
         binding.root.findViewById<Button>(R.id.boton_guardar_golpe).setOnClickListener {
             guardarEnLaListaStp()
         }
+        inializarSpinner()
+    }
+    private fun inializarSpinner(){
+        val opcionesTipo: Array<String> = resources.getStringArray(R.array.valores_tipo)
+        val adapterTipo = ArrayAdapter<String> (
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            opcionesTipo
+        )
+        binding.spinnerTipo.setAdapter(adapterTipo)
     }
 
         private fun guardarEnLaListaStp() {
@@ -60,7 +71,7 @@ class FormFragmentGolpes: Fragment() {
                 val dataProfundidadInicial = binding.profundidadInicial.text.toString().toDouble()
                 val dataProfundidadFinal = binding.profundidadFinal.text.toString().toDouble()
                 val dataMuestrasNumero = binding.muestraNro.text.toString().toDoubleOrNull()
-                val dataTipo = binding.spinnerTipo.selectedItem.toString()
+                val dataTipo = binding.spinnerTipo.text.toString()
                 val dataStp1 = binding.inputStp1.text.toString().toIntOrNull()
                 val dataStp2 = binding.inputStp2.text.toString().toIntOrNull()
                 val dataStp3 = binding.inputStp3.text.toString().toIntOrNull()
@@ -135,6 +146,7 @@ class FormFragmentGolpes: Fragment() {
             binding.muestraNro.setText(
                 golpe.numero_muestra?.toString()
             )
+            binding.spinnerTipo.setText(golpe.tipo)
             binding.inputStp1.setText(
                 golpe.golpes1?.toString()
             )

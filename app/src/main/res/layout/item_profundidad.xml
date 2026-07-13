@@ -1,95 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="12dp"
-    android:layout_marginVertical="8dp"
-    app:cardCornerRadius="25dp">
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="?attr/colorOutlineVariant">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="15dp"
-        app:flow_horizontalAlign="start"
-        app:flow_wrapMode="aligned"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/lblProfundidadTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profundidad:"
+            android:textSize="12sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/item_profundidadesInicial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="2dp"
-            android:hint="Profundidad inicial"
-            android:textSize="17dp"
+            android:layout_marginTop="2dp"
+            tools:text="0.00"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tipo" />
+            app:layout_constraintTop_toBottomOf="@id/lblProfundidadTitulo" />
+
+        <TextView
+            android:id="@+id/lblSeparador"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:text="→"
+            android:textSize="18sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            app:layout_constraintBaseline_toBaselineOf="@id/item_profundidadesInicial"
+            app:layout_constraintStart_toEndOf="@id/item_profundidadesInicial" />
+
         <TextView
             android:id="@+id/item_profundidadesFinal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="2dp"
-            android:hint="Profundidad Final"
-            android:textSize="17dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tipo" />
+            tools:text="2.50 m"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBaseline_toBaselineOf="@id/lblSeparador"
+            app:layout_constraintStart_toEndOf="@id/lblSeparador" />
 
         <TextView
             android:id="@+id/sucs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="2dp"
-            android:hint="SUCS"
-            android:textSize="17dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tipo" />
+            android:background="@drawable/bg_badge_sucs"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            tools:text="SUCS: CL"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/item_profundidadesFinal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/lblProfundidadTitulo" />
 
         <TextView
             android:id="@+id/descripcion"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="2dp"
-            android:hint="Descripción"
-            android:textSize="17dp"
+            android:layout_marginTop="12dp"
+            tools:text="Arcilla de alta plasticidad, color marrón oscuro con trazas de arena fina."
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/sucs" />
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/idContenedorBotonesProfundidad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            app:layout_constraintTop_toBottomOf="@id/item_profundidadesFinal" />
 
-            <Button
-                android:id="@+id/botonVerGolpes"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginVertical="5dp"
-                android:layout_marginHorizontal="10dp"
-                app:layout_constraintTop_toTopOf="@+id/idContenedorBotonesProfundidad"
-                app:layout_constraintEnd_toStartOf="@id/botonEditarProfundidad"
-                android:text="Golpes"/>
-            <Button
-                android:id="@+id/botonEditarProfundidad"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                app:layout_constraintStart_toEndOf="@id/botonVerGolpes"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/idContenedorBotonesProfundidad"
-                android:text="Editar"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <Button
-            android:id="@+id/boton_eliminar_profundidad"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/containerBotones"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_marginHorizontal="10dp"
-            app:layout_constraintStart_toEndOf="@id/botonEditarProfundidad"
-            android:backgroundTint="@color/bordo"
-            android:textColor="@color/white"
-            app:layout_constraintTop_toTopOf="@+id/idContenedorBotonesProfundidad"
-            android:text="Eliminar"/>
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descripcion">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/botonVerGolpes"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:text="Golpes"
+                android:textSize="13sp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/botonEditarProfundidad"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:text="Editar"
+                android:textSize="13sp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/boton_eliminar_profundidad"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:backgroundTint="@color/bordo"
+                android:textColor="@color/white"
+                android:text="Eliminar"
+                android:textSize="13sp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

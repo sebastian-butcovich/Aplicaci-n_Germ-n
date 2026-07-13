@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -70,8 +71,26 @@ class FormFragmentProfundidad : Fragment() {
         agregarStpAccion()
         //En caso de que solo quiera ver los golpes
         ocultarBotonoesEnCasoDeNoEditar()
+        inicializarSpinners()
     }
-
+    private fun inicializarSpinners(){
+        val opcionesSucs: Array<String> = resources.getStringArray(R.array.valores_sucs)
+        val opcionesSimbolo: Array<String> = resources.getStringArray(R.array.valores_simbolo)
+        val adapterSucs = ArrayAdapter<String>(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            opcionesSucs
+        )
+        val adapterSimbolo = ArrayAdapter<String>(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            opcionesSimbolo
+        )
+        binding.spinnerSucs.setAdapter(adapterSucs)
+        binding.spinnerSimbolo.setAdapter(
+            adapterSimbolo
+        )
+    }
     private fun ocultarBotonoesEnCasoDeNoEditar() {
         viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.VER
     }
@@ -79,13 +98,13 @@ class FormFragmentProfundidad : Fragment() {
     private fun inicializarValores(){
         //Existe la profundidad o no tenes nada que hacer
         val profundidad = viewModel.profundidadActual?:return
-        binding.spinnerSucs.setSelection(
+        binding.spinnerSucs.setText(
             obtenerPosicionSucs(profundidad.sucs)
         )
         binding.descripcion.setText(
             profundidad.descripcion
         )
-        binding.spinnerSimbolo.setSelection(
+        binding.spinnerSimbolo.setText(
             obtenerPosicionSimbolo(profundidad.simbolo)
         )
 
@@ -113,24 +132,26 @@ class FormFragmentProfundidad : Fragment() {
             mostrarInputsProfundidades()
         }
     }
-    private fun obtenerPosicionSimbolo(simbolo: String): Int{
+    private fun obtenerPosicionSimbolo(simbolo: String): String{
         when(simbolo){
-            "ARENA"->return 1
-            "GRAVAS"->return 2
-            "CL"->return 3
-            "CH"->return 4
-            "ML"->return 5
-            "MH"->return 6
-            "OL"->return 7
-            "OH"->return 8
-            "PT"->return 9
+            "ARENA"->return simbolo
+            "GRAVAS"->return simbolo
+            "CL"->return simbolo
+            "CH"->return simbolo
+            "ML"->return simbolo
+            "MH"->return simbolo
+            "OL"->return simbolo
+            "OH"->return simbolo
+            "PT"->return simbolo
 
         }
-        return 0
+        return "VACIO"
     }
 
-    private fun obtenerPosicionSucs(sucs: Sucs):Int {
-      return Sucs.entries.indexOf(sucs)
+    private fun obtenerPosicionSucs(sucs:Sucs):String {
+        val arraySucs: Array<String> = resources.getStringArray(R.array.valores_sucs)
+        val aux =  Sucs.entries.indexOf(sucs)
+        return arraySucs[aux]
     }
 
     private fun accionarCheckBox() {
@@ -180,8 +201,8 @@ class FormFragmentProfundidad : Fragment() {
         binding.profundidadInicialProfundidad.setText("")
         binding.profundidadInicialProfundidad.setText("")
         binding.checkGolpes.isChecked = false
-        binding.spinnerSucs.setSelection(0)
-        binding.spinnerSimbolo.setSelection(0)
+        binding.spinnerSucs.setText("VACIO",false)
+        binding.spinnerSimbolo.setText("VACIO",false)
     }
 
     private fun mostrarLista(){
@@ -191,7 +212,7 @@ class FormFragmentProfundidad : Fragment() {
             },
             editarGolpe = {golpesStp ->
                 viewModel.seleccionarGolpe(golpesStp)
-                viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.EDITAR
+                viewModel.modoProfundidad = PerforacionViewModel.ModoProfundidad.EDITAR
                 findNavController().navigate(
                     R.id.action_formFragmentProfundidad_to_formFragmentGolpes
                 )
@@ -238,9 +259,9 @@ class FormFragmentProfundidad : Fragment() {
             profundidadFinal = ultimoGolpe.profundidad_final
         }
         val descripcion = binding.descripcion.text.toString()
-        val simbolo = binding.spinnerSimbolo.selectedItem.toString()
+        val simbolo = binding.spinnerSimbolo.text.toString()
         val sucs =Sucs.valueOf(
-            binding.spinnerSucs.selectedItem.toString()
+            binding.spinnerSucs.text.toString()
         )
         val profundidad = if(viewModel.modoProfundidad != PerforacionViewModel.ModoProfundidad.CREAR){
             profundidadExistente!!.copy(

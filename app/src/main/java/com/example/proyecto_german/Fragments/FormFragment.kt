@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -54,6 +55,13 @@ class FormFragment: Fragment() {
             cambiarAEditar()
             inicializarInputs()
         }
+        val opcionesFreatico: Array<String> = resources.getStringArray(R.array.valores_freatico)
+        val adapterFreatico = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            opcionesFreatico
+        )
+        binding.spinnerNivelFreatico.setAdapter(adapterFreatico)
     }
 
     private fun limpiarFormulario() {
@@ -68,7 +76,7 @@ class FormFragment: Fragment() {
         binding.inputCoordenadaE.setText("")
         binding.inputNumeroPerforacion.setText("")
         binding.inputLocalizacion.setText("")
-        binding.spinnerNivelFreatico.setSelection(0)
+        binding.spinnerNivelFreatico.setText("No",false)
     }
 
     private fun cambiarAEditar() {
@@ -86,10 +94,11 @@ class FormFragment: Fragment() {
         binding.inputProfundidad.setText(perforacion.profundidadMetros.toString())
         binding.inputCoordenadaE.setText(perforacion.coordenadaE.toString())
         binding.inputCoordenadaN.setText(perforacion.coordenadaN.toString())
-        if(perforacion.nivelFreatico ){
-            binding.spinnerNivelFreatico.setSelection(1)
-        }else{
-            binding.spinnerNivelFreatico.setSelection(0)
+        val opciones = resources.getStringArray(R.array.valores_freatico)
+        if (perforacion.nivelFreatico) {
+            binding.spinnerNivelFreatico.setText(opciones[1], false) // Muestra "Sí"
+        } else {
+            binding.spinnerNivelFreatico.setText(opciones[0], false) // Muestra "No"
         }
         binding.inputLecturaInicial.setText(perforacion.lecturaInicial.toString())
         binding.inputLecturaFinal.setText(perforacion.lecturaFinal.toString())
@@ -147,7 +156,7 @@ class FormFragment: Fragment() {
         val profundidad = binding.inputProfundidad.text.toString().toDouble()
         val coordenadaX = binding.inputCoordenadaE.text.toString().toDouble()
         val coordenadaY = binding.inputCoordenadaN.text.toString().toDouble()
-        val nivelFreatico = binding.spinnerNivelFreatico.selectedItem.toString() == "Si"
+        val nivelFreatico = binding.spinnerNivelFreatico.text.toString() == "Si"
         val lecturaInicial = binding.inputLecturaInicial.text.toString().toDouble()
         val lecturaFinal = binding.inputLecturaFinal.text.toString().toDouble()
         val estadoTiempo = binding.inputEstadoTiempo.text.toString()

@@ -12,9 +12,14 @@
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
+        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_menu"/>
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host"
         android:layout_width="0dp"
@@ -24,6 +29,7 @@
         app:layout_constraintBottom_toTopOf="@id/nav_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="?attr/colorSurface"
         app:defaultNavHost="true"
         app:navGraph="@navigation/main_graph"/>
 

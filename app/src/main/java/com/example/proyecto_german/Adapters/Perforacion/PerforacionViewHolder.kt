@@ -12,12 +12,11 @@ class PerforacionViewHolder(view: View): RecyclerView.ViewHolder(view) {
                onVerProfundidadesClick:(Perforacion)-> Unit,
                onEliminarClick:(Perforacion)-> Unit,
                onEditarClick:(Perforacion)-> Unit){
-        binding.proyecto.text = "Proyecto: "+perforacion.proyecto
-        binding.cliente.text = "Cliente: "+perforacion.cliente
-        binding.atencion.text = "Atención: "+ perforacion.atencion
-        binding.profundiad.text = "Profundidad: " + perforacion.profundidadMetros.toString() + " mts"
-        binding.numeroPerforacion.text = "Número de perforación: " + perforacion.numeroPerforacion
-            .toString()
+        binding.proyecto.text = perforacion.proyecto
+        binding.valorCliente.text = perforacion.cliente
+        binding.valorAtencion.text =  perforacion.atencion
+        binding.valorProfundiad.text = perforacion.profundidadMetros.toString() + " mts"
+        binding.valorNumeroPerforacion.text = perforacion.numeroPerforacion.toString()
         itemView.setOnClickListener {
             onClickListener(perforacion)
         }

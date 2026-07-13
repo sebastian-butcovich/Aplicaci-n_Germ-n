@@ -64,5 +64,9 @@
         <item name="boxCornerRadiusBottomEnd">14dp</item>
 
     </style>
-
+    <style name="MyBottomNav" parent="Widget.Material3.BottomNavigationView">
+        <item name ="android:background">?attr/colorSurface</item>
+        <item name = "itemIconTint">@color/nav_item_color</item>
+        <item name = "itemTextColor">@color/nav_item_color</item>
+    </style>
 </resources>

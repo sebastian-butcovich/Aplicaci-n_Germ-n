@@ -1,62 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_extension_formulario"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    tools:context=".Fragments.FormFragmentProfundidades">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragment_extension_formulario"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="20dp"
-        tools:context=".Fragments.FormFragmentProfundidades">
+    <TextView
+        android:id="@+id/tvTituloProfundidades"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="20dp"
+        android:text="Profundidades"
+        android:textAlignment="center"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:padding="12dp"
-            app:layout_constraintTop_toTopOf="parent">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listaProfundidad"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:paddingHorizontal="12dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toTopOf="@id/boton_guardar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTituloProfundidades" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="10dp"
-                android:text="Profundidades"
-                android:textAlignment="center"
-                android:textSize="30dp" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_floting_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="Agregar profundidad"
+        android:src="@drawable/icon_add"
+        app:layout_constraintBottom_toTopOf="@id/boton_guardar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.ExtraExtraLarge" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/listaProfundidad"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent" />
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/button_floting_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:contentDescription="TODO"
-                android:layout_gravity="end"
-                android:src="@drawable/icon_add"
-                android:tint="@null"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.ExtraExtraLarge" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/boton_guardar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"
+        android:text="GUARDAR PERFORACIÓN"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-            <Button
-                android:id="@+id/boton_guardar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="GUARDAR PERFORACIÓN"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/boton_continuar"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

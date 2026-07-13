@@ -1,118 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
     tools:context=".Fragments.FormFragmentProfundidad">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Agregar Profundidad"
             android:textAlignment="center"
-            android:paddingVertical="10dp"
-            android:textSize="30dp"/>
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"
+            android:layout_marginBottom="24dp"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/contenedor_susc"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Spinner
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+            <AutoCompleteTextView
                 android:id="@+id/spinner_sucs"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:entries="@array/valores_sucs"
-                android:hint="Sucs"
-                android:minHeight="50dp" />
+                android:layout_height="wrap_content"
+                android:hint="SUCS"
+                android:inputType="none"
+                android:textAlignment="viewStart" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/contenedor_descripcion"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/descripcion"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Descripción del suelo"
+                android:gravity="top|start"
                 android:inputType="textMultiLine"
-                />
+                android:minLines="2" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/contenedor_simbolo"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Spinner
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+            <AutoCompleteTextView
                 android:id="@+id/spinner_simbolo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:entries="@array/valores_simbolo"
-                android:hint="Sucs"
-                android:minHeight="50dp" />
+                android:layout_height="wrap_content"
+                android:hint="Símbolo"
+                android:inputType="none"
+                android:textAlignment="viewStart" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <CheckBox
             android:id="@+id/checkGolpes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="La profundidad no tiene golpes"/>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contenedorProfundidadInicialProfundidad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/profundidadInicialProfundidad"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Profundidad inicial"
-                android:inputType="numberDecimal"
-                android:digits="0123456789"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contenedorProfundidadFinalProfundidad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/profundidadFinalProfundidad"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Profundidad final"
-                android:inputType="numberDecimal"
-                android:digits="0123456789"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/listaSpt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_marginBottom="16dp"
+            android:text="La profundidad no tiene golpes"
+            android:textSize="15sp" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/button_floting_add_stp"
-            android:layout_width="52dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_margin="16dp"
-            android:contentDescription="TODO"
-            android:src="@drawable/icon_add"
-            android:tint="@null"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.ExtraExtraLarge" />
-        <Button
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contenedorProfundidadInicialProfundidad"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/profundidadInicialProfundidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Profundidad inicial"
+                    android:inputType="numberDecimal"
+                    android:digits="0123456789." />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contenedorProfundidadFinalProfundidad"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/profundidadFinalProfundidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Profundidad final"
+                    android:inputType="numberDecimal"
+                    android:digits="0123456789." />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listaSpt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/button_floting_add_stp"
+                android:layout_marginEnd="8dp"
+                android:nestedScrollingEnabled="false" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/button_floting_add_stp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="Agregar SPT"
+                android:src="@drawable/icon_add"
+                app:fabSize="mini"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.ExtraExtraLarge" />
+        </RelativeLayout>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/boton_guardar_profundidad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="12dp"
             android:text="GUARDAR ENTRADA"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/boton_continuar"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="5dp"/>
-    </LinearLayout>
+            app:cornerRadius="8dp" />
 
+    </LinearLayout>
 </ScrollView>
