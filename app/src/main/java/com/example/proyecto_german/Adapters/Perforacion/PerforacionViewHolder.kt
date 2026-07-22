@@ -12,7 +12,7 @@ class PerforacionViewHolder(view: View): RecyclerView.ViewHolder(view) {
                onVerProfundidadesClick:(Perforacion)-> Unit,
                onEliminarClick:(Perforacion)-> Unit,
                onEditarClick:(Perforacion)-> Unit){
-        binding.proyecto.text = perforacion.proyecto
+        binding.proyectoValue.text = perforacion.proyecto
         binding.valorCliente.text = perforacion.cliente
         binding.valorAtencion.text =  perforacion.atencion
         binding.valorProfundiad.text = perforacion.profundidadMetros.toString() + " mts"

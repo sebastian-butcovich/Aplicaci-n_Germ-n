@@ -13,11 +13,11 @@ class StpViewHolder(view: View): RecyclerView.ViewHolder(view) {
                eliminarGolpe:(GolpesStp)->Unit,
                soloLectura:Boolean){
         binding.profundiadInicial.text = buildString {
-            append("Profundidad Inicial: ")
+            append("Inicial: ")
             append(golpesStp.profundidad_inicial.toString())
         }
         binding.profundiadFinal.text = buildString{
-            append("Profundidad Final: ")
+            append("Final: ")
             append(golpesStp.profundidad_final.toString())
         }
         binding.numeroMuestra.text = buildString{

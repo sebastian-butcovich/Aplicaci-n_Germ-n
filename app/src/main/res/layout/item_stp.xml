@@ -72,6 +72,7 @@
             android:paddingVertical="4dp"
             tools:text="Muestra SPT"
             android:textSize="13sp"
+            android:layout_marginBottom="25dp"
             android:textStyle="bold"
             android:textColor="?attr/colorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/profundiad_final"

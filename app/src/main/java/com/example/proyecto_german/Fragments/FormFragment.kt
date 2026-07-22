@@ -16,6 +16,7 @@ import com.example.proyecto_german.Data.Application.PerforacionesApplication
 import com.example.proyecto_german.Model.Perforacion
 import com.example.proyecto_german.R
 import com.example.proyecto_german.Repository.PerforacionRepository
+import com.example.proyecto_german.Util.configurarLimitesMaximoDouble
 import com.example.proyecto_german.ViewModel.PerforacionViewModel
 import com.example.proyecto_german.databinding.FragmentFormularioPerforacionBinding
 import kotlin.getValue
@@ -62,8 +63,17 @@ class FormFragment: Fragment() {
             opcionesFreatico
         )
         binding.spinnerNivelFreatico.setAdapter(adapterFreatico)
+        limitarCampos()
     }
-
+    private fun limitarCampos(){
+        //Obtengo el input de profundidad
+        binding.inputProfundidad.configurarLimitesMaximoDouble(2,0,30.0);
+        binding.inputNumeroPerforacion.configurarLimitesMaximoDouble(3,1,50)
+        binding.inputCoordenadaE.configurarLimitesMaximoDouble(3,-180,180)
+        binding.inputCoordenadaN.configurarLimitesMaximoDouble(3,-90,90)
+        binding.inputLecturaInicial.configurarLimitesMaximoDouble(2,0,30)
+        binding.inputLecturaFinal.configurarLimitesMaximoDouble(2,0,30)
+    }
     private fun limpiarFormulario() {
         binding.inputCliente.setText("")
         binding.inputProyecto.setText("")
