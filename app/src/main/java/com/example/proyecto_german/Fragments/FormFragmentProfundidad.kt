@@ -24,6 +24,7 @@ import com.example.proyecto_german.Model.Sucs
 import com.example.proyecto_german.R
 import com.example.proyecto_german.Repository.PerforacionRepository
 import com.example.proyecto_german.Util.configurarLimitesMaximoDouble
+import com.example.proyecto_german.Util.mostrarDialogoError
 import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
 import com.example.proyecto_german.ViewModel.PerforacionViewModel
 import com.example.proyecto_german.databinding.FragmentProfundidadBinding
@@ -71,7 +72,9 @@ class FormFragmentProfundidad : Fragment() {
         mostrarInputsProfundidades()
         agregarStpAccion()
         //En caso de que solo quiera ver los golpes
-        ocultarBotonoesEnCasoDeNoEditar()
+        if(viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.VER){
+            ocultarBotonoesEnCasoDeNoEditar()
+        }
         inicializarSpinners()
         filtrarCampos()
     }
@@ -236,45 +239,44 @@ class FormFragmentProfundidad : Fragment() {
 
     private fun botonAgregar() {
         binding.root.findViewById<Button>(R.id.boton_guardar_profundidad).setOnClickListener {
-            cargarDatosProfundidad()
+            val prof = obtenerDatosInputs()
+            if(chequearConsistenciaProfundidad(prof)){
+                cargarDatosProfundidad(prof)
+            }else{
+                mostrarMensajeProfundidadInconsistente()
+            }
         }
     }
-    private fun cargarDatosProfundidad(){
-        val profundidadExistente = viewModel.profundidadActual
-        val primerGolpe = viewModel.golpesActuales.firstOrNull()
-        val ultimoGolpe = viewModel.golpesActuales.lastOrNull()
-        var profundidadInicial:Double? ;
-        var profundidadFinal:Double?
-        if(primerGolpe == null || ultimoGolpe == null){
-            profundidadInicial = binding.profundidadInicialProfundidad.text.toString().toDoubleOrNull()
-            profundidadFinal = binding.profundidadFinalProfundidad.text.toString().toDoubleOrNull()
-        }else{
-            profundidadInicial = primerGolpe.profundidad_inicial
-            profundidadFinal = ultimoGolpe.profundidad_final
+    private fun chequearConsistenciaProfundidad(profActual: Profundidad): Boolean{
+        //Los datos deben estar en mi profundida actual y en mi profundidadConGolpes
+        val listaProfundidad = viewModel.profundidadesConGolpes.value
+        var res:Boolean = false
+        if (listaProfundidad != null
+            && profActual.profundidadInicial !=null
+            && profActual.profundidadFinal !=null) {
+            for(profundidadConGolpe in listaProfundidad){
+                val profundidad = profundidadConGolpe.profundidad
+                if(profundidad.profundidadFinal != null
+                    && profundidad.profundidadInicial != null){
+                    res = (profActual.profundidadInicial < profundidad.profundidadInicial
+                            && profActual.profundidadFinal < profundidad.profundidadInicial)
+                            || (profActual.profundidadInicial > profundidad.profundidadFinal)
+                }
+                if(res){return true}
+            }
         }
-        val descripcion = binding.descripcion.text.toString()
-        val simbolo = binding.spinnerSimbolo.text.toString()
-        val sucs =Sucs.valueOf(
-            binding.spinnerSucs.text.toString()
+        return res
+    }
+    private fun mostrarMensajeProfundidadInconsistente(){
+        mostrarDialogoError(
+            "Inconsistencia de profundidades",
+            "Una profundidad nueva no puede estar sobre otra profundidad." +
+                    "La profundidad nueva debe tener una profundidad incial y final menor a todas la profundidades" +
+                    "y sino debe tener una profundidad incial y fianl mayor a todas la profundidades",
+            requireContext()
         )
-        val profundidad = if(viewModel.modoProfundidad != PerforacionViewModel.ModoProfundidad.CREAR){
-            profundidadExistente!!.copy(
-            descripcion = descripcion,
-            simbolo = simbolo,
-            sucs = sucs,
-            profundidadFinal =  profundidadFinal,
-            profundidadInicial = profundidadInicial
-        )
-
-        }else{
-            Profundidad(
-                id=0, perforacionId =0,
-                descripcion = descripcion,
-                simbolo = simbolo,
-                sucs = sucs,
-                profundidadFinal =  profundidadFinal,
-                profundidadInicial = profundidadInicial)
-        }
+    }
+    private fun cargarDatosProfundidad(profundidad: Profundidad){
         if(viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.CREAR){
             viewModel.profundidadActual = profundidad
         }else{
@@ -303,6 +305,48 @@ class FormFragmentProfundidad : Fragment() {
         }
         viewModel.confirmarProfundidadConGolpes()
         findNavController().popBackStack()
+    }
+
+    private fun obtenerDatosInputs(): Profundidad {
+        val profundidadExistente = viewModel.profundidadActual
+        val primerGolpe = viewModel.golpesActuales.firstOrNull()
+        val ultimoGolpe = viewModel.golpesActuales.lastOrNull()
+        var profundidadInicial: Double?;
+        var profundidadFinal: Double?
+        if (primerGolpe == null || ultimoGolpe == null) {
+            profundidadInicial =
+                binding.profundidadInicialProfundidad.text.toString().toDoubleOrNull()
+            profundidadFinal = binding.profundidadFinalProfundidad.text.toString().toDoubleOrNull()
+        } else {
+            profundidadInicial = primerGolpe.profundidad_inicial
+            profundidadFinal = ultimoGolpe.profundidad_final
+        }
+        val descripcion = binding.descripcion.text.toString()
+        val simbolo = binding.spinnerSimbolo.text.toString()
+        val sucs = Sucs.valueOf(
+            binding.spinnerSucs.text.toString()
+        )
+        val profundidad =
+            if (viewModel.modoProfundidad != PerforacionViewModel.ModoProfundidad.CREAR) {
+                profundidadExistente!!.copy(
+                    descripcion = descripcion,
+                    simbolo = simbolo,
+                    sucs = sucs,
+                    profundidadFinal = profundidadFinal,
+                    profundidadInicial = profundidadInicial
+                )
+
+            } else {
+                Profundidad(
+                    id = 0, perforacionId = 0,
+                    descripcion = descripcion,
+                    simbolo = simbolo,
+                    sucs = sucs,
+                    profundidadFinal = profundidadFinal,
+                    profundidadInicial = profundidadInicial
+                )
+            }
+        return profundidad
     }
 
 

@@ -1,5 +1,7 @@
 package com.example.proyecto_german.Util
 
+import android.app.AlertDialog
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
@@ -27,4 +29,15 @@ fun EditText.configurarLimitesMaximoDouble(maximoCaracteres: Int, valorMinimo: N
             }
         }
     })
+}
+fun mostrarDialogoError(title:String,mensaje:String,context: Context){
+    AlertDialog.Builder(context)
+        .setTitle(title)
+        .setMessage(mensaje)
+        .setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+        .setCancelable(true)
+        .create()
+        .show()
 }
