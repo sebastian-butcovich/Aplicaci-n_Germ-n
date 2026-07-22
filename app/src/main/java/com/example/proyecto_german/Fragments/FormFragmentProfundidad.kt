@@ -23,6 +23,7 @@ import com.example.proyecto_german.Model.Profundidad
 import com.example.proyecto_german.Model.Sucs
 import com.example.proyecto_german.R
 import com.example.proyecto_german.Repository.PerforacionRepository
+import com.example.proyecto_german.Util.configurarLimitesMaximoDouble
 import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
 import com.example.proyecto_german.ViewModel.PerforacionViewModel
 import com.example.proyecto_german.databinding.FragmentProfundidadBinding
@@ -72,6 +73,12 @@ class FormFragmentProfundidad : Fragment() {
         //En caso de que solo quiera ver los golpes
         ocultarBotonoesEnCasoDeNoEditar()
         inicializarSpinners()
+        filtrarCampos()
+    }
+    private fun filtrarCampos(){
+        binding.profundidadInicialProfundidad.configurarLimitesMaximoDouble(6,0,30)
+        binding.profundidadFinalProfundidad.configurarLimitesMaximoDouble(6,0,30)
+
     }
     private fun inicializarSpinners(){
         val opcionesSucs: Array<String> = resources.getStringArray(R.array.valores_sucs)
@@ -92,7 +99,7 @@ class FormFragmentProfundidad : Fragment() {
         )
     }
     private fun ocultarBotonoesEnCasoDeNoEditar() {
-        viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.VER
+        viewModel.modoProfundidad = PerforacionViewModel.ModoProfundidad.VER
     }
 
     private fun inicializarValores(){
@@ -188,23 +195,10 @@ class FormFragmentProfundidad : Fragment() {
 
     private fun agregarStpAccion(){
         binding.buttonFlotingAddStp.setOnClickListener {
-           // if(viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.CREAR){
-              //  viewModel.profundidadActual =null
-            //}
             viewModel._golpeActual.value = null
             binding.root.findNavController().navigate(R.id.action_formFragmentProfundidad_to_formFragmentGolpes)
         }
     }
-
-    private fun limpiarInputs() {
-        binding.descripcion.setText("")
-        binding.profundidadInicialProfundidad.setText("")
-        binding.profundidadInicialProfundidad.setText("")
-        binding.checkGolpes.isChecked = false
-        binding.spinnerSucs.setText("VACIO",false)
-        binding.spinnerSimbolo.setText("VACIO",false)
-    }
-
     private fun mostrarLista(){
         adapter = StpAdapter(emptyList(),
             onClickListener = { golpesStp ->

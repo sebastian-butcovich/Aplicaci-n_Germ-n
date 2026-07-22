@@ -15,6 +15,7 @@ import com.example.proyecto_german.Data.Application.PerforacionesApplication
 import com.example.proyecto_german.Model.GolpesStp
 import com.example.proyecto_german.R
 import com.example.proyecto_german.Repository.PerforacionRepository
+import com.example.proyecto_german.Util.configurarLimitesMaximoDouble
 import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
 import com.example.proyecto_german.ViewModel.PerforacionViewModel
 import com.example.proyecto_german.databinding.FragmentGolpesStpBinding
@@ -52,6 +53,15 @@ class FormFragmentGolpes: Fragment() {
             guardarEnLaListaStp()
         }
         inializarSpinner()
+        filtrarCampos()
+    }
+    private fun filtrarCampos(){
+        binding.profundidadInicial.configurarLimitesMaximoDouble(6,0,30)
+        binding.profundidadFinal.configurarLimitesMaximoDouble(6,0,30)
+        binding.muestraNro.configurarLimitesMaximoDouble(6,0,30)
+        binding.inputStp1.configurarLimitesMaximoDouble(6,0,100)
+        binding.inputStp2.configurarLimitesMaximoDouble(6,0,100)
+        binding.inputStp3.configurarLimitesMaximoDouble(6,0,100)
     }
     private fun inializarSpinner(){
         val opcionesTipo: Array<String> = resources.getStringArray(R.array.valores_tipo)
@@ -117,22 +127,9 @@ class FormFragmentGolpes: Fragment() {
     }
     private fun chequedoDeDatos(): Boolean {
         return binding.profundidadFinal.text?.isEmpty() == false
-                && binding.profundidadInicial.text?.isEmpty() == false/* binding.muestraNro.text?.isEmpty() == false
-                && binding.inputStp1.text?.isEmpty() == false && binding.inputStp2.text?.isEmpty() == false &&
-                binding.inputStp3.text?.isEmpty() == false &&*/
+                && binding.profundidadInicial.text?.isEmpty() == false
     }
-//    private fun inicializarValores(){
-//        val golpe = viewModel._golpeActual.value ?: return
-//        binding.profundidadInicial.setText(
-//            golpe.profundidad_inicial.toString()
-//        )
-//        binding.profundidadFinal.setText(
-//            golpe.profundidad_final.toString()
-//        )
-//        binding.inputStp1.setText(golpe.golpes1.toString())
-//        binding.inputStp2.setText(golpe.golpes2.toString())
-//        binding.inputStp3.setText(golpe.golpes3.toString())
-//    }
+
     private fun observarGolpe(){
         viewModel.golpeActualLiveData.observe(viewLifecycleOwner){
             golpe->

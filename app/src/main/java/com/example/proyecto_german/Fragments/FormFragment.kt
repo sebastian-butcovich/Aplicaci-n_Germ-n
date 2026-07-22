@@ -67,12 +67,12 @@ class FormFragment: Fragment() {
     }
     private fun limitarCampos(){
         //Obtengo el input de profundidad
-        binding.inputProfundidad.configurarLimitesMaximoDouble(2,0,30.0);
-        binding.inputNumeroPerforacion.configurarLimitesMaximoDouble(3,1,50)
-        binding.inputCoordenadaE.configurarLimitesMaximoDouble(3,-180,180)
-        binding.inputCoordenadaN.configurarLimitesMaximoDouble(3,-90,90)
-        binding.inputLecturaInicial.configurarLimitesMaximoDouble(2,0,30)
-        binding.inputLecturaFinal.configurarLimitesMaximoDouble(2,0,30)
+        binding.inputProfundidad.configurarLimitesMaximoDouble(6,0,30.0);
+        binding.inputNumeroPerforacion.configurarLimitesMaximoDouble(6,1,50)
+        binding.inputCoordenadaE.configurarLimitesMaximoDouble(6,-180,180)
+        binding.inputCoordenadaN.configurarLimitesMaximoDouble(6,-90,90)
+        binding.inputLecturaInicial.configurarLimitesMaximoDouble(6,0,30)
+        binding.inputLecturaFinal.configurarLimitesMaximoDouble(6,0,30)
     }
     private fun limpiarFormulario() {
         binding.inputCliente.setText("")
