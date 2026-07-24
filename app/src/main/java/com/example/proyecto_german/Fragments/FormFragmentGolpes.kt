@@ -133,17 +133,19 @@ class FormFragmentGolpes: Fragment() {
         for(gol in golpes){
             //La profundidad inicial del golpe nuevo es menor que la profundidad inicial del golpe
             //La profundida inicial
-            if((golpe.profundidad_final> gol.profundidad_inicial
-                        && golpe.profundidad_final < gol.profundidad_final)
-                ||(
-                        golpe.profundidad_inicial < gol.profundidad_inicial
-                                && golpe.profundidad_final < gol.profundidad_final
-                        )
-                ||(
-                        golpe.profundidad_inicial < gol.profundidad_final
-                                && gol.profundidad_final < golpe.profundidad_final
-                        )){
-                return false
+            if(gol.id != golpe.id){
+                if((golpe.profundidad_final> gol.profundidad_inicial
+                            && golpe.profundidad_final < gol.profundidad_final)
+                    ||(
+                            golpe.profundidad_inicial < gol.profundidad_inicial
+                                    && golpe.profundidad_final < gol.profundidad_final
+                            )
+                    ||(
+                            golpe.profundidad_inicial < gol.profundidad_final
+                                    && gol.profundidad_final < golpe.profundidad_final
+                            )){
+                    return false
+                }
             }
         }
         return true
