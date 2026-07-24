@@ -143,7 +143,7 @@ class PerforacionViewModel(
                 golpesActuales.clear()
                 golpesActuales.addAll(golpes)
 
-                _golpesLiveData.value = golpes
+                _golpesLiveData.postValue( golpes)
             }
         }
     }
@@ -254,6 +254,7 @@ class PerforacionViewModel(
                 golpe.copy()
 
             }
+            //Actualizar profundidad incial y final
             repository.agregarGolpe(golpesAgregar)
             repository.actualizarProfundidad(profundidad)
             profundidadActual = profundidad

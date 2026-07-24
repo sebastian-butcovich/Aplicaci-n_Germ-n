@@ -16,6 +16,7 @@ import com.example.proyecto_german.Model.GolpesStp
 import com.example.proyecto_german.R
 import com.example.proyecto_german.Repository.PerforacionRepository
 import com.example.proyecto_german.Util.configurarLimitesMaximoDouble
+import com.example.proyecto_german.Util.mostrarDialogoError
 import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
 import com.example.proyecto_german.ViewModel.PerforacionViewModel
 import com.example.proyecto_german.databinding.FragmentGolpesStpBinding
@@ -99,7 +100,13 @@ class FormFragmentGolpes: Fragment() {
                         dataStp3,
                     )
                     //Con esto ya estoy guardando una entrada.
-                    viewModel.agregarGolpe( pf)
+                    if(chequearGolpeConsistente(pf)) {
+                        viewModel.agregarGolpe(pf)
+                        findNavController().popBackStack()
+                    }else{
+                        mostrarDialogoError("Error golpe superpuesto",
+                            "Estas queriendo agregar un golpe que ya está ocupando esas profundidades.",requireContext())
+                    }
                 }else{
                     val golpeActualizado = golpeExistente.copy(
                         id=golpeExistente.id,
@@ -111,12 +118,36 @@ class FormFragmentGolpes: Fragment() {
                         golpes2 = dataStp2,
                         golpes3 = dataStp3
                         )
-                    viewModel.actualizarGolpe(golpeActualizado)
+                    if(chequearGolpeConsistente(golpeActualizado)) {
+                        viewModel.actualizarGolpe(golpeActualizado)
+                        findNavController().popBackStack()
+                    }else{
+                        mostrarDialogoError("Error golpe superpuesto",
+                            "Estas queriendo agregar un golpe que ya está ocupando esas profundidades.",requireContext())
+                    }
                 }
-                findNavController().popBackStack()
             }
     }
-
+    private fun chequearGolpeConsistente(golpe: GolpesStp): Boolean{
+        val golpes = viewModel.golpesActuales
+        for(gol in golpes){
+            //La profundidad inicial del golpe nuevo es menor que la profundidad inicial del golpe
+            //La profundida inicial
+            if((golpe.profundidad_final> gol.profundidad_inicial
+                        && golpe.profundidad_final < gol.profundidad_final)
+                ||(
+                        golpe.profundidad_inicial < gol.profundidad_inicial
+                                && golpe.profundidad_final < gol.profundidad_final
+                        )
+                ||(
+                        golpe.profundidad_inicial < gol.profundidad_final
+                                && gol.profundidad_final < golpe.profundidad_final
+                        )){
+                return false
+            }
+        }
+        return true
+    }
     private fun limpiarCampos() {
         binding.profundidadInicial.setText("")
         binding.profundidadFinal.setText("")

@@ -102,7 +102,11 @@ class FormFragmentProfundidad : Fragment() {
         )
     }
     private fun ocultarBotonoesEnCasoDeNoEditar() {
-        viewModel.modoProfundidad = PerforacionViewModel.ModoProfundidad.VER
+
+        if(viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.VER){
+            binding.botonGuardarProfundidad.visibility = View.GONE;
+            binding.buttonFlotingAddStp.visibility = View.GONE
+        }
     }
 
     private fun inicializarValores(){
@@ -240,7 +244,7 @@ class FormFragmentProfundidad : Fragment() {
     private fun botonAgregar() {
         binding.root.findViewById<Button>(R.id.boton_guardar_profundidad).setOnClickListener {
             val prof = obtenerDatosInputs()
-            if(chequearConsistenciaProfundidad(prof)){
+            if(viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.EDITAR || chequearConsistenciaProfundidad(prof)){
                 cargarDatosProfundidad(prof)
             }else{
                 mostrarMensajeProfundidadInconsistente()
@@ -306,20 +310,18 @@ class FormFragmentProfundidad : Fragment() {
         viewModel.confirmarProfundidadConGolpes()
         findNavController().popBackStack()
     }
-
     private fun obtenerDatosInputs(): Profundidad {
         val profundidadExistente = viewModel.profundidadActual
-        val primerGolpe = viewModel.golpesActuales.firstOrNull()
-        val ultimoGolpe = viewModel.golpesActuales.lastOrNull()
-        var profundidadInicial: Double?;
-        var profundidadFinal: Double?
-        if (primerGolpe == null || ultimoGolpe == null) {
-            profundidadInicial =
-                binding.profundidadInicialProfundidad.text.toString().toDoubleOrNull()
-            profundidadFinal = binding.profundidadFinalProfundidad.text.toString().toDoubleOrNull()
-        } else {
-            profundidadInicial = primerGolpe.profundidad_inicial
-            profundidadFinal = ultimoGolpe.profundidad_final
+        val golpes = viewModel.golpesActuales
+        var profundidadInicial: Double=100.0;
+        var profundidadFinal: Double=0.0
+        for(golpe in golpes){
+            if(golpe.profundidad_inicial < profundidadInicial){
+                profundidadInicial = golpe.profundidad_inicial
+            }
+            if(golpe.profundidad_final > profundidadFinal){
+                profundidadFinal = golpe.profundidad_final
+            }
         }
         val descripcion = binding.descripcion.text.toString()
         val simbolo = binding.spinnerSimbolo.text.toString()

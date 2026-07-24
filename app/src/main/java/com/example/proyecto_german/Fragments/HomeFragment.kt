@@ -35,7 +35,6 @@ class HomeFragment: Fragment() {
             )
         )
     }
-    private val manipularExcel = ManipularExcel()
      override fun onCreateView(
          inflater: LayoutInflater,
          container: ViewGroup?,
@@ -51,6 +50,7 @@ class HomeFragment: Fragment() {
        initRecyclerView()
         observarPerforaciones()
         viewModel.obtenerPerforaciones()
+        viewModel.modoProfundidad = PerforacionViewModel.ModoProfundidad.VER
     }
     private fun initRecyclerView(){
         adapter = PerforacionAdapter(emptyList(),

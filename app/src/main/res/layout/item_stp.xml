@@ -23,45 +23,82 @@
             android:id="@+id/lblProfundidad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Profundidad:"
+            android:text="Golpe:"
             android:textSize="12sp"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+      <LinearLayout
+          android:id="@+id/contenedor_profundidades"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          app:layout_constraintTop_toBottomOf="@id/lblProfundidad"
+          app:layout_constraintStart_toStartOf="parent"
+          android:layout_marginBottom="16dp">
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              >
+              <TextView
+                  android:id="@+id/label_profundiad_inicial"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="2dp"
+                  android:text="Prof. Inicial: "
+                  android:textSize="16sp"
+                  android:textColor="?attr/colorOnSurface"
+                  />
 
-        <TextView
-            android:id="@+id/profundiad_inicial"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            tools:text="0.00"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="?attr/colorOnSurface"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblProfundidad" />
+              <TextView
+                  android:id="@+id/profundiad_inicial"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="2dp"
+                  tools:text="0.00 m"
+                  android:textSize="16sp"
+                  android:textStyle="bold"
+                  android:layout_marginRight="5dp"
+                  android:textColor="?attr/colorOnSurface"
+                  app:layout_constraintStart_toEndOf="@id/label_profundiad_inicial"
+                  app:layout_constraintTop_toBottomOf="@id/lblProfundidad" />
+          </LinearLayout>
 
-        <TextView
-            android:id="@+id/lblSeparador"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="6dp"
-            android:text="→"
-            android:textSize="16sp"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            app:layout_constraintBaseline_toBaselineOf="@id/profundiad_inicial"
-            app:layout_constraintStart_toEndOf="@id/profundiad_inicial" />
+          <!--        <TextView-->
+          <!--            android:id="@+id/lblSeparador"-->
+          <!--            android:layout_width="wrap_content"-->
+          <!--            android:layout_height="wrap_content"-->
+          <!--            android:layout_marginHorizontal="6dp"-->
+          <!--            android:text="→"-->
+          <!--            android:textSize="16sp"-->
+          <!--            android:textColor="?attr/colorOnSurfaceVariant"-->
+          <!--            app:layout_constraintBaseline_toBaselineOf="@id/profundiad_inicial"-->
+          <!--            app:layout_constraintStart_toEndOf="@id/profundiad_inicial" />-->
 
-        <TextView
-            android:id="@+id/profundiad_final"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="1.50 m"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="?attr/colorOnSurface"
-            app:layout_constraintBaseline_toBaselineOf="@id/lblSeparador"
-            app:layout_constraintStart_toEndOf="@id/lblSeparador" />
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+              <TextView
+                  android:id="@+id/label_profundiad_final"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Prof. Final:   "
+                  android:textSize="16sp"
+                  android:textColor="?attr/colorOnSurface"
+                   />
+              <TextView
+                  android:id="@+id/profundiad_final"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  tools:text="1.50 m"
+                  android:textSize="16sp"
+                  android:textStyle="bold"
+                  android:textColor="?attr/colorOnSurface"
+                  />
+          </LinearLayout>
+      </LinearLayout>
 
         <TextView
             android:id="@+id/tipo"
@@ -75,7 +112,7 @@
             android:layout_marginBottom="25dp"
             android:textStyle="bold"
             android:textColor="?attr/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="@id/profundiad_final"
+            app:layout_constraintBottom_toBottomOf="@id/contenedor_profundidades"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/lblProfundidad" />
 
@@ -88,14 +125,14 @@
             android:textSize="14sp"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profundiad_inicial" />
+            app:layout_constraintTop_toBottomOf="@id/contenedor_profundidades" />
 
         <TextView
             android:id="@+id/numero_muestra"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="3"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintBaseline_toBaselineOf="@id/lblMuestra"
@@ -123,7 +160,7 @@
                 android:textAlignment="center"
                 tools:text="STP 1: 12"
                 android:textSize="14sp"
-                android:textColor="?attr/colorOnSurface" />
+                android:textColor="?attr/colorOnSurface"/>
 
             <TextView
                 android:id="@+id/avance_stp_2"

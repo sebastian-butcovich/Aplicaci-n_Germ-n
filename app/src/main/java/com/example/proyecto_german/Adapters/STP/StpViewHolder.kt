@@ -13,15 +13,15 @@ class StpViewHolder(view: View): RecyclerView.ViewHolder(view) {
                eliminarGolpe:(GolpesStp)->Unit,
                soloLectura:Boolean){
         binding.profundiadInicial.text = buildString {
-            append("Inicial: ")
             append(golpesStp.profundidad_inicial.toString())
+            append(" mts")
         }
         binding.profundiadFinal.text = buildString{
-            append("Final: ")
             append(golpesStp.profundidad_final.toString())
+            append(" mts")
         }
         binding.numeroMuestra.text = buildString{
-            append("Número de muestra: ")
+
             append(golpesStp.numero_muestra.toString())
         }
         binding.tipo.text =buildString{
@@ -29,15 +29,15 @@ class StpViewHolder(view: View): RecyclerView.ViewHolder(view) {
             append(golpesStp.tipo)
         }
         binding.avanceStp1.text = buildString{
-            append("Golpe 1: ")
+            append("STP 1: ")
             append(golpesStp.golpes1.toString())
         }
         binding.avanceStp2.text = buildString{
-            append("Golpe 2: ")
+            append("STP 2: ")
             append(golpesStp.golpes2.toString())
         }
         binding.avanceStp3.text = buildString{
-            append("Golpe: ")
+            append("STP 3: ")
             append(golpesStp.golpes3.toString())
         }
         itemView.setOnClickListener {

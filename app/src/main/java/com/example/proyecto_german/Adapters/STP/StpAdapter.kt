@@ -33,7 +33,7 @@ class StpAdapter(var golpes:List<GolpesStp>, private val onClickListener: (Golpe
     }
      fun actualizarLista(listaGolpesStp:List<GolpesStp>){
         golpes = listaGolpesStp.toMutableList()
-         notifyDataSetChanged()
+         this.notifyDataSetChanged()
     }
     override fun getItemCount(): Int = golpes.size
 }
