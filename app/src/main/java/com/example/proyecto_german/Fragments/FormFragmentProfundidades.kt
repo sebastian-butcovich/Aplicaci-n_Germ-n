@@ -60,6 +60,7 @@ class FormFragmentProfundidades: Fragment() {
         binding.root.findViewById<Button>(R.id.boton_guardar).setOnClickListener {
             viewModel.agregarPerforacion()
             Toast.makeText(requireContext(),"Base de datos guardada",Toast.LENGTH_SHORT).show()
+            viewModel.modoProfundidadActual = viewModel.modoProfundidadAnterior
             findNavController().navigate(R.id.action_formFragmentProfundidades_to_homeFragment)        }
     }
 
@@ -69,12 +70,14 @@ class FormFragmentProfundidades: Fragment() {
                 onItemSelected(profundidad)
             },
             onClickVerGolpes = {profundidad ->
-                viewModel.modoProfundidad = PerforacionViewModel.ModoProfundidad.VER
+                viewModel.modoProfundidadAnterior = viewModel.modoProfundidadActual
+                viewModel.modoProfundidadActual = PerforacionViewModel.ModoProfundidad.VER
                 viewModel.abrirGolpesParaVisualizar(profundidad)
                 findNavController().navigate(R.id.action_formFragmentProfundidades_to_formFragmentProfundidad)
             },
             onClickEditar = {profundidad ->
-                viewModel.modoProfundidad = PerforacionViewModel.ModoProfundidad.EDITAR
+                viewModel.modoProfundidadAnterior = viewModel.modoProfundidadActual
+                viewModel.modoProfundidadActual = PerforacionViewModel.ModoProfundidad.EDITAR
                 viewModel.abrirGolpesParaVisualizar(profundidad)
                 findNavController().navigate(R.id.action_formFragmentProfundidades_to_formFragmentProfundidad)
             },

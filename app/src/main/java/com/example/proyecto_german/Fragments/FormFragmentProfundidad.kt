@@ -54,7 +54,7 @@ class FormFragmentProfundidad : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentProfundidadBinding.inflate(inflater, container, false)
-        when(viewModel.modoProfundidad){
+        when(viewModel.modoProfundidadActual){
             PerforacionViewModel.ModoProfundidad.CREAR -> habilitarEdicion(true)
             PerforacionViewModel.ModoProfundidad.EDITAR -> habilitarEdicion(true)
             PerforacionViewModel.ModoProfundidad.VER -> habilitarEdicion(false)
@@ -72,7 +72,7 @@ class FormFragmentProfundidad : Fragment() {
         mostrarInputsProfundidades()
         agregarStpAccion()
         //En caso de que solo quiera ver los golpes
-        if(viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.VER){
+        if(viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.VER){
             ocultarBotonoesEnCasoDeNoEditar()
         }
         inicializarSpinners()
@@ -103,7 +103,7 @@ class FormFragmentProfundidad : Fragment() {
     }
     private fun ocultarBotonoesEnCasoDeNoEditar() {
 
-        if(viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.VER){
+        if(viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.VER){
             binding.botonGuardarProfundidad.visibility = View.GONE;
             binding.buttonFlotingAddStp.visibility = View.GONE
         }
@@ -213,7 +213,8 @@ class FormFragmentProfundidad : Fragment() {
             },
             editarGolpe = {golpesStp ->
                 viewModel.seleccionarGolpe(golpesStp)
-                viewModel.modoProfundidad = PerforacionViewModel.ModoProfundidad.EDITAR
+                viewModel.modoProfundidadAnterior = viewModel.modoProfundidadActual
+                viewModel.modoProfundidadActual = PerforacionViewModel.ModoProfundidad.EDITAR
                 findNavController().navigate(
                     R.id.action_formFragmentProfundidad_to_formFragmentGolpes
                 )
@@ -232,7 +233,7 @@ class FormFragmentProfundidad : Fragment() {
                 val dialog: AlertDialog = builder.create()
                 dialog.show()
             },
-            viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.VER)
+            viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.VER)
         binding.listaSpt.layoutManager = LinearLayoutManager(requireContext())
         binding.listaSpt.adapter = adapter
     }
@@ -244,7 +245,7 @@ class FormFragmentProfundidad : Fragment() {
     private fun botonAgregar() {
         binding.root.findViewById<Button>(R.id.boton_guardar_profundidad).setOnClickListener {
             val prof = obtenerDatosInputs()
-            if(viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.EDITAR || chequearConsistenciaProfundidad(prof)){
+            if(viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.EDITAR || chequearConsistenciaProfundidad(prof)){
                 cargarDatosProfundidad(prof)
             }else{
                 mostrarMensajeProfundidadInconsistente()
@@ -254,22 +255,27 @@ class FormFragmentProfundidad : Fragment() {
     private fun chequearConsistenciaProfundidad(profActual: Profundidad): Boolean{
         //Los datos deben estar en mi profundida actual y en mi profundidadConGolpes
         val listaProfundidad = viewModel.profundidadesConGolpes.value
-        var res:Boolean = false
         if (listaProfundidad != null
             && profActual.profundidadInicial !=null
             && profActual.profundidadFinal !=null) {
-            for(profundidadConGolpe in listaProfundidad){
+            for (profundidadConGolpe in listaProfundidad) {
                 val profundidad = profundidadConGolpe.profundidad
-                if(profundidad.profundidadFinal != null
-                    && profundidad.profundidadInicial != null){
-                    res = (profActual.profundidadInicial < profundidad.profundidadInicial
-                            && profActual.profundidadFinal < profundidad.profundidadInicial)
-                            || (profActual.profundidadInicial > profundidad.profundidadFinal)
+                if (profundidad.profundidadFinal != null
+                    && profundidad.profundidadInicial != null && profActual.id != profundidad.id
+                ) {
+                    if(profActual.profundidadInicial >= profundidad.profundidadInicial && profActual.profundidadInicial <= profundidad.profundidadFinal){
+                        return false
+                    }
+                    if(profActual.profundidadFinal >= profundidad.profundidadInicial && profActual.profundidadFinal <= profundidad.profundidadFinal){
+                        return false
+                    }
+                    if(profActual.profundidadInicial >= profundidad.profundidadInicial && profActual.profundidadFinal <= profundidad.profundidadFinal){
+                        return false;
+                    }
                 }
-                if(res){return true}
             }
         }
-        return res
+        return true
     }
     private fun mostrarMensajeProfundidadInconsistente(){
         mostrarDialogoError(
@@ -281,7 +287,7 @@ class FormFragmentProfundidad : Fragment() {
         )
     }
     private fun cargarDatosProfundidad(profundidad: Profundidad){
-        if(viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.CREAR){
+        if(viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.CREAR){
             viewModel.profundidadActual = profundidad
         }else{
             val golpes = viewModel.golpesActuales.filter {
@@ -308,6 +314,7 @@ class FormFragmentProfundidad : Fragment() {
             }
         }
         viewModel.confirmarProfundidadConGolpes()
+        viewModel.modoProfundidadActual = viewModel.modoProfundidadAnterior
         findNavController().popBackStack()
     }
     private fun obtenerDatosInputs(): Profundidad {
@@ -329,7 +336,7 @@ class FormFragmentProfundidad : Fragment() {
             binding.spinnerSucs.text.toString()
         )
         val profundidad =
-            if (viewModel.modoProfundidad != PerforacionViewModel.ModoProfundidad.CREAR) {
+            if (viewModel.modoProfundidadActual != PerforacionViewModel.ModoProfundidad.CREAR) {
                 profundidadExistente!!.copy(
                     descripcion = descripcion,
                     simbolo = simbolo,

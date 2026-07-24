@@ -52,7 +52,7 @@ class FormFragment: Fragment() {
         accionBoton()
         limpiarFormulario()
         generarCalendario()
-        if(viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.EDITAR){
+        if(viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.EDITAR){
             cambiarAEditar()
             inicializarInputs()
         }
@@ -170,7 +170,7 @@ class FormFragment: Fragment() {
         val lecturaInicial = binding.inputLecturaInicial.text.toString().toDouble()
         val lecturaFinal = binding.inputLecturaFinal.text.toString().toDouble()
         val estadoTiempo = binding.inputEstadoTiempo.text.toString()
-        if(viewModel.perforacionEdit != null && viewModel.modoProfundidad == PerforacionViewModel.ModoProfundidad.EDITAR ){
+        if(viewModel.perforacionEdit != null && viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.EDITAR ){
             val p= Perforacion(
                 viewModel.perforacionEdit!!.id,"",fecha,
                 "",cliente,atencion,proyecto,localizacion,fecha,numeroPerforacion
@@ -178,6 +178,7 @@ class FormFragment: Fragment() {
                 nivelFreatico,lecturaInicial,lecturaFinal,estadoTiempo)
             viewModel.actualizarPerforacion(p)
             viewModel.obtenerPerforaciones()
+            viewModel.modoProfundidadActual = viewModel.modoProfundidadAnterior
             findNavController().popBackStack()
             return p
         }else{
@@ -219,6 +220,6 @@ class FormFragment: Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.modoProfundidad = PerforacionViewModel.ModoProfundidad.CREAR
+        viewModel.modoProfundidadActual = PerforacionViewModel.ModoProfundidad.CREAR
     }
 }

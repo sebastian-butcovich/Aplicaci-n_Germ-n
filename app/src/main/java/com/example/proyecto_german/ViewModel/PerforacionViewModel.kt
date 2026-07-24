@@ -40,7 +40,8 @@ class PerforacionViewModel(
         VER
     }
 
-    var modoProfundidad = ModoProfundidad.CREAR
+    var modoProfundidadActual = ModoProfundidad.CREAR
+    var modoProfundidadAnterior = ModoProfundidad.CREAR
     fun obtenerPerforaciones() {
         viewModelScope.launch {
             _perforaciones.value = repository.obtenerPerforaciones()
@@ -82,7 +83,7 @@ class PerforacionViewModel(
 
     fun confirmarProfundidadConGolpes() {
         val profundidad = profundidadActual ?: return
-        if(modoProfundidad == ModoProfundidad.CREAR){
+        if(modoProfundidadActual == ModoProfundidad.CREAR){
             agregarProfundidadConGolpes(profundidad, golpesActuales.toList())
         }
         profundidadActual = null;
@@ -149,7 +150,7 @@ class PerforacionViewModel(
     }
 
     fun limpiarAgregarProfundidad() {
-        modoProfundidad = PerforacionViewModel.ModoProfundidad.CREAR
+        modoProfundidadActual = PerforacionViewModel.ModoProfundidad.CREAR
         profundidadActual = null
         golpesActuales.clear()
         _golpesLiveData.value = emptyList<GolpesStp>()

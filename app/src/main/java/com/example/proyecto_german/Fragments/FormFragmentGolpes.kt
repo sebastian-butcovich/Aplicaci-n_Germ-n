@@ -102,6 +102,7 @@ class FormFragmentGolpes: Fragment() {
                     //Con esto ya estoy guardando una entrada.
                     if(chequearGolpeConsistente(pf)) {
                         viewModel.agregarGolpe(pf)
+                        viewModel.modoProfundidadActual = viewModel.modoProfundidadAnterior
                         findNavController().popBackStack()
                     }else{
                         mostrarDialogoError("Error golpe superpuesto",
@@ -120,6 +121,7 @@ class FormFragmentGolpes: Fragment() {
                         )
                     if(chequearGolpeConsistente(golpeActualizado)) {
                         viewModel.actualizarGolpe(golpeActualizado)
+                        viewModel.modoProfundidadActual = viewModel.modoProfundidadAnterior
                         findNavController().popBackStack()
                     }else{
                         mostrarDialogoError("Error golpe superpuesto",
@@ -134,17 +136,14 @@ class FormFragmentGolpes: Fragment() {
             //La profundidad inicial del golpe nuevo es menor que la profundidad inicial del golpe
             //La profundida inicial
             if(gol.id != golpe.id){
-                if((golpe.profundidad_final> gol.profundidad_inicial
-                            && golpe.profundidad_final < gol.profundidad_final)
-                    ||(
-                            golpe.profundidad_inicial < gol.profundidad_inicial
-                                    && golpe.profundidad_final < gol.profundidad_final
-                            )
-                    ||(
-                            golpe.profundidad_inicial < gol.profundidad_final
-                                    && gol.profundidad_final < golpe.profundidad_final
-                            )){
+                if(golpe.profundidad_inicial >= gol.profundidad_inicial && golpe.profundidad_inicial <= gol.profundidad_final){
                     return false
+                }
+                if(golpe.profundidad_final >= gol.profundidad_inicial && golpe.profundidad_final <= gol.profundidad_final){
+                    return false
+                }
+                if(golpe.profundidad_inicial >= gol.profundidad_inicial && golpe.profundidad_final <= gol.profundidad_final){
+                    return false;
                 }
             }
         }

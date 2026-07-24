@@ -50,7 +50,7 @@ class HomeFragment: Fragment() {
        initRecyclerView()
         observarPerforaciones()
         viewModel.obtenerPerforaciones()
-        viewModel.modoProfundidad = PerforacionViewModel.ModoProfundidad.VER
+        viewModel.modoProfundidadActual = PerforacionViewModel.ModoProfundidad.VER
     }
     private fun initRecyclerView(){
         adapter = PerforacionAdapter(emptyList(),
@@ -89,7 +89,8 @@ class HomeFragment: Fragment() {
             },
             onEditarClick = {perforacion->
                 viewModel.perforacionEdit = perforacion
-                viewModel.modoProfundidad = PerforacionViewModel.ModoProfundidad.EDITAR
+                viewModel.modoProfundidadAnterior = viewModel.modoProfundidadActual
+                viewModel.modoProfundidadActual = PerforacionViewModel.ModoProfundidad.EDITAR
                 findNavController().navigate(R.id.action_homeFragment_to_formFragment)
             }
         )
