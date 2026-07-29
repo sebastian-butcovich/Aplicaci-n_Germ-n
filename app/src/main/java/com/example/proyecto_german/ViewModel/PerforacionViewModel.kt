@@ -158,7 +158,7 @@ class PerforacionViewModel(
 
     fun eliminarGolpe(golpe: GolpesStp) {
         viewModelScope.launch {
-            val profundidad = profundidadActual ?:return@launch
+            val profundidad = profundidadActual //?:return@launch
             if(golpe.id !=0L){
 
                 repository.eliminarGolpe(golpe.id)

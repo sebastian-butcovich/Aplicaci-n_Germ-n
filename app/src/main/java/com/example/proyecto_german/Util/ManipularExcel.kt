@@ -5,7 +5,7 @@ import android.content.Intent
 import androidx.core.content.FileProvider
 import com.example.proyecto_german.Model.Perforacion
 import com.example.proyecto_german.Model.Profundidad
-import com.example.proyecto_german.Model.Sucs
+//import com.example.proyecto_german.Model.Sucs
 import com.example.proyecto_german.Model.Temporales.ProfundidadConGolpes
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.xssf.usermodel.XSSFSheet
@@ -133,7 +133,7 @@ class ManipularExcel {
                 }
             }
 
-        if (profundidadConGolpes.profundidad.sucs != Sucs.VACIO) {
+        if (profundidadConGolpes.profundidad.sucs.equals("VACIO")) {
             sheet.getRow(filaInicial).getCell(12)
                 .setCellValue(profundidadConGolpes.profundidad.sucs.toString())
         }

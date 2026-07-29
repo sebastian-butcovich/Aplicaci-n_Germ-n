@@ -11,10 +11,15 @@
     <string name="entradas">Entradas</string>
     <string-array name="valores_sucs">
         <item>VACIO</item>
+        <item>ARENA</item>
+        <item>GRAVAS</item>
+        <item>CL</item>
         <item>CH</item>
+        <item>ML</item>
         <item>MH</item>
-        <item>SM</item>
-        <item>GP</item>
+        <item>OL</item>
+        <item>OH</item>
+        <item>PT</item>
     </string-array>
     <string-array name="valores_tipo">
         <item>C</item>
@@ -35,10 +40,5 @@
         <item>OH</item>
         <item>PT</item>
     </string-array>
-    <string name="item_proyecto">Proyecto: <b>%1$s</b></string>
-    <string name="item_cliente">Cliente: <b>%1$s</b></string>
-    <string name="item_atencion">Atención: <b>%1$s</b></string>
-    <string name="item_profundidad">Profundidad: <b>%1$s mts</b></string>
-    <string name="item_num_perforacion">N° perforación: <b>%1$.2f</b></string>
     <string name="nivel_freatico">¿Nivel freático?</string>
 </resources>

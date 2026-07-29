@@ -23,6 +23,7 @@ import kotlin.getValue
 import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 class FormFragment: Fragment() {
@@ -104,6 +105,7 @@ class FormFragment: Fragment() {
         binding.inputProfundidad.setText(perforacion.profundidadMetros.toString())
         binding.inputCoordenadaE.setText(perforacion.coordenadaE.toString())
         binding.inputCoordenadaN.setText(perforacion.coordenadaN.toString())
+        binding.inputFecha.setText(perforacion.fecha.aTextoFormato())
         val opciones = resources.getStringArray(R.array.valores_freatico)
         if (perforacion.nivelFreatico) {
             binding.spinnerNivelFreatico.setText(opciones[1], false) // Muestra "Sí"
@@ -117,22 +119,22 @@ class FormFragment: Fragment() {
     fun accionBoton(){
         val miBoton = binding.root.findViewById<Button>(R.id.boton_continuar)
         miBoton.setOnClickListener {
-            if(chequeoDatosFormulario()){
+//            if(chequeoDatosFormulario()){
                 val perforacion = obtenerDatosDeLosInputs()
                 viewModel.actulizarPerforacion(perforacion)
                 viewModel.limpiarProfundidades()
                 findNavController().navigate(R.id.action_formFragment_to_formFragmentProfundidades)
-            }else{
-                Toast.makeText(context,"No ingresaste los dato mínimos del formulario",Toast.LENGTH_SHORT).show()
-            }
+//            }else{
+//                Toast.makeText(context,"No ingresaste los dato mínimos del formulario",Toast.LENGTH_SHORT).show()
+//            }
         }
         binding.root.findViewById<Button>(R.id.boton_editar).setOnClickListener {
-            if(chequeoDatosFormulario()){
+            //if(chequeoDatosFormulario()){
                 val perforacion = obtenerDatosDeLosInputs()
                 viewModel.actulizarPerforacion(perforacion)
-            }else{
-                Toast.makeText(context,"No ingresaste los dato mínimos del formulario",Toast.LENGTH_SHORT).show()
-            }
+         //   }else{
+             //   Toast.makeText(context,"No ingresaste los dato mínimos del formulario",Toast.LENGTH_SHORT).show()
+           // }
         }
     }
     private fun chequeoDatosFormulario(): Boolean{
@@ -140,10 +142,10 @@ class FormFragment: Fragment() {
             && !binding.inputAtencion.text.toString().isEmpty()
             && !binding.inputProyecto.text.toString().isEmpty()
             && !binding.inputLocalizacion.text.toString().isEmpty()
-            && binding.inputNumeroPerforacion.text.toString().toDouble() != 0.0
-            && binding.inputProfundidad.text.toString().toDouble() != 0.0
-            && binding.inputCoordenadaE.text.toString().toDouble() != 0.0
-            && binding.inputCoordenadaN.text.toString().toDouble() != 0.0
+            && binding.inputNumeroPerforacion.text.toString().isEmpty()
+            && binding.inputProfundidad.text.toString().isEmpty()
+            && binding.inputCoordenadaE.text.toString().isEmpty()
+            && binding.inputCoordenadaN.text.toString().isEmpty()
             && !binding.inputLecturaInicial.text.toString().isEmpty()
             && !binding.inputLecturaFinal.text.toString().isEmpty()
             && !binding.inputEstadoTiempo.text.toString().isEmpty()){
@@ -153,23 +155,20 @@ class FormFragment: Fragment() {
         }
     }
     private fun obtenerDatosDeLosInputs(): Perforacion {
-        val cliente = binding.inputCliente.text.toString()
-        Log.i("Cliente",cliente)
-        val atencion = binding.inputAtencion.text.toString()
-        Log.i("Atención",atencion)
-        val proyecto = binding.inputProyecto.text.toString()
-        Log.i("Proyecto",proyecto)
-        val fecha = java.util.Date()
-        val localizacion = binding.inputLocalizacion.text.toString();
-        Log.i("Fecha",fecha.toString())
-        val numeroPerforacion = binding.inputNumeroPerforacion.text.toString().toDouble()
-        val profundidad = binding.inputProfundidad.text.toString().toDouble()
-        val coordenadaX = binding.inputCoordenadaE.text.toString().toDouble()
-        val coordenadaY = binding.inputCoordenadaN.text.toString().toDouble()
+        val cliente = binding.inputCliente.text.toString().trim().ifBlank { "PENDIENTE" }
+        val atencion = binding.inputAtencion.text.toString().trim().ifBlank { "PENDIENTE" }
+        val proyecto = binding.inputProyecto.text.toString().trim().ifBlank { "PENDIENTE" }
+        val localizacion = binding.inputLocalizacion.text.toString().trim().ifBlank { "PENDIENTE" };
+        val fechaString = binding.inputFecha.text.toString().trim().ifBlank{" "}
+        val fecha = parsearFechaODefecto(fechaString)
+        val numeroPerforacion = binding.inputNumeroPerforacion.text.toString().trim().toDoubleOrNull()?:0.0
+        val profundidad = binding.inputProfundidad.text.toString().trim().toDoubleOrNull()?:0.0
+        val coordenadaX = binding.inputCoordenadaE.text.toString().trim().toDoubleOrNull()?:0.0
+        val coordenadaY = binding.inputCoordenadaN.text.toString().trim().toDoubleOrNull()?:0.0
         val nivelFreatico = binding.spinnerNivelFreatico.text.toString() == "Si"
-        val lecturaInicial = binding.inputLecturaInicial.text.toString().toDouble()
-        val lecturaFinal = binding.inputLecturaFinal.text.toString().toDouble()
-        val estadoTiempo = binding.inputEstadoTiempo.text.toString()
+        val lecturaInicial = binding.inputLecturaInicial.text.toString().trim().toDoubleOrNull()?:0.0
+        val lecturaFinal = binding.inputLecturaFinal.text.toString().trim().toDoubleOrNull()?:0.0
+        val estadoTiempo = binding.inputEstadoTiempo.text.toString().trim().ifBlank { "PENDIENTE" }
         if(viewModel.perforacionEdit != null && viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.EDITAR ){
             val p= Perforacion(
                 viewModel.perforacionEdit!!.id,"",fecha,
@@ -190,7 +189,16 @@ class FormFragment: Fragment() {
         }
 
     }
-
+    private fun parsearFechaODefecto(fecha: String,formato:String = "dd-MM-yyyy"): Date{
+        if(fecha.isBlank()) return Date();
+        return try{
+            val sdf = SimpleDateFormat(formato, Locale.getDefault())
+            sdf.isLenient = false
+            sdf.parse(fecha.trim())?:Date()
+        }catch(e: Exception){
+            Date() // Si el formato ingresado es invalido, regresa la fecha actual.
+        }
+    }
     private fun generarCalendario(){
         val calendario = Calendar.getInstance()
         var fecha = DatePickerDialog.OnDateSetListener{ datePicker, anio, mes, dia
@@ -221,5 +229,11 @@ class FormFragment: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.modoProfundidadActual = PerforacionViewModel.ModoProfundidad.CREAR
+    }
+    //Función que me permite pasar mi fecha de base de datos a una fecha string "yyyy/mm/dd"
+     fun Date?.aTextoFormato():String{
+        if(this == null) return ""
+        val formato = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
+        return formato.format(this)
     }
 }

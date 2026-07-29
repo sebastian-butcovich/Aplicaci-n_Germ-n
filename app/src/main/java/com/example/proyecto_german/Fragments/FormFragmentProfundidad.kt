@@ -20,7 +20,7 @@ import com.example.proyecto_german.Adapters.STP.StpAdapter
 import com.example.proyecto_german.Data.Application.PerforacionesApplication
 import com.example.proyecto_german.Model.GolpesStp
 import com.example.proyecto_german.Model.Profundidad
-import com.example.proyecto_german.Model.Sucs
+//import com.example.proyecto_german.Model.Sucs
 import com.example.proyecto_german.R
 import com.example.proyecto_german.Repository.PerforacionRepository
 import com.example.proyecto_german.Util.configurarLimitesMaximoDouble
@@ -113,7 +113,7 @@ class FormFragmentProfundidad : Fragment() {
         //Existe la profundidad o no tenes nada que hacer
         val profundidad = viewModel.profundidadActual?:return
         binding.spinnerSucs.setText(
-            obtenerPosicionSucs(profundidad.sucs)
+            profundidad.sucs
         )
         binding.descripcion.setText(
             profundidad.descripcion
@@ -162,11 +162,11 @@ class FormFragmentProfundidad : Fragment() {
         return "VACIO"
     }
 
-    private fun obtenerPosicionSucs(sucs:Sucs):String {
-        val arraySucs: Array<String> = resources.getStringArray(R.array.valores_sucs)
-        val aux =  Sucs.entries.indexOf(sucs)
-        return arraySucs[aux]
-    }
+//    private fun obtenerPosicionSucs(sucs:String):String {
+//        val arraySucs: Array<String> = resources.getStringArray(R.array.valores_sucs)
+//        //val aux =  Sucs.entries.indexOf(sucs)
+//        return arraySucs[aux]
+//    }
 
     private fun accionarCheckBox() {
         val check = binding.root.findViewById<CheckBox>(R.id.checkGolpes)
@@ -203,6 +203,8 @@ class FormFragmentProfundidad : Fragment() {
     private fun agregarStpAccion(){
         binding.buttonFlotingAddStp.setOnClickListener {
             viewModel._golpeActual.value = null
+            viewModel.modoProfundidadAnterior = viewModel.modoProfundidadActual
+            viewModel.modoProfundidadActual = PerforacionViewModel.ModoProfundidad.CREAR
             binding.root.findNavController().navigate(R.id.action_formFragmentProfundidad_to_formFragmentGolpes)
         }
     }
@@ -322,6 +324,10 @@ class FormFragmentProfundidad : Fragment() {
         val golpes = viewModel.golpesActuales
         var profundidadInicial: Double=100.0;
         var profundidadFinal: Double=0.0
+        if(binding.profundidadInicialProfundidad.text.toString() != "" || binding.profundidadFinalProfundidad.text.toString() != ""){
+            profundidadInicial = binding.profundidadInicialProfundidad.text.toString().trim().toDoubleOrNull()?:0.0
+            profundidadFinal = binding.profundidadFinalProfundidad.text.toString().trim().toDoubleOrNull()?:0.0
+        }
         for(golpe in golpes){
             if(golpe.profundidad_inicial < profundidadInicial){
                 profundidadInicial = golpe.profundidad_inicial
@@ -332,9 +338,8 @@ class FormFragmentProfundidad : Fragment() {
         }
         val descripcion = binding.descripcion.text.toString()
         val simbolo = binding.spinnerSimbolo.text.toString()
-        val sucs = Sucs.valueOf(
-            binding.spinnerSucs.text.toString()
-        )
+        val sucs = binding.spinnerSucs.text.toString().trim().ifEmpty { "VACIO" }
+
         val profundidad =
             if (viewModel.modoProfundidadActual != PerforacionViewModel.ModoProfundidad.CREAR) {
                 profundidadExistente!!.copy(

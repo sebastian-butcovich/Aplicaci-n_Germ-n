@@ -5,6 +5,9 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 fun EditText.configurarLimitesMaximoDouble(maximoCaracteres: Int, valorMinimo: Number, valorMaximo:Number) {
    this.filters = arrayOf(android.text.InputFilter.LengthFilter(maximoCaracteres))
@@ -40,4 +43,9 @@ fun mostrarDialogoError(title:String,mensaje:String,context: Context){
         .setCancelable(true)
         .create()
         .show()
+}
+fun Date?.aTextoFormato():String{
+    if(this == null) return ""
+    val formato = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
+    return formato.format(this)
 }

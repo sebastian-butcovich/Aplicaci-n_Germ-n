@@ -20,16 +20,16 @@ data class Profundidad (
     @PrimaryKey(autoGenerate = true)
     val id: Long=0,
     val perforacionId:Long,
-    val sucs: Sucs,
+    val sucs: String,
     val descripcion: String,
     val simbolo: String,
     val profundidadInicial:Double?=0.0,
     val profundidadFinal:Double?=0.0
 )
-enum class Sucs{
-    VACIO,
-    CH,
-    MH,
-    SM,
-    GP,
-}
+//enum class Sucs{
+//    VACIO,
+//    CH,
+//    MH,
+//    SM,
+//    GP,
+//}

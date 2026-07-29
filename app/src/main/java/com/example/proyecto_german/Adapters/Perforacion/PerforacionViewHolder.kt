@@ -4,6 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_german.Model.Perforacion
 import com.example.proyecto_german.databinding.ItemPerforacionBinding
+import com.example.proyecto_german.Util.aTextoFormato
 
 class PerforacionViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val binding = ItemPerforacionBinding.bind(view)
@@ -17,6 +18,7 @@ class PerforacionViewHolder(view: View): RecyclerView.ViewHolder(view) {
         binding.valorAtencion.text =  perforacion.atencion
         binding.valorProfundiad.text = perforacion.profundidadMetros.toString() + " mts"
         binding.valorNumeroPerforacion.text = perforacion.numeroPerforacion.toString()
+        binding.fechaValue.text = perforacion.fecha.aTextoFormato()
         itemView.setOnClickListener {
             onClickListener(perforacion)
         }

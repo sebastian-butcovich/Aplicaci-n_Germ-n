@@ -14,7 +14,7 @@ class ProfundidadViewHolder(view: View): RecyclerView.ViewHolder(view) {
         binding.itemProfundidadesInicial.text = profundidad.profundidadInicial.toString() + " mts"
         binding.itemProfundidadesFinal.text = profundidad.profundidadFinal.toString() +" mts"
         binding.sucs.text = "SUCS: "+ profundidad.sucs.toString()
-        binding.descripcion.text = "Descripción: "+profundidad.descripcion
+        binding.valorDescripcion.text =profundidad.descripcion
         itemView.setOnClickListener {
             onClickListener
         }

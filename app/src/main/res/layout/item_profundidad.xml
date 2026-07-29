@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="Prof. Inicial: "
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textColor="?attr/colorOnSurface" />
                 <TextView
                     android:id="@+id/item_profundidadesInicial"
@@ -82,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Prof. Final:   "
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textColor="?attr/colorOnSurface"
                     />
                 <TextView
@@ -112,18 +112,34 @@
             app:layout_constraintBottom_toBottomOf="@id/contenedor_profundidades"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/lblProfundidadTitulo" />
-
-        <TextView
-            android:id="@+id/descripcion"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/contendor_descripcion"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            tools:text="Arcilla de alta plasticidad, color marrón oscuro con trazas de arena fina."
-            android:textSize="14sp"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/contenedor_profundidades" />
+            app:layout_constraintTop_toBottomOf="@id/contenedor_profundidades">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Descripción: "
+                android:textSize="12sp"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                />
+
+            <TextView
+                android:id="@+id/valorDescripcion"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textStyle="bold"
+                tools:text="Arcilla de alta plasticidad, color marrón oscuro con trazas de arena fina."
+                android:textSize="14sp"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/containerBotones"
@@ -134,7 +150,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/descripcion">
+            app:layout_constraintTop_toBottomOf="@id/contendor_descripcion">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/botonVerGolpes"
