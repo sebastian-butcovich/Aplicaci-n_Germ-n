@@ -11,10 +11,10 @@ class ProfundidadViewHolder(view: View): RecyclerView.ViewHolder(view) {
                onClickVerGolpes:(Profundidad)-> Unit,
                onClickEditar:(Profundidad)-> Unit,
                onClickEliminar:(Profundidad)-> Unit){
-        binding.itemProfundidadesInicial.text = profundidad.profundidadInicial.toString() + " mts"
-        binding.itemProfundidadesFinal.text = profundidad.profundidadFinal.toString() +" mts"
-        binding.sucs.text = "SUCS: "+ profundidad.sucs.toString()
-        binding.valorDescripcion.text =profundidad.descripcion
+        binding.itemProfundidadesInicial.text = profundidad.profundidadInicial.toString().trim().ifBlank { "PENDIENTE" }
+        binding.itemProfundidadesFinal.text = profundidad.profundidadFinal.toString().trim().ifBlank { "PENDIENTE" }
+        binding.sucs.text = "SUCS: "+ profundidad.sucs.toString().trim().ifBlank { "VACIO" }
+        binding.valorDescripcion.text =profundidad.descripcion.trim().ifBlank { "PENDIENTE" }
         itemView.setOnClickListener {
             onClickListener
         }

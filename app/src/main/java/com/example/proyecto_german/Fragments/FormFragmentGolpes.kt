@@ -75,17 +75,17 @@ class FormFragmentGolpes: Fragment() {
     }
 
         private fun guardarEnLaListaStp() {
-            if (!chequedoDeDatos()) {
-                Toast.makeText(context,"Faltan los datos mínimos para cargar un profundidad, mínimamente es necesario" +
-                        "cargar la profundidad inicial y final", Toast.LENGTH_SHORT).show()
-            }else{
-                val dataProfundidadInicial = binding.profundidadInicial.text.toString().toDouble()
-                val dataProfundidadFinal = binding.profundidadFinal.text.toString().toDouble()
-                val dataMuestrasNumero = binding.muestraNro.text.toString().toDoubleOrNull()
-                val dataTipo = binding.spinnerTipo.text.toString()
-                val dataStp1 = binding.inputStp1.text.toString().toIntOrNull()
-                val dataStp2 = binding.inputStp2.text.toString().toIntOrNull()
-                val dataStp3 = binding.inputStp3.text.toString().toIntOrNull()
+//            if (!chequedoDeDatos()) {
+//                Toast.makeText(context,"Faltan los datos mínimos para cargar un profundidad, mínimamente es necesario" +
+//                        "cargar la profundidad inicial y final", Toast.LENGTH_SHORT).show()
+//            }else{
+                val dataProfundidadInicial = binding.profundidadInicial.text.toString().toDoubleOrNull()?:0.0
+                val dataProfundidadFinal = binding.profundidadFinal.text.toString().toDoubleOrNull()?:0.0
+                val dataMuestrasNumero = binding.muestraNro.text.toString().toDoubleOrNull()?:0.0
+                val dataTipo = binding.spinnerTipo.text.toString().trim().ifBlank { "VACIO" }
+                val dataStp1 = binding.inputStp1.text.toString().toIntOrNull()?:0.0
+                val dataStp2 = binding.inputStp2.text.toString().toIntOrNull()?:0.0
+                val dataStp3 = binding.inputStp3.text.toString().toIntOrNull()?:0.0
                 val golpeExistente = viewModel.golpeActualLiveData.value
                 if(golpeExistente == null){
                     val pf = GolpesStp(
@@ -95,9 +95,9 @@ class FormFragmentGolpes: Fragment() {
                         dataProfundidadFinal,
                         dataMuestrasNumero,
                         dataTipo,
-                        dataStp1,
-                        dataStp2,
-                        dataStp3,
+                        dataStp1.toInt(),
+                        dataStp2.toInt(),
+                        dataStp3.toInt(),
                     )
                     //Con esto ya estoy guardando una entrada.
                     if(chequearGolpeConsistente(pf)) {
@@ -115,9 +115,9 @@ class FormFragmentGolpes: Fragment() {
                         profundidad_final = dataProfundidadFinal,
                         tipo = dataTipo,
                         numero_muestra = dataMuestrasNumero,
-                        golpes1 = dataStp1,
-                        golpes2 = dataStp2,
-                        golpes3 = dataStp3
+                        golpes1 = dataStp1.toInt(),
+                        golpes2 = dataStp2.toInt(),
+                        golpes3 = dataStp3.toInt()
                         )
                     if(chequearGolpeConsistente(golpeActualizado)) {
                         viewModel.actualizarGolpe(golpeActualizado)
@@ -128,7 +128,7 @@ class FormFragmentGolpes: Fragment() {
                             "Estas queriendo agregar un golpe que ya está ocupando esas profundidades.",requireContext())
                     }
                 }
-            }
+//            }
     }
     private fun chequearGolpeConsistente(golpe: GolpesStp): Boolean{
         val golpes = viewModel.golpesActuales
