@@ -247,7 +247,10 @@ class FormFragmentProfundidad : Fragment() {
     private fun botonAgregar() {
         binding.root.findViewById<Button>(R.id.boton_guardar_profundidad).setOnClickListener {
             val prof = obtenerDatosInputs()
-            if(viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.EDITAR || chequearConsistenciaProfundidad(prof)){
+            if(viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.EDITAR
+                /*|| chequearConsistenciaProfundidad(prof)*/
+                || viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.CREAR
+            ){
                 cargarDatosProfundidad(prof)
             }else{
                 mostrarMensajeProfundidadInconsistente()

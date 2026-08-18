@@ -33,51 +33,69 @@ class ManipularExcel {
     fun completarExcel(
         archivo: File,
         perforacion: Perforacion,
-        profundidadConGolpes: List<ProfundidadConGolpes>
-    ) {
-        val workbook = XSSFWorkbook(FileInputStream(archivo))
-        val sheet = workbook.getSheetAt(0);
-        var ultimoSucs: String = ""
-        //Datos generales -- Cabecera superior
-        sheet.getRow(6).getCell(7).setCellValue(perforacion.cliente)
-        sheet.getRow(6).getCell(34).setCellValue(perforacion.fecha)
-        sheet.getRow(7).getCell(7).setCellValue(perforacion.atencion)
-        sheet.getRow(7).getCell(34).setCellValue(perforacion.numeroPerforacion.toString())
-        sheet.getRow(8).getCell(7).setCellValue(perforacion.proyecto)
-        sheet.getRow(9).getCell(7).setCellValue(perforacion.localizacion)
-        sheet.getRow(9).getCell(34).setCellValue(perforacion.profundidadMetros)
-        //Fila 12 - Datos intermedios
-        sheet.getRow(11).getCell(8).setCellValue("E: ${perforacion.coordenadaE} °")
-        sheet.getRow(11).getCell(12).setCellValue("N: ${perforacion.coordenadaE} °")
-        if (perforacion.nivelFreatico) {
-            sheet.getRow(11).getCell(18).setCellValue("SI")
-        } else {
-            sheet.getRow(11).getCell(18).setCellValue("NO")
+        profundidadConGolpes: List<ProfundidadConGolpes>,
+        context: Context
+    ):Boolean {
+        var seFormateo = false;
+        var seEscribio = false;
+        var seDioEstilo = false;
+        if (!archivo.exists()) {
+            mostrarDialogoError("Archvio no encontrado", "No se encontró el archivo de plantilla",context);
+            return false
+        }else if(chequeoDatosEnGeneral(profundidadConGolpes)){
+            val workbook = XSSFWorkbook(FileInputStream(archivo))
+            val sheet = workbook.getSheetAt(0);
+            var ultimoSucs: String = ""
+            //Datos generales -- Cabecera superior
+            sheet.getRow(6).getCell(7).setCellValue(perforacion.cliente)
+            sheet.getRow(6).getCell(34).setCellValue(perforacion.fecha)
+            sheet.getRow(7).getCell(7).setCellValue(perforacion.atencion)
+            sheet.getRow(7).getCell(34).setCellValue(perforacion.numeroPerforacion.toString())
+            sheet.getRow(8).getCell(7).setCellValue(perforacion.proyecto)
+            sheet.getRow(9).getCell(7).setCellValue(perforacion.localizacion)
+            sheet.getRow(9).getCell(34).setCellValue(perforacion.profundidadMetros)
+            //Fila 12 - Datos intermedios
+            sheet.getRow(11).getCell(8).setCellValue("E: ${perforacion.coordenadaE} °")
+            sheet.getRow(11).getCell(12).setCellValue("N: ${perforacion.coordenadaE} °")
+            if (perforacion.nivelFreatico) {
+                sheet.getRow(11).getCell(18).setCellValue("SI")
+            } else {
+                sheet.getRow(11).getCell(18).setCellValue("NO")
+            }
+            sheet.getRow(11).getCell(23).setCellValue(perforacion.lecturaInicial)
+            sheet.getRow(11).getCell(29).setCellValue(perforacion.lecturaFinal)
+            sheet.getRow(11).getCell(34).setCellValue(perforacion.estadoDelTiempo)
+            profundidadConGolpes.forEach { profundidadConGolpe ->
+                escribirLineaDivisoraDeProfundidades(
+                    workbook,
+                    sheet,
+                    profundidadConGolpe.profundidad
+                )
+                 seFormateo = formatearCeldas(workbook, sheet, profundidadConGolpe,context)
+                 seEscribio = escribirDatos(profundidadConGolpe, sheet)
+                 seDioEstilo = darEstiloALasEntradas(workbook, sheet, profundidadConGolpe)
+            }
+            if(seFormateo && seEscribio && seDioEstilo){
+                FileOutputStream(archivo).use { output ->
+                    workbook.write(output)
+                }
+            }else{
+                return false
+            }
+            workbook.close()
+        }else{
+            mostrarDialogoError("Error en los datos","Los datos no son consistentes",context)
+            return false
         }
-        sheet.getRow(11).getCell(23).setCellValue(perforacion.lecturaInicial)
-        sheet.getRow(11).getCell(29).setCellValue(perforacion.lecturaFinal)
-        sheet.getRow(11).getCell(34).setCellValue(perforacion.estadoDelTiempo)
-        profundidadConGolpes.forEach { profundidadConGolpe ->
-            escribirLineaDivisoraDeProfundidades(
-                workbook,
-                sheet,
-                profundidadConGolpe.profundidad
-            )
-            formatearCeldas(workbook,sheet,profundidadConGolpe)
-            escribirDatos(profundidadConGolpe, sheet)
-            darEstiloALasEntradas(workbook,sheet,profundidadConGolpe)
-        }
-        FileOutputStream(archivo).use { output ->
-            workbook.write(output)
-        }
-        workbook.close()
+        return true
     }
 
     private fun formatearCeldas(
         workbook: XSSFWorkbook,
         sheet: XSSFSheet,
-        profundidadConGolpes: ProfundidadConGolpes
-    ) {
+        profundidadConGolpes: ProfundidadConGolpes,
+        context: Context
+    ):Boolean {
         //Obtener fila inicial fila final
         //Si no tiene golpes simplemente formatear sucs y descripción
         //Se puede dar el caso de que no tenga golpes
@@ -86,26 +104,32 @@ class ManipularExcel {
         val estilo = EstiloExcel()
         //Juntar celdas de Sucs y Descripcion
         //Socs
-        sheet.addMergedRegion(CellRangeAddress(filaInicial,filaFinal,12,12))
-        //Descripcion
-        sheet.addMergedRegion(CellRangeAddress(filaInicial,filaFinal,13,15))
-        //Aplicar estilos a las columnas
-        val golpes = profundidadConGolpes.golpes
-        for(golpe in golpes){
-            filaInicial = profuntidadANumeroDeFila(golpe.profundidad_inicial)
-            filaFinal = profuntidadANumeroDeFila(golpe.profundidad_final)
-            sheet.addMergedRegion(CellRangeAddress(filaInicial,filaFinal-1,6,6))
-            sheet.addMergedRegion(CellRangeAddress(filaInicial,filaFinal-1,7,8))
-            sheet.addMergedRegion(CellRangeAddress(filaInicial,filaFinal-1,9,9))
-            sheet.addMergedRegion(CellRangeAddress(filaInicial,filaFinal-1,10,10))
-            sheet.addMergedRegion(CellRangeAddress(filaInicial,filaFinal-1,11,11))
+        try {
+            sheet.addMergedRegion(CellRangeAddress(filaInicial, filaFinal, 12, 12))
+            //Descripcion
+            sheet.addMergedRegion(CellRangeAddress(filaInicial, filaFinal, 13, 15))
+            //Aplicar estilos a las columnas
+            val golpes = profundidadConGolpes.golpes
+            for (golpe in golpes) {
+                filaInicial = profuntidadANumeroDeFila(golpe.profundidad_inicial)
+                filaFinal = profuntidadANumeroDeFila(golpe.profundidad_final)
+                sheet.addMergedRegion(CellRangeAddress(filaInicial, filaFinal - 1, 6, 6))
+                sheet.addMergedRegion(CellRangeAddress(filaInicial, filaFinal - 1, 7, 8))
+                sheet.addMergedRegion(CellRangeAddress(filaInicial, filaFinal - 1, 9, 9))
+                sheet.addMergedRegion(CellRangeAddress(filaInicial, filaFinal - 1, 10, 10))
+                sheet.addMergedRegion(CellRangeAddress(filaInicial, filaFinal - 1, 11, 11))
+            }
+            return true;
+        }catch(e:IllegalArgumentException){
+            mostrarDialogoError("Error en los datos","Los datos no son consistentes",context)
+            return false
         }
     }
 
     private fun escribirDatos(
         profundidadConGolpes: ProfundidadConGolpes,
         sheet: XSSFSheet,
-    ) {
+    ):Boolean {
         val golpes = profundidadConGolpes.golpes.toList().orEmpty();
         var filaInicial: Int
         filaInicial =
@@ -139,6 +163,7 @@ class ManipularExcel {
         }
         sheet.getRow(filaInicial).getCell(13)
             .setCellValue(profundidadConGolpes.profundidad.descripcion)
+        return true
     }
 
     fun exportarSTP(
@@ -148,8 +173,10 @@ class ManipularExcel {
     ) {
         val nombreArchivo = "STP_${perforacion.numeroPerforacion}.xlsx"
         val archivo = copiarPlantillaPublica(context, nombreArchivo)
-        completarExcel(archivo, perforacion, profundidadConGolpes)
-        compartirArchivo(context, archivo)
+        val completo = completarExcel(archivo, perforacion, profundidadConGolpes, context)
+        if(completo){
+            compartirArchivo(context, archivo)
+        }
     }
 
     fun compartirArchivo(context: Context, archivo: File) {
@@ -200,47 +227,11 @@ class ManipularExcel {
             }
         }
 
-//            //Estilos para la columna número y tipo
-//            estilo.borderBottom = BorderStyle.DOTTED
-//            estilo.borderLeft = BorderStyle.DASHED
-//            estilo.borderRight = BorderStyle.DASHED
-//            estilo.borderTop = BorderStyle.DOTTED
-//            estilo.fillForegroundColor = IndexedColors.LEMON_CHIFFON.index
-//            estilo.fillPattern = FillPatternType.SOLID_FOREGROUND
-//            estilo.setBottomBorderColor(IndexedColors.GREY_40_PERCENT.index)
-//            estilo.setTopBorderColor(IndexedColors.GREY_40_PERCENT.index)
-//            sheet.addMergedRegion(CellRangeAddress(filaFinal - 4, filaFinal, 6, 6))
-//            sheet.addMergedRegion(CellRangeAddress(filaFinal - 4, filaFinal, 7, 8))
-//            //Columna 6
-//            sheet.getRow(filaFinal).getCell(6).cellStyle = estilo;
-//            sheet.getRow(filaFinal-4).getCell(6).cellStyle = estilo;
-//            //Columna 7
-//            sheet.getRow(filaFinal).getCell(7).cellStyle = estilo;
-//            sheet.getRow(filaFinal-4).getCell(7).cellStyle = estilo;
-//            estilo.borderRight = BorderStyle.THIN
-//            sheet.getRow(filaFinal).getCell(8).cellStyle = estilo;
-//            sheet.getRow(filaFinal-4).getCell(8).cellStyle = estilo;
-//            for (i in 9..11) {
-//                sheet.addMergedRegion(CellRangeAddress(filaFinal-4, filaFinal, i, i))
-//            }
-//            //Estilos Columna 9
-//            estilo.borderLeft = BorderStyle.MEDIUM
-//            estilo.borderRight = BorderStyle.DOTTED
-//            sheet.getRow(filaFinal-4).getCell(9).cellStyle = estilo;
-//            sheet.getRow(filaFinal).getCell(9).cellStyle = estilo;
-//            //Estilos Columna 10
-//            estilo.borderLeft = BorderStyle.DOTTED
-//            estilo.borderRight = BorderStyle.DOTTED
-//            sheet.getRow(filaFinal-4).getCell(10).cellStyle = estilo;
-//            sheet.getRow(filaFinal).getCell(10).cellStyle = estilo;
-//            //Estilos Columna 11
-//            estilo.borderLeft = BorderStyle.DOTTED
-//            estilo.borderRight = BorderStyle.MEDIUM
-//            sheet.getRow(filaFinal-4).getCell(11).cellStyle = estilo;
-//            sheet.getRow(filaFinal).getCell(11).cellStyle = estilo;
-//        }
     }
-    private fun darEstiloALasEntradas(workbook: XSSFWorkbook,sheet: XSSFSheet,profundidadConGolpes: ProfundidadConGolpes){
+    private fun darEstiloALasEntradas(
+        workbook: XSSFWorkbook,
+        sheet: XSSFSheet,
+        profundidadConGolpes: ProfundidadConGolpes):Boolean{
         val golpes = profundidadConGolpes.golpes
         var i:Int =0
         val estilos = EstiloExcel()
@@ -273,5 +264,6 @@ class ManipularExcel {
             )
             i++
         }
+        return true
     }
 }

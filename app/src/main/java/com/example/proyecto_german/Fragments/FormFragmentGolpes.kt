@@ -99,15 +99,15 @@ class FormFragmentGolpes: Fragment() {
                         dataStp2.toInt(),
                         dataStp3.toInt(),
                     )
-                    //Con esto ya estoy guardando una entrada.
-                    if(chequearGolpeConsistente(pf)) {
+//                    //Con esto ya estoy guardando una entrada.
+//                    if(chequearGolpeConsistente(pf)) {
                         viewModel.agregarGolpe(pf)
                         viewModel.modoProfundidadActual = viewModel.modoProfundidadAnterior
                         findNavController().popBackStack()
-                    }else{
-                        mostrarDialogoError("Error golpe superpuesto",
-                            "Estas queriendo agregar un golpe que ya está ocupando esas profundidades.",requireContext())
-                    }
+//                    }else{
+//                        mostrarDialogoError("Error golpe superpuesto",
+//                            "Estas queriendo agregar un golpe que ya está ocupando esas profundidades.",requireContext())
+//                    }
                 }else{
                     val golpeActualizado = golpeExistente.copy(
                         id=golpeExistente.id,
