@@ -2,6 +2,7 @@ package com.example.proyecto_german.Adapters.Perforacion
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_german.Model.Perforacion
 import com.example.proyecto_german.R

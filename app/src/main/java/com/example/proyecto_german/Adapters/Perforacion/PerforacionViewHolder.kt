@@ -16,7 +16,10 @@ class PerforacionViewHolder(view: View): RecyclerView.ViewHolder(view) {
         binding.proyectoValue.text = perforacion.proyecto
         binding.valorCliente.text = perforacion.cliente
         binding.valorAtencion.text =  perforacion.atencion
-        binding.valorProfundiad.text = perforacion.profundidadMetros.toString() + " mts"
+        binding.valorProfundiad.text = buildString {
+            append(perforacion.profundidadMetros.toString())
+            append(" mts")
+        }
         binding.valorNumeroPerforacion.text = perforacion.numeroPerforacion.toString()
         binding.fechaValue.text = perforacion.fecha.aTextoFormato()
         itemView.setOnClickListener {

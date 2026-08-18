@@ -94,7 +94,10 @@ class HomeFragment: Fragment() {
                 findNavController().navigate(R.id.action_homeFragment_to_formFragment)
             }
         )
-        binding.listaPerforaciones.layoutManager = LinearLayoutManager(requireContext())
+        binding.listaPerforaciones.layoutManager = LinearLayoutManager(requireContext()).apply {
+            reverseLayout = true
+            stackFromEnd = true
+        }
         binding.listaPerforaciones.adapter = adapter
     }
     private fun onItemSelected(perforacion: Perforacion){
