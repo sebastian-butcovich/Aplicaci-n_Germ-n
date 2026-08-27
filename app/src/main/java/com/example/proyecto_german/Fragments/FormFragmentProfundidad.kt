@@ -247,10 +247,10 @@ class FormFragmentProfundidad : Fragment() {
     private fun botonAgregar() {
         binding.root.findViewById<Button>(R.id.boton_guardar_profundidad).setOnClickListener {
             val prof = obtenerDatosInputs()
-            if(viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.EDITAR
+            if((viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.EDITAR
                 /*|| chequearConsistenciaProfundidad(prof)*/
                 || viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.CREAR
-            ){
+                        )&& prof != null){
                 cargarDatosProfundidad(prof)
             }else{
                 mostrarMensajeProfundidadInconsistente()
@@ -322,48 +322,57 @@ class FormFragmentProfundidad : Fragment() {
         viewModel.modoProfundidadActual = viewModel.modoProfundidadAnterior
         findNavController().popBackStack()
     }
-    private fun obtenerDatosInputs(): Profundidad {
-        val profundidadExistente = viewModel.profundidadActual
-        val golpes = viewModel.golpesActuales
-        var profundidadInicial: Double=100.0;
-        var profundidadFinal: Double=0.0
-        if(binding.profundidadInicialProfundidad.text.toString() != "" || binding.profundidadFinalProfundidad.text.toString() != ""){
-            profundidadInicial = binding.profundidadInicialProfundidad.text.toString().trim().toDoubleOrNull()?:0.0
-            profundidadFinal = binding.profundidadFinalProfundidad.text.toString().trim().toDoubleOrNull()?:0.0
-        }
-        for(golpe in golpes){
-            if(golpe.profundidad_inicial < profundidadInicial){
-                profundidadInicial = golpe.profundidad_inicial
+    private fun obtenerDatosInputs(): Profundidad? {
+        try{
+            val profundidadExistente = viewModel.profundidadActual
+            val golpes = viewModel.golpesActuales
+            var profundidadInicial: Double=100.0;
+            var profundidadFinal: Double=0.0
+            if(binding.profundidadInicialProfundidad.text.toString() != "" || binding.profundidadFinalProfundidad.text.toString() != ""){
+                profundidadInicial = binding.profundidadInicialProfundidad.text.toString().trim().toDoubleOrNull()?:0.0
+                profundidadFinal = binding.profundidadFinalProfundidad.text.toString().trim().toDoubleOrNull()?:0.0
             }
-            if(golpe.profundidad_final > profundidadFinal){
-                profundidadFinal = golpe.profundidad_final
+            for(golpe in golpes){
+                if(golpe.profundidad_inicial < profundidadInicial){
+                    profundidadInicial = golpe.profundidad_inicial
+                }
+                if(golpe.profundidad_final > profundidadFinal){
+                    profundidadFinal = golpe.profundidad_final
+                }
             }
-        }
-        val descripcion = binding.descripcion.text.toString()
-        val simbolo = binding.spinnerSimbolo.text.toString()
-        val sucs = binding.spinnerSucs.text.toString().trim().ifEmpty { "VACIO" }
+            val descripcion = binding.descripcion.text.toString()
+            val simbolo = binding.spinnerSimbolo.text.toString()
+            val sucs = binding.spinnerSucs.text.toString().trim().ifEmpty { "VACIO" }
 
-        val profundidad =
-            if (viewModel.modoProfundidadActual != PerforacionViewModel.ModoProfundidad.CREAR) {
-                profundidadExistente!!.copy(
-                    descripcion = descripcion,
-                    simbolo = simbolo,
-                    sucs = sucs,
-                    profundidadFinal = profundidadFinal,
-                    profundidadInicial = profundidadInicial
-                )
+            val profundidad =
+                if (viewModel.modoProfundidadActual != PerforacionViewModel.ModoProfundidad.CREAR) {
+                    profundidadExistente!!.copy(
+                        descripcion = descripcion,
+                        simbolo = simbolo,
+                        sucs = sucs,
+                        profundidadFinal = profundidadFinal,
+                        profundidadInicial = profundidadInicial
+                    )
 
-            } else {
-                Profundidad(
-                    id = 0, perforacionId = 0,
-                    descripcion = descripcion,
-                    simbolo = simbolo,
-                    sucs = sucs,
-                    profundidadFinal = profundidadFinal,
-                    profundidadInicial = profundidadInicial
-                )
-            }
-        return profundidad
+                } else {
+                    Profundidad(
+                        id = 0, perforacionId = 0,
+                        descripcion = descripcion,
+                        simbolo = simbolo,
+                        sucs = sucs,
+                        profundidadFinal = profundidadFinal,
+                        profundidadInicial = profundidadInicial
+                    )
+                }
+            return profundidad
+        }catch(e: Exception){
+            mostrarDialogoError(
+                "Error al cargar la profundidad",
+                "Error al obtener los datos de la profundidad, revisa que datos pusiste cuidadosamente",
+                requireContext()
+            )
+        }
+        return null
     }
 
 

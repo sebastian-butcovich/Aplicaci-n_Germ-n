@@ -79,6 +79,7 @@ class FormFragmentGolpes: Fragment() {
 //                Toast.makeText(context,"Faltan los datos mínimos para cargar un profundidad, mínimamente es necesario" +
 //                        "cargar la profundidad inicial y final", Toast.LENGTH_SHORT).show()
 //            }else{
+            try{
                 val dataProfundidadInicial = binding.profundidadInicial.text.toString().toDoubleOrNull()?:0.0
                 val dataProfundidadFinal = binding.profundidadFinal.text.toString().toDoubleOrNull()?:0.0
                 val dataMuestrasNumero = binding.muestraNro.text.toString().toDoubleOrNull()?:0.0
@@ -118,7 +119,7 @@ class FormFragmentGolpes: Fragment() {
                         golpes1 = dataStp1.toInt(),
                         golpes2 = dataStp2.toInt(),
                         golpes3 = dataStp3.toInt()
-                        )
+                    )
                     if(chequearGolpeConsistente(golpeActualizado)) {
                         viewModel.actualizarGolpe(golpeActualizado)
                         viewModel.modoProfundidadActual = viewModel.modoProfundidadAnterior
@@ -128,6 +129,9 @@ class FormFragmentGolpes: Fragment() {
                             "Estas queriendo agregar un golpe que ya está ocupando esas profundidades.",requireContext())
                     }
                 }
+            }catch(e: Exception){
+                mostrarDialogoError("Error al cargar los datos","Error al cargar los datos de un golpe, los datos fueron mal ingresados",requireContext())
+            }
 //            }
     }
     private fun chequearGolpeConsistente(golpe: GolpesStp): Boolean{

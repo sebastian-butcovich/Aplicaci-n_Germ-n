@@ -17,6 +17,7 @@ import com.example.proyecto_german.Model.Perforacion
 import com.example.proyecto_german.R
 import com.example.proyecto_german.Repository.PerforacionRepository
 import com.example.proyecto_german.Util.configurarLimitesMaximoDouble
+import com.example.proyecto_german.Util.mostrarDialogoError
 import com.example.proyecto_german.ViewModel.PerforacionViewModel
 import com.example.proyecto_german.databinding.FragmentFormularioPerforacionBinding
 import kotlin.getValue
@@ -96,34 +97,42 @@ class FormFragment: Fragment() {
     }
 
     private fun inicializarInputs(){
-        val perforacion = viewModel.perforacionEdit ?:return
-        binding.inputCliente.setText(perforacion.cliente)
-        binding.inputAtencion.setText(perforacion.atencion)
-        binding.inputProyecto.setText(perforacion.proyecto)
-        binding.inputLocalizacion.setText(perforacion.localizacion)
-        binding.inputNumeroPerforacion.setText(perforacion.numeroPerforacion.toString())
-        binding.inputProfundidad.setText(perforacion.profundidadMetros.toString())
-        binding.inputCoordenadaE.setText(perforacion.coordenadaE.toString())
-        binding.inputCoordenadaN.setText(perforacion.coordenadaN.toString())
-        binding.inputFecha.setText(perforacion.fecha.aTextoFormato())
-        val opciones = resources.getStringArray(R.array.valores_freatico)
-        if (perforacion.nivelFreatico) {
-            binding.spinnerNivelFreatico.setText(opciones[1], false) // Muestra "Sí"
-        } else {
-            binding.spinnerNivelFreatico.setText(opciones[0], false) // Muestra "No"
-        }
-        binding.inputLecturaInicial.setText(perforacion.lecturaInicial.toString())
-        binding.inputLecturaFinal.setText(perforacion.lecturaFinal.toString())
-        binding.inputEstadoTiempo.setText(perforacion.estadoDelTiempo)
+       try{
+           val perforacion = viewModel.perforacionEdit ?:return
+           binding.inputCliente.setText(perforacion.cliente)
+           binding.inputAtencion.setText(perforacion.atencion)
+           binding.inputProyecto.setText(perforacion.proyecto)
+           binding.inputLocalizacion.setText(perforacion.localizacion)
+           binding.inputNumeroPerforacion.setText(perforacion.numeroPerforacion.toString())
+           binding.inputProfundidad.setText(perforacion.profundidadMetros.toString())
+           binding.inputCoordenadaE.setText(perforacion.coordenadaE.toString())
+           binding.inputCoordenadaN.setText(perforacion.coordenadaN.toString())
+           binding.inputFecha.setText(perforacion.fecha.aTextoFormato())
+           val opciones = resources.getStringArray(R.array.valores_freatico)
+           if (perforacion.nivelFreatico) {
+               binding.spinnerNivelFreatico.setText(opciones[1], false) // Muestra "Sí"
+           } else {
+               binding.spinnerNivelFreatico.setText(opciones[0], false) // Muestra "No"
+           }
+           binding.inputLecturaInicial.setText(perforacion.lecturaInicial.toString())
+           binding.inputLecturaFinal.setText(perforacion.lecturaFinal.toString())
+           binding.inputEstadoTiempo.setText(perforacion.estadoDelTiempo)
+       }catch(e: Exception){
+           mostrarDialogoError("Error al cargar la perforación","Error al cargar la perforación",requireContext())
+       }finally {
+           //Por el momento no tengo nada definido.
+       }
     }
     fun accionBoton(){
         val miBoton = binding.root.findViewById<Button>(R.id.boton_continuar)
         miBoton.setOnClickListener {
 //            if(chequeoDatosFormulario()){
                 val perforacion = obtenerDatosDeLosInputs()
-                viewModel.actulizarPerforacion(perforacion)
-                viewModel.limpiarProfundidades()
-                findNavController().navigate(R.id.action_formFragment_to_formFragmentProfundidades)
+                if(perforacion != null) {
+                    viewModel.actulizarPerforacion(perforacion)
+                    viewModel.limpiarProfundidades()
+                    findNavController().navigate(R.id.action_formFragment_to_formFragmentProfundidades)
+                }
 //            }else{
 //                Toast.makeText(context,"No ingresaste los dato mínimos del formulario",Toast.LENGTH_SHORT).show()
 //            }
@@ -131,7 +140,9 @@ class FormFragment: Fragment() {
         binding.root.findViewById<Button>(R.id.boton_editar).setOnClickListener {
             //if(chequeoDatosFormulario()){
                 val perforacion = obtenerDatosDeLosInputs()
-                viewModel.actulizarPerforacion(perforacion)
+                if(perforacion != null){
+                    viewModel.actulizarPerforacion(perforacion)
+                }
          //   }else{
              //   Toast.makeText(context,"No ingresaste los dato mínimos del formulario",Toast.LENGTH_SHORT).show()
            // }
@@ -154,40 +165,48 @@ class FormFragment: Fragment() {
             return false
         }
     }
-    private fun obtenerDatosDeLosInputs(): Perforacion {
-        val cliente = binding.inputCliente.text.toString().trim().ifBlank { "PENDIENTE" }
-        val atencion = binding.inputAtencion.text.toString().trim().ifBlank { "PENDIENTE" }
-        val proyecto = binding.inputProyecto.text.toString().trim().ifBlank { "PENDIENTE" }
-        val localizacion = binding.inputLocalizacion.text.toString().trim().ifBlank { "PENDIENTE" };
-        val fechaString = binding.inputFecha.text.toString().trim().ifBlank{" "}
-        val fecha = parsearFechaODefecto(fechaString)
-        val numeroPerforacion = binding.inputNumeroPerforacion.text.toString().trim().toDoubleOrNull()?:0.0
-        val profundidad = binding.inputProfundidad.text.toString().trim().toDoubleOrNull()?:0.0
-        val coordenadaX = binding.inputCoordenadaE.text.toString().trim().toDoubleOrNull()?:0.0
-        val coordenadaY = binding.inputCoordenadaN.text.toString().trim().toDoubleOrNull()?:0.0
-        val nivelFreatico = binding.spinnerNivelFreatico.text.toString() == "Si"
-        val lecturaInicial = binding.inputLecturaInicial.text.toString().trim().toDoubleOrNull()?:0.0
-        val lecturaFinal = binding.inputLecturaFinal.text.toString().trim().toDoubleOrNull()?:0.0
-        val estadoTiempo = binding.inputEstadoTiempo.text.toString().trim().ifBlank { "PENDIENTE" }
-        if(viewModel.perforacionEdit != null && viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.EDITAR ){
-            val p= Perforacion(
-                viewModel.perforacionEdit!!.id,"",fecha,
-                "",cliente,atencion,proyecto,localizacion,fecha,numeroPerforacion
-                ,profundidad,coordenadaX,coordenadaY,
-                nivelFreatico,lecturaInicial,lecturaFinal,estadoTiempo)
-            viewModel.actualizarPerforacion(p)
-            viewModel.obtenerPerforaciones()
-            viewModel.modoProfundidadActual = viewModel.modoProfundidadAnterior
-            findNavController().popBackStack()
-            return p
-        }else{
-            val p= Perforacion(0,"",fecha,
-                "",cliente,atencion,proyecto,localizacion,fecha,numeroPerforacion
-                ,profundidad,coordenadaX,coordenadaY,
-                nivelFreatico,lecturaInicial,lecturaFinal,estadoTiempo)
-            return p
+    private fun obtenerDatosDeLosInputs(): Perforacion? {
+        try{
+            val cliente = binding.inputCliente.text.toString().trim().ifBlank { "PENDIENTE" }
+            val atencion = binding.inputAtencion.text.toString().trim().ifBlank { "PENDIENTE" }
+            val proyecto = binding.inputProyecto.text.toString().trim().ifBlank { "PENDIENTE" }
+            val localizacion = binding.inputLocalizacion.text.toString().trim().ifBlank { "PENDIENTE" };
+            val fechaString = binding.inputFecha.text.toString().trim().ifBlank{" "}
+            val fecha = parsearFechaODefecto(fechaString)
+            val numeroPerforacion = binding.inputNumeroPerforacion.text.toString().trim().toDoubleOrNull()?:0.0
+            val profundidad = binding.inputProfundidad.text.toString().trim().toDoubleOrNull()?:0.0
+            val coordenadaX = binding.inputCoordenadaE.text.toString().trim().toDoubleOrNull()?:0.0
+            val coordenadaY = binding.inputCoordenadaN.text.toString().trim().toDoubleOrNull()?:0.0
+            val nivelFreatico = binding.spinnerNivelFreatico.text.toString() == "Si"
+            val lecturaInicial = binding.inputLecturaInicial.text.toString().trim().toDoubleOrNull()?:0.0
+            val lecturaFinal = binding.inputLecturaFinal.text.toString().trim().toDoubleOrNull()?:0.0
+            val estadoTiempo = binding.inputEstadoTiempo.text.toString().trim().ifBlank { "PENDIENTE" }
+            if(viewModel.perforacionEdit != null && viewModel.modoProfundidadActual == PerforacionViewModel.ModoProfundidad.EDITAR ){
+                val p= Perforacion(
+                    viewModel.perforacionEdit!!.id,"",fecha,
+                    "",cliente,atencion,proyecto,localizacion,fecha,numeroPerforacion
+                    ,profundidad,coordenadaX,coordenadaY,
+                    nivelFreatico,lecturaInicial,lecturaFinal,estadoTiempo)
+                viewModel.actualizarPerforacion(p)
+                viewModel.obtenerPerforaciones()
+                viewModel.modoProfundidadActual = viewModel.modoProfundidadAnterior
+                findNavController().popBackStack()
+                return p
+            }else{
+                val p= Perforacion(0,"",fecha,
+                    "",cliente,atencion,proyecto,localizacion,fecha,numeroPerforacion
+                    ,profundidad,coordenadaX,coordenadaY,
+                    nivelFreatico,lecturaInicial,lecturaFinal,estadoTiempo)
+                return p
+            }
+        }catch(e: Exception) {
+            mostrarDialogoError(
+                "Error al cargar la perforación",
+                "Error al obtener los datos de la perforación",
+                requireContext()
+            )
         }
-
+        return null
     }
     private fun parsearFechaODefecto(fecha: String,formato:String = "dd-MM-yyyy"): Date{
         if(fecha.isBlank()) return Date();
