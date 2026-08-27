@@ -6,15 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_german.Data.Application.PerforacionesApplication
 import com.example.proyecto_german.Model.GolpesStp
 import com.example.proyecto_german.R
 import com.example.proyecto_german.Repository.PerforacionRepository
+import com.example.proyecto_german.Util.actualizarProfundidadFinalEnBaseAlInicial
 import com.example.proyecto_german.Util.configurarLimitesMaximoDouble
 import com.example.proyecto_german.Util.mostrarDialogoError
 import com.example.proyecto_german.ViewModel.PeforacionViewModelFactory
@@ -59,6 +58,7 @@ class FormFragmentGolpes: Fragment() {
     private fun filtrarCampos(){
         binding.profundidadInicial.configurarLimitesMaximoDouble(6,0,30)
         binding.profundidadFinal.configurarLimitesMaximoDouble(6,0,30)
+        binding.profundidadInicial.actualizarProfundidadFinalEnBaseAlInicial(binding.profundidadInicial,binding.profundidadFinal)
         binding.muestraNro.configurarLimitesMaximoDouble(6,0,30)
         binding.inputStp1.configurarLimitesMaximoDouble(6,0,100)
         binding.inputStp2.configurarLimitesMaximoDouble(6,0,100)

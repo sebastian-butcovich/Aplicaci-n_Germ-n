@@ -41,4 +41,6 @@
         <item>PT</item>
     </string-array>
     <string name="nivel_freatico">¿Nivel freático?</string>
+    //Paso de la profundidad inicial + profundidad final
+    <string name="paso">0.45</string>
 </resources>
