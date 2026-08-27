@@ -101,9 +101,9 @@ class FormFragmentGolpes: Fragment() {
                     )
 //                    //Con esto ya estoy guardando una entrada.
 //                    if(chequearGolpeConsistente(pf)) {
-                        viewModel.agregarGolpe(pf)
-                        viewModel.modoProfundidadActual = viewModel.modoProfundidadAnterior
-                        findNavController().popBackStack()
+                    viewModel.agregarGolpe(pf)
+                    viewModel.modoProfundidadActual = viewModel.modoProfundidadAnterior
+                    findNavController().popBackStack()
 //                    }else{
 //                        mostrarDialogoError("Error golpe superpuesto",
 //                            "Estas queriendo agregar un golpe que ya está ocupando esas profundidades.",requireContext())
