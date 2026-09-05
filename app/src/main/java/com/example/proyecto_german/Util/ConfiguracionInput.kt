@@ -43,8 +43,10 @@ fun EditText.actualizarProfundidadFinalEnBaseAlInicial(profundidadInicial: TextI
             if(profundidadInicial.hasFocus()){
                 val valorA = profundidadInicial.text.toString();
                 if(valorA.isNotEmpty() && valorA.toDoubleOrNull() != null && valorA.toDouble() < 30 && valorA.toDouble() > 0){
-                    val nuevoValor = valorA.toDoubleOrNull()?.plus(R.string.paso.toDouble()) ?: (0.0)
-                    profundidadFinal.setText(nuevoValor.toString())
+                    val nuevoValor = valorA.toDoubleOrNull()?: (0.0)
+                    val paso = resources.getString(R.string.paso).toDouble()
+                    val valorFinal = nuevoValor + paso
+                    profundidadFinal.setText(valorFinal.toString())
                 }else{
                     profundidadFinal.setText("")
                 }
